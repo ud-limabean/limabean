@@ -1,13 +1,14 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
 </head>
 <body>
 
 <div class="grid grid-pad">
    <div class="col-2-3">
      <div class="module">
-		<div id="content"></div>
+		<div id="map"></div>
 		<!-- <div id="googft-mapCanvas"></div> -->
      </div>
    </div>
@@ -18,20 +19,43 @@
    </div>
 </div>
 
+<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 <script type="text/javascript">
+var map = L.map('map').setView([39.161944, -75.526667], 8);
+
+L.tileLayer('tiles/{z}/{x}/{y}.png', {
+			minZoom: 5,
+			maxZoom: 10,
+			tms: true,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+		}).addTo(map);
+
+function onMarkerClick(e) {
+    console.log(e.target.lbID);
+}
+
  function handler(response) {
-	  console.log(response);
+	  //console.log(response);
       for (var i = 0; i < response.rows.length; i++) {
         var item = response.rows[i];
         // Either show the body or the automatic columns of the template
-        if (item.toString()) {
+        /*if (item.toString()) {
           document.getElementById("info").innerHTML += "<br>" + item.toString();
         }  
-		console.log(item[3]);
+		console.log(item[3]); */
+		lbID = item[0];		
+		lat = item[1];
+		lng = item[2];
+		//lat = 39.6702;
+		//lng = -75.7505;
+		marker = L.marker([lat, lng]);
+		marker.lbID = lbID;
+		marker.on('click', onMarkerClick);
+		marker.addTo(map);
       }
     } 
 </script>
-<script type="text/javascript" src="https://www.googleapis.com/fusiontables/v1/query?sql=SELECT%20*%20FROM%201poH7Gdu_7R3NiCA_EonEMwyf90KY_zrujddYCX4%20WHERE%20div_measurement_id=7081&key=AIzaSyA_Bcq_-jEKafLE0nfdkTNx2Jg7QZDK4Ng&callback=handler"></script>
+<script type="text/javascript" src="https://www.googleapis.com/fusiontables/v1/query?sql=SELECT%20*%20FROM%201mBi_hVhjD-Yp6tDrJ5F6eMgUMX7QBbhOfr7FXOlK&key=AIzaSyA_Bcq_-jEKafLE0nfdkTNx2Jg7QZDK4Ng&callback=handler"></script>
 
 </body>
 </html>

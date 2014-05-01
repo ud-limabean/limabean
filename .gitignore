@@ -1,2 +1,4 @@
 # Ignore GFT credentials
 credentials.sh
+/tiles/*
+/backend/limabean.sqlite
