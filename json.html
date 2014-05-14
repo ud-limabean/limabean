@@ -2,12 +2,15 @@
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+<link href="jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
 </head>
 <body>
 
 <div class="grid grid-pad">
    <div class="col-2-3">
      <div class="module">
+		<h2 class="demoHeaders">Slider</h2>
+		<div id="slider"></div>
 		<div id="map"></div>
 		<!-- <div id="googft-mapCanvas"></div> -->
      </div>
@@ -19,8 +22,10 @@
    </div>
 </div>
 
+<script src="jquery-ui-1.10.4.custom/js/jquery-1.10.2.js"></script>
+<script src="jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js"></script>
 <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
 <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.2/handlebars.js"></script>
 <script src="limabean.js"></script>
 
@@ -35,6 +40,15 @@
 </script>
 	
 <script type="text/javascript">
+
+$(function() {
+//initialize jquery ui slider
+$( "#slider" ).slider({
+	range: true,
+	values: [ 17, 67 ]
+});
+});
+
 var map = L.map('map').setView([39.161944, -75.526667], 8);
 
 //handlebars style
