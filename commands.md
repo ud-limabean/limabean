@@ -12,6 +12,8 @@ UPDATE locality SET geometry=MakePoint(longitude, latitude, 4326)
 
 C:\Users\mearns\Documents\GitHub\limabean\backend>ogr2ogr -f "GeoJSON" -overwrite -sql "SELECT * FROM locality" ..\limabean.js limabean.sqlite
 
+add 'var locality = ' to the front of the .js output in the last command
+
 used default data in tilemill gui and exported as .mbtiles
 
 created an arbitrary basemap
