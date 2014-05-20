@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Fusion Tables queries</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_Bcq_-jEKafLE0nfdkTNx2Jg7QZDK4Ng&v=3.exp&sensor=false"></script>
+	<script>
+var map;
+
+function initialize() {
+  var dover = new google.maps.LatLng(39.161944, -75.526667);
+
+  map = new google.maps.Map(document.getElementById('map-canvas'), {
+    center: dover,
+    zoom: 9
+  });
+
+  var layer = new google.maps.FusionTablesLayer({
+    query: {
+      select: 'geometry',
+      from: '1wLPSicOD_ydSVWacewHDIEDpopOlcis8dpPB_EJN'
+	  /*,
+      where: 'ridership > 5000'*/
+    }
+  });
+  layer.setMap(map);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  </body>
+</html>

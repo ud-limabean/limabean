@@ -9,7 +9,6 @@
 <div class="grid grid-pad">
    <div class="col-2-3">
      <div class="module">
-		<h2 class="demoHeaders">Slider</h2>
 		<div id="slider"></div>
 		<div id="map"></div>
 		<!-- <div id="googft-mapCanvas"></div> -->
@@ -25,22 +24,7 @@
 <script src="jquery-ui-1.10.4.custom/js/jquery-1.10.2.js"></script>
 <script src="jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js"></script>
 <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
-<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.2/handlebars.js"></script>
-<script src="limabean.js"></script>
-
-<script id="entry-template" type="text/x-handlebars-template">
-  <div class="entry">
-  {{#if material}}
-	<h1>{{objectid}} {{material}}</h1>
-  {{else}}
-	<h1>{{objectid}}{{material}}</h1>
-  {{/if}}
-  </div>
-</script>
-	
 <script type="text/javascript">
-
 $(function() {
 //initialize jquery ui slider
 $( "#slider" ).slider({
@@ -51,27 +35,6 @@ $( "#slider" ).slider({
 
 var map = L.map('map').setView([39.161944, -75.526667], 8);
 
-//handlebars style
-var myStyle = {
-			"color": "#ff7800",
-			"weight": 5,
-			"opacity": 0.65
-		};
-		
-//compiling handlebars
-var source = $("#entry-template").html();
-var template = Handlebars.compile(source);
-
-function onEachFeature(feature, layer) {
-	// add click handler to all features
-	layer.on('click', function(e) {
-		console.log(e.target);
-		var html = template(e.target.feature.properties);
-		$("#info").append(html);
-	});
-}
-
-//local basemap tiles, currently generic world map
 L.tileLayer('tiles/{z}/{x}/{y}.png', {
 			minZoom: 5,
 			maxZoom: 10,
@@ -79,33 +42,10 @@ L.tileLayer('tiles/{z}/{x}/{y}.png', {
 			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
 		}).addTo(map);
 
-
-L.geoJson(locality, {
-	style: myStyle,
-	onEachFeature: onEachFeature
-}).addTo(map);
-
-
-/*		
-var gjLayer = L.geoJson().addTo(map);
-
-
-gjLayer.on('click', onMarkerClick);
-		
-for (var i = 0; i < locality.features.length; i++) {
-gjfeature=locality.features[i].properties;
-console.log(locality.features[i]);
-gjLayer.addData(locality.features[i]);
-L.geoJson(locality.features[i]).addTo(map);
- marker = L.marker([lat, lng]);
-		marker.lbID = lbID;
-		marker.on('click', onMarkerClick);
-		marker.addTo(map);
-} */
-		
-/* legacy code from GFT		
- 
+function onMarkerClick(e) {
+    console.log(e.target.lbID);
 }
+
  function handler(response) {
 	  //console.log(response);
       for (var i = 0; i < response.rows.length; i++) {
@@ -114,7 +54,7 @@ L.geoJson(locality.features[i]).addTo(map);
         /*if (item.toString()) {
           document.getElementById("info").innerHTML += "<br>" + item.toString();
         }  
-		console.log(item[3]); /**//*
+		console.log(item[3]); */
 		lbID = item[0];		
 		lat = item[1];
 		lng = item[2];
@@ -125,8 +65,9 @@ L.geoJson(locality.features[i]).addTo(map);
 		marker.on('click', onMarkerClick);
 		marker.addTo(map);
       }
-    } */
+    } 
 </script>
+<script type="text/javascript" src="https://www.googleapis.com/fusiontables/v1/query?sql=SELECT%20*%20FROM%201mBi_hVhjD-Yp6tDrJ5F6eMgUMX7QBbhOfr7FXOlK&key=AIzaSyA_Bcq_-jEKafLE0nfdkTNx2Jg7QZDK4Ng&callback=handler"></script>
 
 </body>
 </html>
