@@ -34,10 +34,9 @@ function initialize() {
 
   var layer = new google.maps.FusionTablesLayer({
     query: {
-      select: 'geometry',
-      from: '1EpUVocA4uVHzSOzbFrufyeNcVFu6ixxXNQPiH9dF'
-	  /*,
-      where: 'ridership > 5000'*/
+      select: 'geometry, date',
+      from: '1EpUVocA4uVHzSOzbFrufyeNcVFu6ixxXNQPiH9dF',
+      where: 'date > \'03/2011\' and date < \'03/2013\''
     },
 	styleId: 2
   });
