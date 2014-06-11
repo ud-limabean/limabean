@@ -99,6 +99,11 @@ L.geoJson(locality, {
 
 });
 
+/* I really need to pin down overlay: what extent needs to draw, is "heat map" enough? or needs choropleth?  can make just one date instead of range?
+if: choropleth then:cannot dynamically style polygons over the entire extent of the us (or is there someway to do this screen by screen??)
+do sqlite query and extract only the geojson in view? style this dynamically
+*** need php, send screen extent, do sqlite query, query records in table of (counties?? zips??) return geosjson, style */
+
 /* default date range overlay
 (this gets added to the fusion table layer object in gmaps) */
 
