@@ -30,16 +30,15 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.2/handlebars.js"></script>
 <script src="limabean.js"></script>
 
-<!--
 <script id="entry-template" type="text/x-handlebars-template">
   <div class="entry">
-  {{#if material}}
-	<h1>{{objectid}} {{material}}</h1>
+  {{#if latitude}}
+	<h1>{{div_locality_id}} {{latitude}}</h1>
   {{else}}
-	<h1>{{objectid}}{{material}}</h1>
+	<h1>{{div_locality_id}} {{latitude}}</h1>
   {{/if}}
   </div>
-</script> -->
+</script>
 	
 <script type="text/javascript">
 var udmap = udmap || {};
@@ -78,8 +77,8 @@ $("#slider").dateRangeSlider({
 	});
 		
 //compiling handlebars
-// var source = $("#entry-template").html();
-// var template = Handlebars.compile(source);
+var source = $("#entry-template").html();
+var template = Handlebars.compile(source);
 
 function onEachFeature(feature, layer) {
 	// add click handler to all features
