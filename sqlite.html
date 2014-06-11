@@ -44,19 +44,13 @@
 var udmap = udmap || {};
 udmap.map = {};
 udmap.info = {};
+
 //handlebars style
 udmap.info.style = {
 	"color": "#ff7800",
 	"weight": 5,
 	"opacity": 0.65
 };
-
-/* var myStyle = {
-	"color": "#ff7800",
-	"weight": 5,
-	"opacity": 0.65
-}; */
-
 
 //fires after DOM ready
 $(function() {
@@ -105,47 +99,39 @@ L.geoJson(locality, {
 
 });
 
+/* default date range overlay
+(this gets added to the fusion table layer object in gmaps) */
 
-/*		
-var gjLayer = L.geoJson().addTo(map);
+/* query: {
+      select: 'geometry',
+      from: '1EpUVocA4uVHzSOzbFrufyeNcVFu6ixxXNQPiH9dF'
+      select: 'geometry, date',
+      from: '1EpUVocA4uVHzSOzbFrufyeNcVFu6ixxXNQPiH9dF',
+      where: 'date > \'03/2011\' and date < \'03/2013\''
+    }, */
 
 
-gjLayer.on('click', onMarkerClick);
-		
-for (var i = 0; i < locality.features.length; i++) {
-gjfeature=locality.features[i].properties;
-console.log(locality.features[i]);
-gjLayer.addData(locality.features[i]);
-L.geoJson(locality.features[i]).addTo(map);
- marker = L.marker([lat, lng]);
-		marker.lbID = lbID;
-		marker.on('click', onMarkerClick);
-		marker.addTo(map);
-} */
-		
-/* legacy code from GFT		
- 
-}
- function handler(response) {
-	  //console.log(response);
-      for (var i = 0; i < response.rows.length; i++) {
-        var item = response.rows[i];
-        // Either show the body or the automatic columns of the template
-        /*if (item.toString()) {
-          document.getElementById("info").innerHTML += "<br>" + item.toString();
-        }  
-		console.log(item[3]); /**//*
-		lbID = item[0];		
-		lat = item[1];
-		lng = item[2];
-		//lat = 39.6702;
-		//lng = -75.7505;
-		marker = L.marker([lat, lng]);
-		marker.lbID = lbID;
-		marker.on('click', onMarkerClick);
-		marker.addTo(map);
-      }
-    } */
+//need to add/bind a handler for the date range slider change, goes under init function
+
+//add overlay based on date range	
+/* function getLayer(layer,daterange){
+	layer.setOptions({
+        query: {
+            select: columns,
+            from: tableId,
+            where: daterange
+        },
+		styleId: 2
+    }); */
+	
+//and bind it (this does not need to be changed, though debugging code should be removed
+/* $("#slider").bind("valuesChanged", function(e, data){
+  console.log("Values just changed. min: " + data.values.min + " max: " + data.values.max);
+  daterange = 'date > \'' + ("0" + (data.values.min.getMonth() + 1)).slice(-2) + '/' + data.values.min.getFullYear() + '\' and date < \'' + ("0" + (data.values.max.getMonth() + 1)).slice(-2) + '/' + data.values.max.getFullYear() + '\'';
+  console.log(daterange);
+  getLayer(layer,daterange);
+}); */
+
 </script>
 
 </body>
