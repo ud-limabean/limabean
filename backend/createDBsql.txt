@@ -26,14 +26,58 @@ update measurement set geometry = MakePoint(longitude,latitude,4326)
 update measurement set longitude = (longitude * -1)  WHERE longitude > 0
 
 --create view to aggregate (average) measurements by state
+--adds arbitrary date filter ... not working
 CREATE VIEW stateMeasurementAverage AS
-SELECT Avg(a.value) AS VALUE,a.parameter,b.STATE_ABBR,b.geometry
+SELECT Avg(a.value) AS VALUE,a.date_measured,a.parameter,b.STATE_ABBR,b.geometry
   FROM  measurement AS a, states AS b
   WHERE ST_Intersects(a.geometry,b.geometry)=1
-  AND date_measured > 042009 
-  AND date_measured < 092009
+  AND date(a.date_measured) < date(042009)
+  AND date(a.date_measured) > date(092009)
   GROUP BY b.STATE_ABBR, a.parameter;
 
 --registers as a spatial view 
 INSERT INTO views_geometry_columns (view_name, view_geometry, view_rowid, f_table_name, f_geometry_column, read_only)
 VALUES ('statemeasurementaverage', 'geometry', lower('STATE_ABBR'), 'states', 'geometry', 1);
+
+
+/* this grand query returns state geometries and a few fields related to filters on parameter, bounding box, and date ... previously GROUP BY b.STATE_ABBR,a.parameter to get all parameters */
+
+SELECT Avg(a.value) AS VALUE,a.date_measured,a.parameter,b.STATE_ABBR,b.geometry
+  FROM  measurement AS a, 
+  (SELECT STATE_ABBR, geometry FROM states WHERE ST_Intersects(geometry, PolyFromText('POLYGON((-75.8 38.4, -75.0 38.4, -75.0 39.85, -75.8 39.85))',4236))) AS b
+  WHERE ST_Intersects(a.geometry,b.geometry)=1
+  AND a.parameter = 'WIND SPEED'
+  AND date(a.date_measured) < date(042009)
+  AND date(a.date_measured) > date(092009)
+  GROUP BY b.STATE_ABBR;
+
+
+
+Longitude Range: 
+-75.8 to -75
+
+Latitude Range: 
+38.4 to 39.85
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

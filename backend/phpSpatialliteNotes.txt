@@ -1,0 +1,41 @@
+Problem: PHP does not have driver/library to support spatialite functions/datatypes
+
+On Windows WWAMP
+
+#1 Solution: Download spatialite.dll and add to php extensions/php ini; load via loadExtension
+http://stackoverflow.com/questions/9806804/how-to-configure-wampserver-for-spatialite
+download spatialite.dll: http://www.gaia-gis.it/gaia-sins/windows-bin-x86/
+... seems to end in the "Not supported in multithreaded Web Servers" error
+
+as suggested via spatialite (linux-centric): http://www.gaia-gis.it/spatialite-2.4.0-4/spatialite-cookbook/html/php.html
+
+#2 Solution: Download source and compile/make with msys/minGW
+
+On Linux
+
+Solution:
+can get spatialite (/dll's) via apt-get
+
+
+Problem: loadExtension triggers "Not supported in multithreaded Web Servers"
+
+#3 Solution: make sure to include from php.ini, etc. ... do all shown in #1
+http://gis.stackexchange.com/questions/12279/integrating-spatialite-and-php-sqlite3-on-windows-platformbase
+
+
+about accessing DLL's from language database connector
+http://www.gaia-gis.it/spatialite-3.0.0-BETA1/WinDllHell.pdf
+
+
+... #3, NEED SEPERATED PHP/APACHE INSTALLATION ... NOT WAMPP/XAMPP
+
+
+
+On Centos, vmware workstation on css-mearns
+-started httpd w/ sudo
+sudo service httpd start
+
+-installed php package
+sudo yum install git
+
+
