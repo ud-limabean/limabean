@@ -57,7 +57,7 @@ try {
 			$error = $db->errorInfo();
 			print "Problem ({$error[2]})";
 		}
-		foreach ($st->fetchAll() as $result) {
+		foreach ($st->fetchArray() as $result) {
 			echo 'VALUE: ' . $result['VALUE'];
 		}
 	}
