@@ -30,7 +30,7 @@ try {
 		$db = new SQLite3('limabean.sqlite');
 		
 		//$db->query("SELECT load_extension('libspatialite.dll');
-		$db->loadExtension('libspatialite.dll');
+		$db->loadExtension('libspatialite.so.2');
 		
 		/* $rs = $db->query('SELECT spatialite_version()');
 		while($row = $rs->fetchArray()){
@@ -57,9 +57,9 @@ try {
 			$error = $db->errorInfo();
 			print "Problem ({$error[2]})";
 		}
-		/* foreach ($st->fetchAll() as $result) {
-			echo 'Parameter: ' . $result['parameter'] . '  Value: ' . $result['value'];
-		} */
+		foreach ($st->fetchAll() as $result) {
+			echo 'VALUE: ' . $result['VALUE'];
+		}
 	}
 	
     $dbh = null;

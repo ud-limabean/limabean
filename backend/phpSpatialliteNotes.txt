@@ -65,3 +65,9 @@ sudo yum install proj
 sudo yum install geos
 sudo yum install freexl
 sudo yum install libspatialite
+
+changes are made on css-mearns at
+
+and pulled on the vm with 
+cd /var/www/html/limabean
+git pull
