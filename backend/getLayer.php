@@ -1,5 +1,6 @@
 <?php
 //phpinfo();
+//exit();
 /* run the following query against sqlite in a function, parameterize date, boudning box from map interface, and parameter
 SELECT Avg(a.value) AS VALUE,a.date_measured,a.parameter,b.STATE_ABBR,b.geometry
   FROM  measurement AS a, 

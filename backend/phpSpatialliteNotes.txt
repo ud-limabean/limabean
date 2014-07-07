@@ -36,6 +36,32 @@ On Centos, vmware workstation on css-mearns
 sudo service httpd start
 
 -installed php package
+
+-restart apache
+sudo service httpd restart
+
+-installed git
 sudo yum install git
 
+-cloned repo
+cd /var/www/html
+git clone https://github.com/bmearns/limabean
 
+-turn on debugging in php
+cp '/usr/share/doc/php-common-5.3.3/php.ini-development' /etc/php.ini
+
+copy limabean.sqlite to server
+
+installed EPEL (also rpm forge)
+wget http://mirrors.nebo.edu/public/epel/6/i386/epel-release-6-8.noarch.rpm
+sudo rpm -i epel-release-6-8.noarch.rpm
+sudo yum install epel
+
+start a new terminal 
+
+installed spatialite and dependencies
+sudo yum install sqlite
+sudo yum install proj
+sudo yum install geos
+sudo yum install freexl
+sudo yum install libspatialite
