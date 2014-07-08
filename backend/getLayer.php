@@ -17,30 +17,17 @@ $dateMin='042009';
 $dateMax='092009';
   
 try {
-    /*$query = "'SELECT Avg(a.value) AS VALUE,a.date_measured,a.parameter,b.STATE_ABBR,b.geometry
-					FROM  measurement AS a, 
-					(SELECT STATE_ABBR, geometry FROM states WHERE ST_Intersects(geometry, PolyFromText('$wktBounding',4236))) AS b
-					WHERE ST_Intersects(a.geometry,b.geometry)=1
-					AND a.parameter = '$strParam'
-					AND date(a.date_measured) < date($dateMin)
-					AND date(a.date_measured) > date($dateMax)
-					GROUP BY b.STATE_ABBR;'"*/
 	
 	function getLayer ($strParam,$wktBounding,$dateMin,$dateMax) {
 		$db = new SQLite3('limabean.sqlite');
 		
-		//$db->query("SELECT load_extension('libspatialite.dll');
+		//loading spatialite extension
 		$db->loadExtension('libspatialite.so.2');
 		
-		/* $rs = $db->query('SELECT spatialite_version()');
-		while($row = $rs->fetchArray()){
-			print "<h3>SQLite version: $row[0]</h3>";
-		} */
 		
-	
 		$query = "SELECT Avg(a.value) AS VALUE,a.date_measured,a.parameter,b.STATE_ABBR,b.geometry
 					FROM  measurement AS a, 
-					(SELECT STATE_ABBR, geometry FROM states ) AS b
+					(SELECT STATE_ABBR, geometry FROM states WHERE ST_Intersects(geometry, PolyFromText($wktBounding,4236))=1) AS b
 					WHERE ST_Intersects(a.geometry,b.geometry)=1
 					AND a.parameter = '$strParam'
 					AND date(a.date_measured) < date($dateMin)
@@ -48,10 +35,6 @@ try {
 					GROUP BY b.STATE_ABBR;";
 		echo $query;
 		
-//$sth->execute();
-		
-		//here using fetch ... if need to use later fetch_all would be better 
-		//echo 'hello world';
 		$st = $db->query($query);
 		if (! $st) {
 			$error = $db->errorInfo();
