@@ -51,14 +51,17 @@ try {
 //$sth->execute();
 		
 		//here using fetch ... if need to use later fetch_all would be better 
-		echo 'hello world';
+		//echo 'hello world';
 		$st = $db->query($query);
 		if (! $st) {
 			$error = $db->errorInfo();
 			print "Problem ({$error[2]})";
+		
 		}
-		foreach ($st->fetchArray() as $result) {
-			echo 'VALUE: ' . $result['VALUE'];
+		while ($res = $st->fetchArray(SQLITE3_ASSOC)){
+			foreach ($res as $key => $value) {
+				echo $key . ' = ' . $value . ",\n";
+			}
 		}
 	}
 	
@@ -69,6 +72,6 @@ try {
 }
 
 getLayer($strParam,$wktBounding,$dateMin,$dateMax);
-echo 'hello world';
+//echo 'hello world';
 
 ?>
