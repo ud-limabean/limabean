@@ -8,9 +8,9 @@ $wktBounding='POLYGON((-75.8 38.4, -75.0 38.4, -75.0 39.85, -75.8 39.85, -75.8 3
 $dateMin='042009';
 $dateMax='092009';
 										
-$query="SELECT Avg(a.value) AS VALUE,a.date_measured,a.parameter,b.STATE_ABBR,b.geometry
+$query="SELECT Avg(a.value) AS VALUE,a.date_measured,a.parameter,b.STATE_ABBR,b.jGeom
                                         FROM  measurement AS a, 
-                                        (SELECT STATE_ABBR, geometry FROM states)  AS b
+                                        (SELECT STATE_ABBR, geometry, AsGeoJSON(geometry) as jGeom FROM states)  AS b
                                         WHERE
 					a.state_abbr=b.STATE_ABBR
 					AND ST_Intersects(b.geometry, PolyFromText('$wktBounding',4326))=1
@@ -25,7 +25,7 @@ try {
 		$db = new SQLite3('limabean.sqlite');
 		//$db->busyTimeout(80000);
 		//loading spatialite extension
-		$db->loadExtension('libspatialite.so.2');
+		$db->loadExtension('libspatialite.so');
 	
 	
 		$st = $db->query($query);
