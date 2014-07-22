@@ -41,12 +41,12 @@
 </script>
 	
 <script type="text/javascript">
-var udmap = udmap || {};
-udmap.map = {};
-udmap.info = {};
+var lb = lb || {};
+lb.map = {};
+lb.info = {};
 
 //handlebars style
-udmap.info.style = {
+lb.info.style = {
 	"color": "#ff7800",
 	"weight": 5,
 	"opacity": 0.65
@@ -55,7 +55,7 @@ udmap.info.style = {
 //fires after DOM ready
 $(function() {
 
-udmap.map = L.map('map').setView([39.161944, -75.526667], 8);
+lb.map = L.map('map').setView([39.161944, -75.526667], 8);
 
 //initialize jquery ui slider
 $("#slider").dateRangeSlider({
@@ -89,53 +89,35 @@ L.tileLayer('tiles/{z}/{x}/{y}.png', {
 			maxZoom: 10,
 			tms: true,
 			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
-		}).addTo(udmap.map);
+		}).addTo(lb.map);
 
 
 L.geoJson(locality, {
-	style: udmap.info.style,
+	style: lb.info.style,
 	onEachFeature: onEachFeature
-}).addTo(udmap.map);
+}).addTo(lb.map);
 
 });
-
-/* I really need to pin down overlay: what extent needs to draw, is "heat map" enough? or needs choropleth?  can make just one date instead of range?
-if: choropleth then:cannot dynamically style polygons over the entire extent of the us (or is there someway to do this screen by screen??)
-do sqlite query and extract only the geojson in view? style this dynamically
-*** need php, send screen extent, do sqlite query, query records in table of (counties?? zips??) return geosjson, style */
-
-/* default date range overlay
-(this gets added to the fusion table layer object in gmaps) */
-
-/* query: {
-      select: 'geometry',
-      from: '1EpUVocA4uVHzSOzbFrufyeNcVFu6ixxXNQPiH9dF'
-      select: 'geometry, date',
-      from: '1EpUVocA4uVHzSOzbFrufyeNcVFu6ixxXNQPiH9dF',
-      where: 'date > \'03/2011\' and date < \'03/2013\''
-    }, */
-
-
-//need to add/bind a handler for the date range slider change, goes under init function
-
-//add overlay based on date range	
-/* function getLayer(layer,daterange){
-	layer.setOptions({
-        query: {
-            select: columns,
-            from: tableId,
-            where: daterange
-        },
-		styleId: 2
-    }); */
 	
 //and bind it (this does not need to be changed, though debugging code should be removed
-/* $("#slider").bind("valuesChanged", function(e, data){
-  console.log("Values just changed. min: " + data.values.min + " max: " + data.values.max);
-  daterange = 'date > \'' + ("0" + (data.values.min.getMonth() + 1)).slice(-2) + '/' + data.values.min.getFullYear() + '\' and date < \'' + ("0" + (data.values.max.getMonth() + 1)).slice(-2) + '/' + data.values.max.getFullYear() + '\'';
-  console.log(daterange);
-  getLayer(layer,daterange);
-}); */
+$("#slider").bind("valuesChanged", function(e, data){
+  //console.log("Values just changed. min: " + data.values.min + " max: " + data.values.max);
+  dateMin = ("0" + (data.values.min.getMonth() + 1)).slice(-2) + data.values.min.getFullYear();
+  dateMax = ("0" + (data.values.max.getMonth() + 1)).slice(-2) + data.values.max.getFullYear();
+  console.log(lb.map.getBounds().toBBoxString());
+  console.log(dateMin);
+  console.log(dateMax);
+  //getLayer(layer,daterange);
+  //TODO: NEED TO ADD GUI CONTROL FOR PARAMETER & GET BOUNDING FROM MAP
+  $.ajax({
+	  type: "POST",
+	  url: "backend/getLayer.php",
+	  data: { param: 'WIND SPEED', bounding: lb.map.getBounds().toBBoxString(), min: dateMin, max: dateMax }
+	})
+	.done(function( msg ) {
+		alert( "Data Saved: " + msg );
+	});
+});
 
 </script>
 

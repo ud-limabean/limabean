@@ -1,19 +1,23 @@
 <?php
-//phpinfo();
-//exit();
- 
+
 /* NEED TO HAVE THESE PARAMETERS PASSED, ELSE FALL BACK TO DEFAULTS (THESE FOR NOW) */ 
 $strParam='WIND SPEED';
-$wktBounding='POLYGON((-75.8 38.4, -75.0 38.4, -75.0 39.85, -75.8 39.85, -75.8 38.4))';
+$strBounding='-86.484375,35.209721645221386,-70.13671875,41.409775832009565';
 $dateMin='042009';
 $dateMax='092009';
-										
+
+if (isset($_REQUEST['param'])){$strParam=$_REQUEST['param'];}
+if (isset($_REQUEST['bounding'])){$strBounding=$_REQUEST['bounding'];}
+if (isset($_REQUEST['min'])){$dateMin=$_REQUEST['min'];}
+if (isset($_REQUEST['max'])){$dateMax=$_REQUEST['max'];}
+
+//could be improved by using bounding box instead of intersection on polygon										
 $query="SELECT Avg(a.value) AS VALUE,a.date_measured,a.parameter,b.STATE_ABBR,b.jGeom
                                         FROM  measurement AS a, 
                                         (SELECT STATE_ABBR, geometry, AsGeoJSON(geometry) as jGeom FROM states)  AS b
                                         WHERE
 					a.state_abbr=b.STATE_ABBR
-					AND ST_Intersects(b.geometry, PolyFromText('$wktBounding',4326))=1
+					AND ST_Intersects(b.geometry, BuildMbr('$strBounding'))=1
                                         AND a.parameter = '$strParam'
                                         AND date(a.date_measured) < date($dateMin)
                                         AND date(a.date_measured) > date($dateMax)
@@ -21,7 +25,7 @@ $query="SELECT Avg(a.value) AS VALUE,a.date_measured,a.parameter,b.STATE_ABBR,b.
   
 try {
 	
-	function getLayer ($strParam,$wktBounding,$dateMin,$dateMax,$query) {
+	function getLayer ($strParam,$strBounding,$dateMin,$dateMax,$query) {
 		$db = new SQLite3('limabean.sqlite');
 		//$db->busyTimeout(80000);
 		//loading spatialite extension
@@ -48,7 +52,6 @@ try {
     die();
 }
 
-getLayer($strParam,$wktBounding,$dateMin,$dateMax,$query);
-//echo 'hello world';
+getLayer($strParam,$strBounding,$dateMin,$dateMax,$query);
 
 ?>
