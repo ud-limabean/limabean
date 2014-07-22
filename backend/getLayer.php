@@ -12,7 +12,7 @@ if (isset($_REQUEST['min'])){$dateMin=$_REQUEST['min'];}
 if (isset($_REQUEST['max'])){$dateMax=$_REQUEST['max'];}
 
 //could be improved by using bounding box instead of intersection on polygon										
-$query="SELECT Avg(a.value) AS VALUE,a.date_measured,a.parameter,b.STATE_ABBR,b.jGeom
+$query="SELECT Avg(a.value) AS value, a.date_measured as date,a.parameter as param,b.STATE_ABBR as state,b.jGeom as geom
                                         FROM  measurement AS a, 
                                         (SELECT STATE_ABBR, geometry, AsGeoJSON(geometry) as jGeom FROM states)  AS b
                                         WHERE
@@ -31,19 +31,20 @@ try {
 		//loading spatialite extension
 		$db->loadExtension('libspatialite.so');
 	
-		echo $query;
+		//echo $query;
 		$st = $db->query($query);
 		if (! $st) {
 			$error = $db->errorInfo();
 			print "Problem ({$error[2]})";
 		
 		}
-		
+	
+		$data = array();		
+
 		while ($res = $st->fetchArray(SQLITE3_ASSOC)){
-			foreach ($res as $key => $value) {
-				echo $key . ' = ' . $value . ",\n";
-			}
+			$data[]=$res;
 		}
+		echo json_encode(array("response"=>$data));
 	}
 	
     $dbh = null;
