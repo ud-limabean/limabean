@@ -17,7 +17,7 @@ $query="SELECT Avg(a.value) AS VALUE,a.date_measured,a.parameter,b.STATE_ABBR,b.
                                         (SELECT STATE_ABBR, geometry, AsGeoJSON(geometry) as jGeom FROM states)  AS b
                                         WHERE
 					a.state_abbr=b.STATE_ABBR
-					AND ST_Intersects(b.geometry, BuildMbr('$strBounding'))=1
+					AND ST_Intersects(b.geometry, BuildMbr($strBounding))=1
                                         AND a.parameter = '$strParam'
                                         AND date(a.date_measured) < date($dateMin)
                                         AND date(a.date_measured) > date($dateMax)
@@ -31,7 +31,7 @@ try {
 		//loading spatialite extension
 		$db->loadExtension('libspatialite.so');
 	
-	
+		echo $query;
 		$st = $db->query($query);
 		if (! $st) {
 			$error = $db->errorInfo();
