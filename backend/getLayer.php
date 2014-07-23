@@ -12,7 +12,7 @@ if (isset($_REQUEST['min'])){$dateMin=$_REQUEST['min'];}
 if (isset($_REQUEST['max'])){$dateMax=$_REQUEST['max'];}
 
 //could be improved by using bounding box instead of intersection on polygon										
-$query="SELECT Avg(a.value) AS value, a.date_measured as date,a.parameter as param,b.STATE_ABBR as state,b.jGeom as geom
+$query="SELECT Avg(a.value) AS value, a.date_measured as date,a.parameter as param,b.STATE_ABBR as state,b.jGeom as geometry
                                         FROM  measurement AS a, 
                                         (SELECT STATE_ABBR, geometry, AsGeoJSON(geometry) as jGeom FROM states)  AS b
                                         WHERE
@@ -42,10 +42,26 @@ try {
 		$data = array();		
 
 		while ($res = $st->fetchArray(SQLITE3_ASSOC)){
-			$data[]=$res;
+			$record = array();
+			$record['type']= 'Feature';
+			foreach ($res as $key => $value) {
+				if($key == 'geometry'){
+					$record['geometry']=$value;	
+				} else {
+					$record['properties'][$key]=$value;
+				}
+			}
+			$data[]=$record;
 		}
-		echo json_encode(array("response"=>$data));
-	}
+		//echo trim(json_encode($data),'"');
+		echo '{
+    "type": "Point",
+    "coordinates": [
+        -105.01621,
+        39.57422
+    ]
+}';
+		}
 	
     $dbh = null;
 } catch (PDOException $e) {

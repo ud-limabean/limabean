@@ -44,6 +44,17 @@
 var lb = lb || {};
 lb.map = {};
 lb.info = {};
+lb.getColor = function(value){
+    return value > 100 ? '#800026' :
+           value > 50  ? '#BD0026' :
+           value > 20  ? '#E31A1C' :
+           value > 10  ? '#FC4E2A' :
+           value > 5   ? '#FD8D3C' :
+           value > 2   ? '#FEB24C' :
+           value > 1   ? '#FED976' :
+                      '#FFEDA0';
+}
+
 
 //handlebars style
 lb.info.style = {
@@ -91,31 +102,51 @@ L.tileLayer('tiles/{z}/{x}/{y}.png', {
 			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
 		}).addTo(lb.map);
 
-
+/*
 L.geoJson(locality, {
 	style: lb.info.style,
 	onEachFeature: onEachFeature
 }).addTo(lb.map);
-
+*/
 });
+var geojsonFeature = {
+    "type": "Feature",
+    "properties": {
+        "name": "Coors Field",
+        "amenity": "Baseball Stadium",
+        "popupContent": "This is where the Rockies play!"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-104.99404, 39.75621]
+    }
+};
+
+console.log(geojsonFeature);
+L.geoJson(geojsonFeature).addTo(lb.map);
 	
 //and bind it (this does not need to be changed, though debugging code should be removed
 $("#slider").bind("valuesChanged", function(e, data){
   //console.log("Values just changed. min: " + data.values.min + " max: " + data.values.max);
   dateMin = ("0" + (data.values.min.getMonth() + 1)).slice(-2) + data.values.min.getFullYear();
   dateMax = ("0" + (data.values.max.getMonth() + 1)).slice(-2) + data.values.max.getFullYear();
-  console.log(lb.map.getBounds().toBBoxString());
-  console.log(dateMin);
-  console.log(dateMax);
+  //console.log(lb.map.getBounds().toBBoxString());
+  //console.log(dateMin);
+  //console.log(dateMax);
   //getLayer(layer,daterange);
   //TODO: NEED TO ADD GUI CONTROL FOR PARAMETER & GET BOUNDING FROM MAP
   $.ajax({
 	  type: "POST",
-	  url: "backend/getLayer.php",
-	  data: { param: 'WIND SPEED', bounding: lb.map.getBounds().toBBoxString(), min: dateMin, max: dateMax }
+	  url: "backend/getLayer.php"
 	})
-	.done(function( msg ) {
-		alert( "Data Saved: " + msg );
+	.done(function( data ) {
+		console.log(data);
+		L.geoJson(data, {
+    			onEachFeature: function (data, layer) {
+        			style: lb.getColor(feature.properties.value)
+				layer.bindPopup(feature.properties.value);
+    			}
+		}).addTo(lb.map);
 	});
 });
 
