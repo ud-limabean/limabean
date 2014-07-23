@@ -31,7 +31,7 @@ sudo yum install freexl
 sudo yum install freexl-devel
 sudo yum install zlib-devel
 
-spatialite 3.0.0 beta
+spatialite 3.0.0 beta, NEEDED THIS VERSION TO GET AsGeoJSON function
 wget http://www.gaia-gis.it/gaia-sins/libspatialite-sources/libspatialite-4.1.1.tar.gz
 tar .......
 
@@ -55,7 +55,7 @@ git pull
 
 start sqlite3 and load spatialite to debug issue, copied over newer version of limabean.sqlite w/ winscp
 $ sqlite3 /var/www/html/limabean/backend/limabean.sqlite
-sqlite> .load /usr/lib64/libspatialite.so
+sqlite> .load /usr/local/lib/libspatialite.so
 sqlite> CREATE TABLE IF NOT EXISTS states_bounding AS SELECT * FROM states WHERE ST_Intersects(geometry, PolyFromText('POLYGON((-75.8 38.4, -75.0 38.4, -75.0 39.85, -75.8 39.85, -75.8 38.4))',4236))=1;
 sqlite> drop table states;
 
