@@ -32,8 +32,8 @@
 
 <script id="entry-template" type="text/x-handlebars-template">
   <div class="entry">
-  {{#if latitude}}
-	<h1>{{div_locality_id}} {{latitude}}</h1>
+  {{#if value}}
+	<h1>{{param}} {{value}}</h1>
   {{else}}
 	<h1>{{div_locality_id}} {{latitude}}</h1>
   {{/if}}
@@ -44,6 +44,9 @@
 var lb = lb || {};
 lb.map = {};
 lb.info = {};
+lb.styles = {};
+
+//function to create choropleth map 
 lb.getColor = function(value){
     return value > 100 ? '#800026' :
            value > 50  ? '#BD0026' :
@@ -63,6 +66,17 @@ lb.info.style = {
 	"opacity": 0.65
 };
 
+lb.styles.stateStyle=function(feature) {
+    return {
+        fillColor: lb.getColor(feature.properties.value),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
 //fires after DOM ready
 $(function() {
 
@@ -70,8 +84,8 @@ lb.map = L.map('map').setView([39.161944, -75.526667], 8);
 
 //initialize jquery ui slider
 $("#slider").dateRangeSlider({
-    bounds: {min: new Date(2010,0), max: new Date(2014,4)},
-    defaultValues: {min: new Date(2010,0), max: new Date(2014,4)},
+    bounds: {min: new Date(2009,0), max: new Date(2014,4)},
+    defaultValues: {min: new Date(2009,0), max: new Date(2009,3)},
 	step:{months: 1},
 	formatter:function(val){
         var days = val.getDate(),
@@ -85,10 +99,11 @@ $("#slider").dateRangeSlider({
 var source = $("#entry-template").html();
 var template = Handlebars.compile(source);
 
-function onEachFeature(feature, layer) {
+lb.onEachFeature=function(feature, layer) {
 	// add click handler to all features
-	layer.on('click', function(e) {
-		console.log(e.target);
+		layer.on('click', function(e) {
+		//console.log(e.target);
+		$("#info").empty();
 		var html = template(e.target.feature.properties);
 		$("#info").append(html);
 	});
@@ -102,51 +117,46 @@ L.tileLayer('tiles/{z}/{x}/{y}.png', {
 			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
 		}).addTo(lb.map);
 
-/*
-L.geoJson(locality, {
-	style: lb.info.style,
-	onEachFeature: onEachFeature
-}).addTo(lb.map);
-*/
+//create container for geojson layer
+lb.layerData=L.geoJson({type: 'FeatureCollection',features: []},
+	{style: lb.styles.stateStyle,
+        onEachFeature: lb.onEachFeature
+        }).addTo(lb.map);
 });
-var geojsonFeature = {
-    "type": "Feature",
-    "properties": {
-        "name": "Coors Field",
-        "amenity": "Baseball Stadium",
-        "popupContent": "This is where the Rockies play!"
-    },
-    "geometry": {
-        "type": "Point",
-        "coordinates": [-104.99404, 39.75621]
-    }
-};
-
-console.log(geojsonFeature);
-L.geoJson(geojsonFeature).addTo(lb.map);
 	
 //and bind it (this does not need to be changed, though debugging code should be removed
 $("#slider").bind("valuesChanged", function(e, data){
   //console.log("Values just changed. min: " + data.values.min + " max: " + data.values.max);
-  dateMin = ("0" + (data.values.min.getMonth() + 1)).slice(-2) + data.values.min.getFullYear();
-  dateMax = ("0" + (data.values.max.getMonth() + 1)).slice(-2) + data.values.max.getFullYear();
+  //console.log("so min full year: " + data.values.min.getFullYear() + " max full year: " + data.values.max.getFullYear());
+  dateMin = data.values.min.getFullYear() + "-0" + (data.values.min.getMonth() + 1) + "-01";
+  dateMax = data.values.max.getFullYear() + "-0" + (data.values.max.getMonth() + 1) + "-01";
   //console.log(lb.map.getBounds().toBBoxString());
   //console.log(dateMin);
   //console.log(dateMax);
   //getLayer(layer,daterange);
+  lb.layerData.clearLayers();
   //TODO: NEED TO ADD GUI CONTROL FOR PARAMETER & GET BOUNDING FROM MAP
   $.ajax({
 	  type: "POST",
-	  url: "backend/getLayer.php"
+	  url: "backend/getLayer.php",
+	  data: { param: 'WIND SPEED', bounding: lb.map.getBounds().toBBoxString(), min: dateMin, max: dateMax }
 	})
 	.done(function( data ) {
+	/*	var data = {
+    			"type": "Feature",
+    			"properties": {
+        			"name": "Coors Field",
+        			"amenity": "Baseball Stadium",
+        			"popupContent": "This is where the Rockies play!"
+    			},
+    			"geometry": {
+        			"type": "Point",
+        			"coordinates": [-104.99404, 39.75621]
+   			 }
+		};
+		*/
 		console.log(data);
-		L.geoJson(data, {
-    			onEachFeature: function (data, layer) {
-        			style: lb.getColor(feature.properties.value)
-				layer.bindPopup(feature.properties.value);
-    			}
-		}).addTo(lb.map);
+		lb.layerData.addData(data);
 	});
 });
 
