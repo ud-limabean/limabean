@@ -128,8 +128,10 @@ lb.layerData=L.geoJson({type: 'FeatureCollection',features: []},
 $("#slider").bind("valuesChanged", function(e, data){
   //console.log("Values just changed. min: " + data.values.min + " max: " + data.values.max);
   //console.log("so min full year: " + data.values.min.getFullYear() + " max full year: " + data.values.max.getFullYear());
-  dateMin = data.values.min.getFullYear() + "-0" + (data.values.min.getMonth() + 1) + "-01";
-  dateMax = data.values.max.getFullYear() + "-0" + (data.values.max.getMonth() + 1) + "-01";
+  if ((data.values.min.getMonth() + 1) <= 9){monthMin = "-0" + (data.values.min.getMonth() + 1);}else{monthMin = "-" + (data.values.min.getMonth() + 1);}
+  if ((data.values.max.getMonth() + 1) <= 9){monthMax = "-0" + (data.values.max.getMonth() + 1);}else{monthMax = "-" + (data.values.max.getMonth() + 1);}  
+  dateMin = data.values.min.getFullYear() + monthMin + "-01";
+  dateMax = data.values.max.getFullYear() + monthMax + "-01";
   //console.log(lb.map.getBounds().toBBoxString());
   //console.log(dateMin);
   //console.log(dateMax);
@@ -142,19 +144,6 @@ $("#slider").bind("valuesChanged", function(e, data){
 	  data: { param: 'WIND SPEED', bounding: lb.map.getBounds().toBBoxString(), min: dateMin, max: dateMax }
 	})
 	.done(function( data ) {
-	/*	var data = {
-    			"type": "Feature",
-    			"properties": {
-        			"name": "Coors Field",
-        			"amenity": "Baseball Stadium",
-        			"popupContent": "This is where the Rockies play!"
-    			},
-    			"geometry": {
-        			"type": "Point",
-        			"coordinates": [-104.99404, 39.75621]
-   			 }
-		};
-		*/
 		console.log(data);
 		lb.layerData.addData(data);
 	});
