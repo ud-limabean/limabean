@@ -3,8 +3,8 @@
 /* NEED TO HAVE THESE PARAMETERS PASSED, ELSE FALL BACK TO DEFAULTS (THESE FOR NOW) */ 
 $strParam='WIND SPEED';
 $strBounding='-86.484375,35.209721645221386,-70.13671875,41.409775832009565';
-$dateMin='042009';
-$dateMax='092009';
+$dateMin='2009-04-01';
+$dateMax='2009-09-01';
 
 if (isset($_REQUEST['param'])){$strParam=$_REQUEST['param'];}
 if (isset($_REQUEST['bounding'])){$strBounding=$_REQUEST['bounding'];}
@@ -19,8 +19,7 @@ $query="SELECT Avg(a.value) AS value, a.date_measured as date,a.parameter as par
 					a.state_abbr=b.STATE_ABBR
 					AND ST_Intersects(b.geometry, BuildMbr($strBounding))=1
                                         AND a.parameter = '$strParam'
-                                        AND date(a.date_measured) < date($dateMin)
-                                        AND date(a.date_measured) > date($dateMax)
+                                        AND date(a.date_measured) BETWEEN date('$dateMin') AND date('$dateMax')
                                         GROUP BY b.STATE_ABBR;";
   
 try {
@@ -36,11 +35,11 @@ try {
 		if (! $st) {
 			$error = $db->errorInfo();
 			print "Problem ({$error[2]})";
-		
-		}
-	
-		$data = array();		
 
+		}
+	/*
+		$data = array();		
+		$data['type'] = 'FeatureCollection';
 		while ($res = $st->fetchArray(SQLITE3_ASSOC)){
 			$record = array();
 			$record['type']= 'Feature';
@@ -51,16 +50,34 @@ try {
 					$record['properties'][$key]=$value;
 				}
 			}
-			$data[]=$record;
+			$data['features'][]=$record;
 		}
-		//echo trim(json_encode($data),'"');
-		echo '{
-    "type": "Point",
-    "coordinates": [
-        -105.01621,
-        39.57422
-    ]
-}';
+	*/
+
+		# Build GeoJSON
+		$output = '';
+		$rowOutput = '';
+ 
+		while ($row = $st->fetchArray(SQLITE3_ASSOC)) {
+    			$rowOutput = (strlen($rowOutput) > 0 ? ',' : '') . '{"type": "Feature", "geometry": ' . $row['geometry'] . ', "properties": {';
+    			$props = '';
+    			$id = '';
+    			foreach ($row as $key => $val) {
+        			if ($key != "geometry") {
+            				$props .= (strlen($props) > 0 ? ',' : '') . '"' . $key . '":"' . $val . '"';
+        			}
+    			}
+    
+    			$rowOutput .= $props . '}';
+    			$rowOutput .= '}';
+    			$output .= $rowOutput;
+		}
+ 
+		$output = '{ "type": "FeatureCollection", "features": [ ' . $output . ' ]}';
+
+
+		header('Content-Type: application/json');
+		echo $output;
 		}
 	
     $dbh = null;
