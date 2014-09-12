@@ -5,15 +5,13 @@ On Centos, vmware workstation on css-mearns
 -installed php package
 sudo yum groupinstall 'PHP'
 
-su
-yum groupinstall 'Development Tools'
+sudo yum groupinstall 'Development Tools'
 
 (above did git install so no need to do that now)
 
 installed EPEL (also rpm forge)
 wget http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
 sudo rpm -i epel-release-6-8.noarch.rpm
-sudo yum install epel
 
 
 -turn on debugging in php
@@ -29,11 +27,16 @@ sudo yum install geos
 sudo yum install geos-devel
 sudo yum install freexl
 sudo yum install freexl-devel
+sudo yum install sqlite-devel
 sudo yum install zlib-devel
+
 
 spatialite 3.0.0 beta, NEEDED THIS VERSION TO GET AsGeoJSON function
 wget http://www.gaia-gis.it/gaia-sins/libspatialite-sources/libspatialite-4.1.1.tar.gz
-tar .......
+tar -xvf libspatialite-4.1.1.tar.gz
+./configure
+make
+sudo make install
 
 -edit php.ini ... turn on php_sqlite3 and set sqlite extenstions directory to /usr/local/lib
 sudo vi /etc/php.ini
@@ -42,12 +45,15 @@ sudo vi /etc/php.ini
 cd /var/www/html
 git clone https://github.com/bmearns/limabean
 
+allow apache/port 80 in firewall
+
 -started httpd w/ sudo
 sudo service httpd start
 -restart apache
 sudo service httpd restart
 
-changes are made on css-mearns at
+changes are made on either local or remote, then
+git push origin FORKNAME
 
 and pulled on the vm with 
 cd /var/www/html/limabean
@@ -74,10 +80,24 @@ SET
 I NEED TO GET MY query in dolayer to spliit up (aggregate) properly ... some improvement when I joined by state name, grouped by compound (more than one) fields, testing in CLI spatialite on VM
 ... actually, I think this is fine
 
-need to update to SpatiaLite 3.0.0-BETA ... current version (2.2) doesn't have geojson function
+
+
+
+openssl 
+
+follow this: http://wiki.centos.org/HowTos/Https
+
+
+
+
+
 
 
 --------------------------- OLD or ABANDONED BELOW ----------------------------
+
+
+
+data: { param: 'WIND SPEED', bounding: lb.map.getBounds().toBBoxString(), min: dateMin, max: dateMax }
 
 install spatialite-gui to test query on local database
 
