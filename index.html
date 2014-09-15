@@ -36,6 +36,7 @@
 		</select>
 	</div>
      	<div id="info"><p>Welcome to the Better Bean data interface.  Select a date range to view data.</p></div>	
+		<div><button id="update">Update</button></div>
      </div>
    </div>
 </div>
@@ -62,7 +63,11 @@
 var lb = lb || {};
 lb.map = {};
 lb.info = {};
+lb.params = ();
 lb.styles = {};
+
+lb.params.dateMin = "2009-01-01";
+lb.params.dateMax = "2014-05-31";
 
 //function to create choropleth map 
 lb.getColor = function(value){
@@ -103,7 +108,7 @@ lb.map = L.map('map').setView([39.161944, -75.526667], 8);
 //initialize jquery ui slider
 $("#slider").dateRangeSlider({
     bounds: {min: new Date(2009,0), max: new Date(2014,4)},
-    defaultValues: {min: new Date(2009,0), max: new Date(2009,3)},
+    defaultValues: {min: new Date(2009,0), max: new Date(2014,4)},
 	step:{months: 1},
 	formatter:function(val){
         var days = val.getDate(),
@@ -152,15 +157,15 @@ lb.layerData=L.geoJson({type: 'FeatureCollection',features: []},
 	
 //and bind it (this does not need to be changed, though debugging code should be removed
 $("#slider").bind("valuesChanged", function(e, data){
-  //console.log("Values just changed. min: foo" ).val();.values.min + " max: " + data.values.max);
-  //console.log("so min full year: " + data.values.min.getFullYear() + " max full year: " + data.values.max.getFullYear());
-  if ((data.values.min.getMonth() + 1) <= 9){monthMin = "-0" + (data.values.min.getMonth() + 1);}else{monthMin = "-" + (data.values.min.getMonth() + 1);}
-  if ((data.values.max.getMonth() + 1) <= 9){monthMax = "-0" + (data.values.max.getMonth() + 1);}else{monthMax = "-" + (data.values.max.getMonth() + 1);}  
-  dateMin = data.values.min.getFullYear() + monthMin + "-01";
-  dateMax = data.values.max.getFullYear() + monthMax + "-01";
-  //console.log(lb.map.getBounds().toBBoxString());
-  //console.log(dateMin);
-  //console.log(dateMax);
+	if ((data.values.min.getMonth() + 1) <= 9){monthMin = "-0" + (data.values.min.getMonth() + 1);}else{monthMin = "-" + (data.values.min.getMonth() + 1);}
+	if ((data.values.max.getMonth() + 1) <= 9){monthMax = "-0" + (data.values.max.getMonth() + 1);}else{monthMax = "-" + (data.values.max.getMonth() + 1);}  
+	lb.params.dateMin = data.values.min.getFullYear() + monthMin + "-01";
+	lb.params.dateMax = data.values.max.getFullYear() + monthMax + "-01";
+});
+
+$("#update").bind("click", function(e, data){
+  console.log(lb.params.dateMin);
+  console.log(lb.params.dateMax);
   //getLayer(layer,daterange);
   lb.layerData.clearLayers();
   lb.strParameter=$("#selParameter").val();
