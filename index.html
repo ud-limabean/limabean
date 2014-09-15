@@ -10,14 +10,14 @@
 <div class="grid grid-pad">
    <div class="col-2-3">
      <div class="module">
-		<div id="slider"></div>
+		<span>Date Range</span><div id="slider"></div>
 		<div id="map"></div>
 		<!-- <div id="googft-mapCanvas"></div> -->
      </div>
    </div>
    <div class="col-1-3">
      <div class="module">
-	<div><select id="selParameter">
+	<div><span>Parameter</span><select id="selParameter">
 		<option value="TEMPERATURE">TEMPERATURE</option>
 		<option value="SOIL TEMPERATURE">SOIL TEMPERATURE</option>
 		<option value="WIND SPEED">WIND SPEED</option>
@@ -35,7 +35,7 @@
 		<option value="RAINFALL">RAINFALL</option>
 		</select>
 	</div>
-     	<div id="info"><p>Welcome to the Better Bean data interface.  Select a date range to view data.</p></div>	
+     	<div id="info"><p>Welcome to the Better Bean data interface.  Select a new date range or parameter, and click update to display it.</p></div>	
 		<div><button id="update">Update</button></div>
      </div>
    </div>
@@ -63,11 +63,12 @@
 var lb = lb || {};
 lb.map = {};
 lb.info = {};
-lb.params = ();
+lb.params = {};
 lb.styles = {};
 
 lb.params.dateMin = "2009-01-01";
-lb.params.dateMax = "2014-05-31";
+lb.params.dateMax = "2014-05-01";
+lb.strParameter = "TEMPERATURE";
 
 //function to create choropleth map 
 lb.getColor = function(value){
@@ -171,16 +172,22 @@ $("#update").bind("click", function(e, data){
   lb.strParameter=$("#selParameter").val();
   console.log($("#selParameter")); 
   //TODO: NEED TO ADD GUI CONTROL FOR PARAMETER & GET BOUNDING FROM MAP
-  $.ajax({
-	  type: "POST",
-	  url: "backend/getLayer.php",
-	  data: { param: lb.strParameter, min: dateMin, max: dateMax }
-	})
-	.done(function( data ) {
-		console.log(data);
-		lb.layerData.addData(data);
-	});
+  getLayer();
 });
+
+function getLayer(){
+   $.ajax({
+          type: "POST",
+          url: "backend/getLayer.php",
+          data: { param: lb.strParameter, min: lb.params.dateMin, max: lb.params.dateMax }
+        })
+        .done(function( data ) {
+                console.log(data);
+                lb.layerData.addData(data);
+   });
+}
+
+getLayer();
 
 </script>
 
