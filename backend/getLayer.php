@@ -19,11 +19,12 @@ if (isset($_REQUEST['max'])){$dateMax=$_REQUEST['max'];}
                                         AND date(a.date_measured) BETWEEN date('$dateMin') AND date('$dateMax')
                                         GROUP BY b.STATE_ABBR;"; */
 										
-$query="select value, tom as date, parameter as param 
-		FROM v_measurement 
-        WHERE
-		parameter = '$strParam'
-        AND date(tom) BETWEEN date('$dateMin') AND date('$dateMax');";
+//$query="select value, tom as date, parameter as param, '3434d' as geometry FROM v_measurement WHERE parameter = '$strParam' AND date(tom) BETWEEN date('$dateMin') AND date('$dateMax');";
+
+$query="select field_id_1 as field_id, avg(value) as value, date(FROM_UNIXTIME(avg(UNIX_TIMESTAMP(date(tom))))) as date, parameter as param, CONCAT(longitude, ',',latitude)  as geometry FROM v_measurement 
+WHERE parameter = '$strParam' AND date(tom) BETWEEN date('$dateMin') AND date('$dateMax')
+GROUP BY geometry;";
+
 
 //adapted for mysql, geojson is for points, can construct in parser										
 try {
@@ -63,9 +64,9 @@ try {
 		# Build GeoJSON
 		$output = '';
 		$rowOutput = '';
- 
+
 		while ($row = $result->fetch_assoc()) {
-    			$rowOutput = (strlen($rowOutput) > 0 ? ',' : '') . '{"type": "Feature", "geometry": ' . $row['geometry'] . ', "properties": {';
+    			$rowOutput = (strlen($rowOutput) > 0 ? ',' : '') . '{"type": "Feature", "geometry": {"type": "Point", "coordinates": [' . $row['geometry'] . ']}, "properties": {';
     			$props = '';
     			$id = '';
     			foreach ($row as $key => $val) {
