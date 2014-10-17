@@ -21,51 +21,37 @@ if (isset($_REQUEST['max'])){$dateMax=$_REQUEST['max'];}
 										
 //$query="select value, tom as date, parameter as param, '3434d' as geometry FROM v_measurement WHERE parameter = '$strParam' AND date(tom) BETWEEN date('$dateMin') AND date('$dateMax');";
 
-$query="select field_id_1 as field_id, avg(value) as value, date(FROM_UNIXTIME(avg(UNIX_TIMESTAMP(date(tom))))) as date, parameter as param, CONCAT(longitude, ',',latitude)  as geometry FROM v_measurement 
+/* $query="select field_id_1 as field_id, avg(value) as value, date(FROM_UNIXTIME(avg(UNIX_TIMESTAMP(date(tom))))) as date, parameter as param, CONCAT(longitude, ',',latitude)  as geometry FROM v_measurement 
 WHERE parameter = '$strParam' AND date(tom) BETWEEN date('$dateMin') AND date('$dateMax')
-GROUP BY geometry;";
+GROUP BY geometry;"; */
 
+$query="select field_id_1 as field_id, value as value, date(tom) as date, parameter as param FROM v_measurement 
+WHERE parameter = '$strParam' AND date(tom) BETWEEN date('$dateMin') AND date('$dateMax') ORDER BY field_id_1;";
+
+//$query="select * FROM lb_fields;";
 
 //adapted for mysql, geojson is for points, can construct in parser										
 try {
 	
 	function getLayer ($strParam,$dateMin,$dateMax,$query) {
+		include 'lb_fields.php';
 		//$db = new SQLite3('limabean.sqlite');
 		//$db->busyTimeout(80000);
 		//loading spatialite extension
 		//$db->loadExtension('libspatialite.so');
 		
 		$db = new mysqli("68.178.143.16", "bbagbv2pilot", "B!tt!rB!an12", "bbagbv2pilot");
-		//sh mysql2sqlite.sh -u  --host=68.178.143.16 --password='B!tt!rB!an12'  bbagbv2pilot --tables div_locality div_measurement | sqlite3 limabean2.sqlite
 	
-		//echo $query;
 		$result = $db->query($query);
 		if (! $result) {
 			printf("Errormessage: %s\n", $db->error);
 
 		}
-	/*
-		$data = array();		
-		$data['type'] = 'FeatureCollection';
-		while ($res = $st->fetchArray(SQLITE3_ASSOC)){
-			$record = array();
-			$record['type']= 'Feature';
-			foreach ($res as $key => $value) {
-				if($key == 'geometry'){
-					$record['geometry']=$value;	
-				} else {
-					$record['properties'][$key]=$value;
-				}
-			}
-			$data['features'][]=$record;
-		}
-	*/
-
-		# Build GeoJSON
-		$output = '';
+		
+		/*$output = '';
 		$rowOutput = '';
 
-		while ($row = $result->fetch_assoc()) {
+		 while ($row = $result->fetch_assoc()) {
     			$rowOutput = (strlen($rowOutput) > 0 ? ',' : '') . '{"type": "Feature", "geometry": {"type": "Point", "coordinates": [' . $row['geometry'] . ']}, "properties": {';
     			$props = '';
     			$id = '';
@@ -80,11 +66,27 @@ try {
     			$output .= $rowOutput;
 		}
  
-		$output = '{ "type": "FeatureCollection", "features": [ ' . $output . ' ]}';
-
+		$output = $lb_fields . ',{ "type": "FeatureCollection", "features": [' . $output . ' ]}'; */
+		$arr_result = array();
+		// while ($row = $result->fetch_assoc()) {
+			// foreach ($row as $key => $val) {
+					// if ($key == "field_id") {
+        			// $arr_result[$key] = $val;
+					// }
+    			// }
+		// }
+		
+		while ($row = $result->fetch_object()) {
+			if (!isset($arr_result[$row->field_id])) {
+				$arr_result[$row->field_id] = $row;
+				$arr_result[$row->field_id]->sub = array();
+			}
+			$arr_result[$row->field_id]->sub[] = $row;
+		}
+		
 
 		header('Content-Type: application/json');
-		echo $output;
+		echo '{"jsonObjects":[' . $lb_fields . ',' . json_encode($arr_result) . ']}';
 		}
 	
     $dbh = null;
