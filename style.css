@@ -73,3 +73,7 @@ h1 em {
 /* this used for gftredux #map-canvas { height: 180px; margin-top: 1em;} */
 
 #map { height: 500px; margin-top: 1em;}
+
+#instructions {}
+
+#progress { width: 50%; margin: 0 auto; display: none;}
