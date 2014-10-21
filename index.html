@@ -136,9 +136,9 @@ lb.template = Handlebars.compile(lb.source);
 lb.onEachFeature=function(feature, layer) {
 	// add click handler to all features
 	layer.on('click', function(e,data) {
+		lb.params.field = e.target.feature.properties.field_id;
 		//console.log(e.target.feature.properties.field_id);
-		lb.strParameter=$("#selParameter").val();
-		getInfo(e.target.feature.properties.field_id);
+		getInfo();
 	});
 }
 L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', {
@@ -170,23 +170,51 @@ getLayer();
 	
 //and bind it (this does not need to be changed, though debugging code should be removed
 $("#slider").bind("valuesChanged", function(e, data){
-	
 	if ((data.values.min.getMonth() + 1) <= 9){monthMin = "-0" + (data.values.min.getMonth() + 1);}else{monthMin = "-" + (data.values.min.getMonth() + 1);}
 	if ((data.values.max.getMonth() + 1) <= 9){monthMax = "-0" + (data.values.max.getMonth() + 1);}else{monthMax = "-" + (data.values.max.getMonth() + 1);}  
 	lb.params.dateMin = data.values.min.getFullYear() + monthMin + "-01";
 	lb.params.dateMax = data.values.max.getFullYear() + monthMax + "-01";
+	getInfo();
 });
 
-function getInfo(id){
+$("#selParameter").bind("change", function(){
+	lb.strParameter=$("#selParameter").val();
+	getInfo();
+});
+
+function showProgress(){
+	$("#info").empty(); 
+	$( "#instructions" ).hide(); 
+	$( "#progress" ).show();
+}
+
+function showMessage(strMessage){
+	$( "#progress" ).hide();
+	$( "#instructions" ).hide(); 
+	$("#info").append(strMessage); 
+}
+
+function getInfo(){
+	showProgress();
+	if (typeof lb.params.field === 'undefined') {
+		showMessage('<h3>You must click a field (on the map) to retrieve data.  Click on a marker in the map to select a field.</h3>');
+		return false;
+	}
+	
+   lb.strParameter=$("#selParameter").val();
    $.ajax({
           type: "POST",
-          data: { param: lb.strParameter, min: lb.params.dateMin, max: lb.params.dateMax, fieldID: id },
+          data: { param: lb.strParameter, min: lb.params.dateMin, max: lb.params.dateMax, fieldID: lb.params.field },
           url: "backend/getInfo.php",
-		  beforeSend: (function() {$("#info").empty(); $( "#instructions" ).hide(); $( "#progress" ).show();})
         })
         .done(function( data ) {
                 // lb.layerData.addData(data.jsonObjects[0]);
 				$( "#progress" ).hide();
+				if(data.items.length == 0){
+					strMessage = '<h3>No ' + lb.strParameter + ' data was found for field ' + lb.params.field + ' between ' + lb.params.dateMin + ' and ' + lb.params.dateMax + '</h3>';
+					showMessage(strMessage);
+					return false;
+				}
 				var html = lb.template(data);
 				$("#info").append(html);
 		});
