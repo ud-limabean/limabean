@@ -48,6 +48,14 @@
   background: #eee;
 }
 
+.module span{
+  padding: 10px 8px;
+}
+
+.module select{
+  padding: 5px 4px;
+}
+
 /* Opt-in outside padding */
 .grid-pad {
   padding: 20px 0 20px 20px;
@@ -60,6 +68,7 @@ body {
   padding: 10px 50px 200px;
   background: url(http://s.cdpn.io/3/dark_wall_@2X.png);
   background-size: 300px 300px;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 }
 
 h1 {
@@ -77,3 +86,19 @@ h1 em {
 #instructions {}
 
 #progress { width: 50%; margin: 0 auto; display: none;}
+
+.data table { 
+	margin: 20px;	 
+	}
+
+.data th { 
+	font-size: 14px;
+	border-bottom: 2px solid #ccc;
+	padding: 10px 8px;	 
+	}
+	
+.data td { 
+	font-size: 12px;
+	border-bottom: 1px solid #ccc;
+	padding: 6px 8px;	 
+	}

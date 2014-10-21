@@ -4,12 +4,12 @@
 $strParam='WIND SPEED';
 $dateMin='2009-04-01';
 $dateMax='2009-09-01';
-$fieldID='29';
+$field='29';
 
 if (isset($_REQUEST['param'])){$strParam=$_REQUEST['param'];}
 if (isset($_REQUEST['min'])){$dateMin=$_REQUEST['min'];}
 if (isset($_REQUEST['max'])){$dateMax=$_REQUEST['max'];}
-if (isset($_REQUEST['fieldID'])){$fieldID=$_REQUEST['fieldID'];}
+if (isset($_REQUEST['field'])){$field=$_REQUEST['field'];}
 
 //could be improved by using bounding box instead of intersection on polygon										
 /* $query="SELECT Avg(a.value) AS value, a.date_measured as date,a.parameter as param,b.STATE_ABBR as state,b.jGeom as geometry
@@ -28,14 +28,14 @@ WHERE parameter = '$strParam' AND date(tom) BETWEEN date('$dateMin') AND date('$
 GROUP BY geometry;"; */
 
 $query="select field_id_1 as field_id, value as value, tom as date, parameter as param FROM v_measurement 
-WHERE field_id_1 = $fieldID and parameter = '$strParam' AND date(tom) BETWEEN date('$dateMin') AND date('$dateMax') ORDER BY field_id_1;";
+WHERE field_id_1 = $field and parameter = '$strParam' AND date(tom) BETWEEN date('$dateMin') AND date('$dateMax') ORDER BY field_id_1;";
 
 //$query="select * FROM lb_fields;";
 
 //adapted for mysql, geojson is for points, can construct in parser										
 try {
 	
-	function getInfo ($strParam,$dateMin,$dateMax,$fieldID,$query) {
+	function getInfo ($strParam,$dateMin,$dateMax,$field,$query) {
 		//$db = new SQLite3('limabean.sqlite');
 		//$db->busyTimeout(80000);
 		//loading spatialite extension
@@ -140,6 +140,6 @@ try {
     die();
 } */
 
-getInfo($strParam,$dateMin,$dateMax,$fieldID,$query);
+getInfo($strParam,$dateMin,$dateMax,$field,$query);
 
 ?>
