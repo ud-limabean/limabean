@@ -77,20 +77,7 @@ lb.template = function(){};
 
 lb.params.dateMin = "2009-01-01";
 lb.params.dateMax = "2014-05-01";
-lb.strParameter = "AirTemperature";
-
-//function to create choropleth map 
-lb.getColor = function(value){
-    return value > 100 ? '#800026' :
-           value > 50  ? '#BD0026' :
-           value > 20  ? '#E31A1C' :
-           value > 10  ? '#FC4E2A' :
-           value > 5   ? '#FD8D3C' :
-           value > 2   ? '#FEB24C' :
-           value > 1   ? '#FED976' :
-                      '#FFEDA0';
-}
-
+lb.params.param = "AirTemperature";
 
 //handlebars style
 lb.info.style = {
@@ -99,20 +86,10 @@ lb.info.style = {
 	"opacity": 0.65
 };
 
-lb.styles.stateStyle=function(feature) {
-    return {
-        fillColor: lb.getColor(feature.properties.value),
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7
-    };
-}
-
 //fires after DOM ready
 $(function() {
 
+//set map options
 lb.map = L.map('map').setView([39.161944, -75.526667], 8);
 
 //initialize jquery ui slider
@@ -133,6 +110,7 @@ lb.source = $("#entry-template").html();
 lb.template = Handlebars.compile(lb.source);
 
 
+//map marker event handler
 lb.onEachFeature=function(feature, layer) {
 	// add click handler to all features
 	layer.on('click', function(e,data) {
@@ -141,23 +119,17 @@ lb.onEachFeature=function(feature, layer) {
 		getInfo();
 	});
 }
-L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', {
-            subdomains: '1234',
-            attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; ' +
-                '<a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.' +
-                'org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-            detectRetina: true
-        }).addTo(lb.map);
 
-/*
-//local basemap tiles, currently generic world map
-L.tileLayer('tiles/{z}/{x}/{y}.png', {
-			minZoom: 5,
-			maxZoom: 10,
-			tms: true,
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
-		}).addTo(lb.map);
-*/
+//add reference tiles to map 
+L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', {
+	subdomains: '1234',
+	attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; ' +
+		'<a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.' +
+		'org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+	detectRetina: true
+}).addTo(lb.map);
+
+
 //create container for geojson layer
 lb.layerData=L.geoJson({type: 'FeatureCollection',features: []},
 	{style: lb.styles.stateStyle,
@@ -168,7 +140,7 @@ getLayer();
 
 });
 	
-//and bind it (this does not need to be changed, though debugging code should be removed
+//slider event handler
 $("#slider").bind("valuesChanged", function(e, data){
 	if ((data.values.min.getMonth() + 1) <= 9){monthMin = "-0" + (data.values.min.getMonth() + 1);}else{monthMin = "-" + (data.values.min.getMonth() + 1);}
 	if ((data.values.max.getMonth() + 1) <= 9){monthMax = "-0" + (data.values.max.getMonth() + 1);}else{monthMax = "-" + (data.values.max.getMonth() + 1);}  
@@ -177,23 +149,27 @@ $("#slider").bind("valuesChanged", function(e, data){
 	getInfo();
 });
 
+//dropdown/select event handler
 $("#selParameter").bind("change", function(){
-	lb.strParameter=$("#selParameter").val();
+	lb.params.param=$("#selParameter").val();
 	getInfo();
 });
 
+//display progress message
 function showProgress(){
 	$("#info").empty(); 
 	$( "#instructions" ).hide(); 
 	$( "#progress" ).show();
 }
 
+//display a passed message
 function showMessage(strMessage){
 	$( "#progress" ).hide();
 	$( "#instructions" ).hide(); 
 	$("#info").append(strMessage); 
 }
 
+//retrieve data and display with handlebars template
 function getInfo(){
 	showProgress();
 	if (typeof lb.params.field === 'undefined') {
@@ -201,17 +177,17 @@ function getInfo(){
 		return false;
 	}
 	
-   lb.strParameter=$("#selParameter").val();
+   lb.params.param=$("#selParameter").val();
    $.ajax({
           type: "POST",
-          data: { param: lb.strParameter, min: lb.params.dateMin, max: lb.params.dateMax, fieldID: lb.params.field },
+          data: { param: lb.params.param, min: lb.params.dateMin, max: lb.params.dateMax, fieldID: lb.params.field },
           url: "backend/getInfo.php",
         })
         .done(function( data ) {
                 // lb.layerData.addData(data.jsonObjects[0]);
 				$( "#progress" ).hide();
 				if(data.items.length == 0){
-					strMessage = '<h3>No ' + lb.strParameter + ' data was found for field ' + lb.params.field + ' between ' + lb.params.dateMin + ' and ' + lb.params.dateMax + '</h3>';
+					strMessage = '<h3>No ' + lb.params.param + ' data was found for field ' + lb.params.field + ' between ' + lb.params.dateMin + ' and ' + lb.params.dateMax + '</h3>';
 					showMessage(strMessage);
 					return false;
 				}
