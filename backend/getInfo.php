@@ -36,12 +36,13 @@ WHERE field_id_1 = $field and parameter = '$strParam' AND date(tom) BETWEEN date
 try {
 	
 	function getInfo ($strParam,$dateMin,$dateMax,$field,$query) {
+		include 'credentials.php';
 		//$db = new SQLite3('limabean.sqlite');
 		//$db->busyTimeout(80000);
 		//loading spatialite extension
 		//$db->loadExtension('libspatialite.so');
 		
-		$db = new mysqli("68.178.143.16", "bbagbv2pilot", "B!tt!rB!an12", "bbagbv2pilot");
+		$db = new mysqli($host,$user,$pass,$schema);
 	
 		$result = $db->query($query);
 		if (! $result) {

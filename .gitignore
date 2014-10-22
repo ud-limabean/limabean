@@ -1,4 +1,2 @@
-# Ignore GFT credentials
-credentials.sh
-/tiles/*
-/backend/limabean.sqlite
+# Ignore mysql credentials
+/backend/credentials.php
