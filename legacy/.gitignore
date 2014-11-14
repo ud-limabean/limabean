@@ -1,0 +1,2 @@
+# Ignore mysql credentials
+backend/credentials.php
