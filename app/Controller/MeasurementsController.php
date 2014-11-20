@@ -4,7 +4,14 @@ class MeasurementsController extends AppController {
 	public $components = array('RequestHandler');
 	
 	public function beforeFilter() {
-		$this->RequestHandler->addInputType('json', ['json_decode', true]);
+		$this->RequestHandler->addInputType('json', array('json_decode', true));
+		
+		/* $parser = function ($data) {
+			parse_str ( string $str [, array &$arr ] )
+			return json_decode($data, true);
+		};
+		
+		$this->RequestHandler->addInputType('json', array($parser)); */
 		
 		if ($this->request->is('ajax')) {
 			$this->disableCache();
@@ -19,13 +26,14 @@ class MeasurementsController extends AppController {
 	public function search() {
 	
 		$params = $this->request->data;
-		$this->set('conditions', $params);
+
+		//for debugging
 		//$params = $this->params['named'];
 		
 		$search = $this->Measurement->search($params);
 		
 		$this->set('search', $search);
-		$this->set('_serialize', array('conditions','search'));
+		$this->set('_serialize', 'search');
     }
 	
 }

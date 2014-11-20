@@ -7,15 +7,16 @@ class Measurement extends AppModel {
 					"Measurement.param" => $this->request->params[3]); */
 
 	public function search($params) {
-		/* $conditions = array(
-					"Measurement.field" => $params['field'],
-					"date(Measurement.tom) BETWEEN" => "date($params[min]) AND date($params[max])",
-					"Measurement.param" => $params['param']); */
-						
+		$db = $this->getDataSource(); 
 		$conditions = array(
+					"Measurement.field" => $params['field'],
+					"date(Measurement.tom) BETWEEN ? and ?" => array($db->expression("date('$params[min]')"), $db->expression("date('$params[max]')")),
+					"Measurement.param" => $params['param']);
+						
+		/* $conditions = array(
 					"Measurement.field" => '40',
 					"date(Measurement.tom) BETWEEN" => "date('2009-01-01') AND date('2014-05-01')",
-					"Measurement.param" => 'AirTemperature');
+					"Measurement.param" => 'AirTemperature'); */
 					
 		// Example usage with a model:
 		
