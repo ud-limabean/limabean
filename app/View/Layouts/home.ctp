@@ -40,6 +40,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version());
 		echo $this->Html->script('jQDateRangeSlider-min.js');
 		echo '<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>';
 		echo '<script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.2/handlebars.js"></script>';
+		echo '<script src="http://cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>';
 	?>
 </head>
 <body>
@@ -107,7 +108,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version());
 		</tr>
 		</thead>
 		<tbody>
-  {{#each items}}
+  {{#each Measurement}}
   {{#if value}}
 	<tr><td>{{date}}</td><td>{{param}}</td><td>{{value}}</td></tr>
   {{else}}
@@ -255,7 +256,7 @@ function getInfo(){
 	/*
 	paramString = '';
 	
-	 lb.params.param=$("#selParameter").val();
+	 
 	
 	$.each(lb.params, function( index, value ) {
 		paramString += ('/' + index + ':' + value);
@@ -263,19 +264,22 @@ function getInfo(){
 	
 	//urlString = 'measurements' + paramString;
 	
+	lb.params.param=$("#selParameter").val();
+	
    $.ajax({
           type: "POST",
           url: 'measurements',
-		  data: {username: "wiiNinja", password: "isAnub"},
+		  data: JSON.stringify(lb.params),
 		  dataType: "json",
 		  contentType: "application/json",
 		  cache: false
         })
 		
         .done(function( data ) {
+				console.log(data);
                 // lb.layerData.addData(data.jsonObjects[0]);
 				$( "#progress" ).hide();
-				if(data.items.length == 0){
+				if(data.length == 0){
 					strMessage = '<h3>No ' + lb.params.param + ' data was found for field ' + lb.params.field + ' between ' + lb.params.min + ' and ' + lb.params.max + '</h3>';
 					showMessage(strMessage);
 					return false;
