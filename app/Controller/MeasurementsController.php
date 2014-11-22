@@ -16,11 +16,6 @@ class MeasurementsController extends AppController {
 		if ($this->request->is('ajax')) {
 			$this->disableCache();
 		}
-		
-		if ($this->RequestHandler->accepts('json')) {
-            $this->disableCache();
-			$this->RequestHandler->setContent('json', 'application/json');
-        }
     }
 	
 	public function search() {
@@ -33,7 +28,25 @@ class MeasurementsController extends AppController {
 		$search = $this->Measurement->search($params);
 		
 		$this->set('search', $search);
+		//$this->set('_serialize', 'search');
+    }
+	
+	public function json_search() {
+		if ($this->RequestHandler->accepts('json')) {
+            $this->disableCache();
+			$this->RequestHandler->setContent('json', 'application/json');
+        }
+	
+		$params = $this->request->data;
+
+		//for debugging
+		//$params = $this->params['named'];
+		
+		$search = $this->Measurement->search($params);
+		
+		$this->set('search', $search);
 		$this->set('_serialize', 'search');
+		$this->render('json_search');
     }
 	
 }

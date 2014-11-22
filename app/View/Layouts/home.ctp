@@ -270,12 +270,16 @@ function getInfo(){
           type: "POST",
           url: 'measurements',
 		  data: JSON.stringify(lb.params),
-		  dataType: "json",
+		  dataType: "html",
 		  contentType: "application/json",
 		  cache: false
         })
 		
-        .done(function( data ) {
+		.done(function( data ) {
+            $("#info").html(data);
+        });
+		
+        /* .done(function( data ) {
 				console.log(data);
                 // lb.layerData.addData(data.jsonObjects[0]);
 				$( "#progress" ).hide();
@@ -289,7 +293,7 @@ function getInfo(){
 				$("#info").append(html);
 				var html = lb.template.data(data);
 				$("#info").append(html);
-		});
+		}); */
 }
 
 function getLayer(){

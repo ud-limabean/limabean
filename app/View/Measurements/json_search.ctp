@@ -10,7 +10,7 @@
 	
     <!-- Here is where we loop through our $measurements array, printing out place info -->
 
-    <?php foreach ($search as $record): ?>
-	<?php var_dump($record); ?>
-    <?php endforeach; ?>
+    <?php //foreach ($measurements as $measurement): ?>
+    <?php echo $search; ?>
+    <?php //endforeach; ?>
     <?php unset($search); ?>
