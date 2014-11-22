@@ -27,7 +27,10 @@
 	//Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 	Router::parseExtensions('json');
 	
-	Router::connect('/', array('controller' => 'places', 'action' => 'home', 'home'));
+	Router::connect('/', array('controller' => 'home', 'action' => 'display'));
+	//Router::connect('/:action', array('controller' => 'home'));	
+	
+	//Router::connect('/', array('controller' => 'places', 'action' => 'home', 'home'));
 	
 	Router::connect('/measurements/*', array('controller' => 'measurements', 'action' => 'search'));
 /**
