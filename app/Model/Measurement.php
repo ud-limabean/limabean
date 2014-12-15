@@ -1,13 +1,17 @@
 <?php
 App::uses('AppModel', 'Model');
 class Measurement extends AppModel {
+	public function setDb(){
+		$db = $this->getDataSource();
+		return $db;
+	}
 	/* $conditions = array(
 					"Measurement.field_id_1" => $this->request->params[0],
 					"date(Measurement.tom) BETWEEN" => date($this->request->params[1]) AND date($this->request->params[2]),
 					"Measurement.param" => $this->request->params[3]); */
 
 	public function search($params) {
-		$db = $this->getDataSource(); 
+		 
 		$conditions = array(
 					"Measurement.field" => $params['field'],
 					"date(Measurement.tom) BETWEEN ? and ?" => array($db->expression("date('$params[min]')"), $db->expression("date('$params[max]')")),

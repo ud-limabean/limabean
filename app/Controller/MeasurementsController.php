@@ -1,7 +1,9 @@
 <?php
 
 class MeasurementsController extends AppController {
-	public $components = array('RequestHandler');
+	public $components = array('RequestHandler','Paginator');
+
+	public $paginate = array(null);
 	
 	public function beforeFilter() {
 		$this->RequestHandler->addInputType('json', array('json_decode', true));
@@ -19,16 +21,36 @@ class MeasurementsController extends AppController {
     }
 	
 	public function search() {
-	
-		$params = $this->request->data;
+		//debug($this->request);
+		$db = $this->Measurement->setDb();
+		if ($this->request->data){
+			$params = $this->request->data;
+		} else {
+			$params = $this->request->params;
+			$params = $params['named'];
+		}
+		
+		$this->Paginator->settings = array(
+			'limit' => 25,
+			'conditions' =>  array(
+					"Measurement.field" => $params['field'],
+					"date(Measurement.tom) BETWEEN ? and ?" => array($db->expression("date('$params[min]')"), $db->expression("date('$params[max]')")),
+					"Measurement.param" => $params['param']),
+			'order' => array(
+				'Measurements.tom' => 'asc'
+			)
+		);
+		$data = $this->Paginator->paginate('Measurement');
+		$this->set(compact('data'));
 
 		//for debugging
 		//$params = $this->params['named'];
 		
-		$search = $this->Measurement->search($params);
+		
+		//$search = $this->Measurement->search($params);
 		
 		$this->set('params', $params);
-		$this->set('search', $search);
+		//$this->set('search', $search);
 		//$this->set('_serialize', 'search');
     }
 	
