@@ -27,6 +27,7 @@ class MeasurementsController extends AppController {
 		
 		$search = $this->Measurement->search($params);
 		
+		$this->set('params', $params);
 		$this->set('search', $search);
 		//$this->set('_serialize', 'search');
     }

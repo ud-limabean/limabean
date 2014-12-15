@@ -276,6 +276,7 @@ function getInfo(){
         })
 		
 		.done(function( data ) {
+			showMessage(null);
             $("#info").html(data);
         });
 		
