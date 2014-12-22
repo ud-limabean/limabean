@@ -6,7 +6,7 @@ class Measurement extends AppModel {
 					"date(Measurement.tom) BETWEEN" => date($this->request->params[1]) AND date($this->request->params[2]),
 					"Measurement.param" => $this->request->params[3]); */
 
-	public function search($params) {
+	public function search($params,$format) {
 		$db = $this->getDataSource(); 
 		$conditions = array(
 					"Measurement.field" => $params['field'],
@@ -21,8 +21,20 @@ class Measurement extends AppModel {
 		// Example usage with a model:
 		
 		
-		$first = $this->find('all', array('conditions' => $conditions, 'limit' => 100));
-		return $first;
+		$results = $this->find('all', array('conditions' => $conditions, 'limit' => 5));
+		
+		if ($format == 'csv'){
+			foreach($results as $index => $values) { 
+				$results[$index] = $values['Measurement']; 
+			}
+			return $results;
+		} else {
+			return $results;
+		}
+		
+		//debug($results);
+		//exit();
+		
 		//return $conditions;
 		//$this->Measurement->find('first');
 		

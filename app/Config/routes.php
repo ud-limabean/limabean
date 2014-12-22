@@ -31,8 +31,10 @@
 	//Router::connect('/:action', array('controller' => 'home'));	
 	
 	//Router::connect('/', array('controller' => 'places', 'action' => 'home', 'home'));
+
+	Router::connect('/measurements/search/*', array('controller' => 'measurements', 'action' => 'search'));
 	
-	Router::connect('/measurements/*', array('controller' => 'measurements', 'action' => 'search'));
+	Router::connect('/measurements/csv_extract/*', array('controller' => 'measurements', 'action' => 'csv_extract'));
 /**
  * ...and connect the rest of 'Pages' controller's URLs.
  */

@@ -47,7 +47,6 @@ class HomeController extends AppController {
  */
 	public function display() {
 		//$this->set('places', $this->Place->find('all'));
-		
 		$this->layout = 'home';		
 		
 		/* $path = func_get_args();

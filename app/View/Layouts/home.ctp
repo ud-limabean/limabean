@@ -46,7 +46,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version());
 <body>
 	<div id="container">
 		<div id="header">
-			<?php //echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
+			<?php //echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?>
+			<?php echo $this->fetch('title'); ?>
 		</div>
 		<div id="content">
 
@@ -97,27 +98,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version());
 	<?php /* echo $this->element('sql_dump'); */?>
 </body>
 
-<script id="data-template" type="text/x-handlebars-template">
-  <div class="data">
-	<table>
-		<thead>
-		<tr>
-			<th scope="col">Date</th>
-			<th scope="col">Parameter</th>
-			<th scope="col">value</th>
-		</tr>
-		</thead>
-		<tbody>
-  {{#each Measurement}}
-  {{#if value}}
-	<tr><td>{{date}}</td><td>{{param}}</td><td>{{value}}</td></tr>
-  {{else}}
-	<h1>No values were found for this farm ({{field_id}})</h1>
-  {{/if}}
-  {{/each}}
-		</tbody>
-  </div>
-</script>
+
 
 <script id="params-template" type="text/x-handlebars-template">
   <div class="params">
@@ -137,7 +118,6 @@ lb.fields = {};
 lb.styles = {};
 lb.template = {};
 lb.template.params = function(){};
-lb.template.data = function(){};
 
 lb.params.min = "2009-01-01";
 lb.params.max = "2014-05-01";
@@ -179,8 +159,6 @@ $("#slider").dateRangeSlider({
 	});
 		
 //compiling handlebars
-lb.source = $("#data-template").html();
-lb.template.data = Handlebars.compile(lb.source);
 
 lb.source = $("#params-template").html();
 lb.template.params = Handlebars.compile(lb.source);
@@ -268,7 +246,7 @@ function getInfo(){
 	
    $.ajax({
           type: "POST",
-          url: 'measurements',
+          url: 'measurements/search',
 		  data: JSON.stringify(lb.params),
 		  dataType: "html",
 		  contentType: "application/json",
