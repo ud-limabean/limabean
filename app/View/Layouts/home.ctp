@@ -39,7 +39,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version());
 		echo $this->Html->script('jquery-ui-1.10.4.custom.min.js');
 		echo $this->Html->script('jQDateRangeSlider-min.js');
 		echo '<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>';
-		echo '<script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.2/handlebars.js"></script>';
 		echo '<script src="http://cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>';
 	?>
 </head>
@@ -97,17 +96,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version());
 	</div>
 	<?php /* echo $this->element('sql_dump'); */?>
 </body>
-
-
-
-<script id="params-template" type="text/x-handlebars-template">
-  <div class="params">
-	<h4>You have selected the following:</h4>
-	<ul>
-	<li>Field ID: {{field}}</li><li>Parameter: {{param}}</li><li>Date Range: {{min}} to {{max}}</li>
-	</ul>
-  </div>
-</script>
 	
 <script type="text/javascript">
 var lb = lb || {};
@@ -116,8 +104,6 @@ lb.info = {};
 lb.params = {};
 lb.fields = {};
 lb.styles = {};
-lb.template = {};
-lb.template.params = function(){};
 
 lb.params.min = "2009-01-01";
 lb.params.max = "2014-05-01";
@@ -158,10 +144,6 @@ $("#slider").dateRangeSlider({
       }
 	});
 		
-//compiling handlebars
-
-lb.source = $("#params-template").html();
-lb.template.params = Handlebars.compile(lb.source);
 
 
 //map marker event handler
@@ -223,7 +205,7 @@ function showMessage(strMessage){
 	$("#info").append(strMessage); 
 }
 
-//retrieve data and display with handlebars template
+//retrieve data and display
 function getInfo(){
 	showProgress();
 	if (typeof lb.params.field === 'undefined') {
@@ -257,22 +239,43 @@ function getInfo(){
 			showMessage(null);
             $("#info").html(data);
         });
+}
+
+//retrieve data and export
+function getCsv(){
+	showProgress();
+	if (typeof lb.params.field === 'undefined') {
+		showMessage('<h3>You must click a field (on the map) to retrieve data.  Click on a marker in the map to select a field.</h3>');
+		return false;
+	}
+	
+	/*
+	paramString = '';
+	
+	 
+	
+	$.each(lb.params, function( index, value ) {
+		paramString += ('/' + index + ':' + value);
+	}); */
+	
+	//urlString = 'measurements' + paramString;
+	
+	lb.params.param=$("#selParameter").val();
+	
+   $.ajax({
+          type: "POST",
+          url: 'measurements/search',
+		  data: JSON.stringify(lb.params),
+		  dataType: "html",
+		  contentType: "application/json",
+		  cache: false
+        })
 		
-        /* .done(function( data ) {
-				console.log(data);
-                // lb.layerData.addData(data.jsonObjects[0]);
-				$( "#progress" ).hide();
-				if(data.length == 0){
-					strMessage = '<h3>No ' + lb.params.param + ' data was found for field ' + lb.params.field + ' between ' + lb.params.min + ' and ' + lb.params.max + '</h3>';
-					showMessage(strMessage);
-					return false;
-				}
-				
-				var html = lb.template.params(lb.params);
-				$("#info").append(html);
-				var html = lb.template.data(data);
-				$("#info").append(html);
-		}); */
+		.done(function( data ) {
+			showMessage(null);
+            $("#info").html(data);
+        });
+		
 }
 
 function getLayer(){
