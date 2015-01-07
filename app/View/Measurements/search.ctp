@@ -7,6 +7,20 @@
 	<ul>
 	<?php print "<li>Field ID: $params[field]</li><li>Parameter: $params[param]</li><li>Date Range: $params[min] to $params[max]</li>"; ?>
 	</ul>
+	<div><?php
+	/* echo $this->Html->tag(
+	    'span',
+		'Export as CSV',
+		array('onclick' => 'getCsv()','class' => 'button')
+		); */
+		echo $this->Html->link(
+			'Export as CSV',
+			array('controller' => 'measurements', 'action' => 'csv_extract', 'field'=>$params['field'],'param'=>$params['param'],'min'=>$params['min'],'max'=>$params['max']),
+			array('class' => 'button', 'target' => '_blank')
+		);
+	?>
+	</div>
+	
  </div>
  
 <!-- Begin data div/table -->

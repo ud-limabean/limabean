@@ -243,39 +243,19 @@ function getInfo(){
 
 //retrieve data and export
 function getCsv(){
-	showProgress();
-	if (typeof lb.params.field === 'undefined') {
-		showMessage('<h3>You must click a field (on the map) to retrieve data.  Click on a marker in the map to select a field.</h3>');
-		return false;
-	}
-	
-	/*
-	paramString = '';
-	
-	 
-	
-	$.each(lb.params, function( index, value ) {
-		paramString += ('/' + index + ':' + value);
-	}); */
-	
-	//urlString = 'measurements' + paramString;
-	
-	lb.params.param=$("#selParameter").val();
 	
    $.ajax({
           type: "POST",
-          url: 'measurements/search',
+          url: 'measurements/csv_extract',
 		  data: JSON.stringify(lb.params),
-		  dataType: "html",
+		  dataType: "text/csv",
 		  contentType: "application/json",
 		  cache: false
         })
-		
-		.done(function( data ) {
+	.done(function( data ) {
 			showMessage(null);
             $("#info").html(data);
-        });
-		
+        });	
 }
 
 function getLayer(){

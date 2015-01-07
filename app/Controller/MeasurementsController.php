@@ -36,9 +36,15 @@ class MeasurementsController extends AppController {
 		//need param for format
 	
 		//$params = $this->request->data;
+		
+		if($this->request->params['named']){
+			$params = $this->request->params['named'];
+		} else {
+			$params = $this->request->data;
+		}
 
 		//for debugging
-		$params = $this->request->params['named'];
+		#$params = $this->request->params['named'];
 		#debug($params);
 		
 		$results = $this->Measurement->search($params,'csv');
