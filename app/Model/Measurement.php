@@ -21,8 +21,9 @@ class Measurement extends AppModel {
 		// Example usage with a model:
 		
 		
-		$results = $this->find('all', array('conditions' => $conditions, 'limit' => 5));
-		
+		#$results = $this->find('all', array('conditions' => $conditions, 'limit' => 5));
+		$results = $this->find('all', array('conditions' => $conditions));		
+
 		if ($format == 'csv'){
 			foreach($results as $index => $values) { 
 				$results[$index] = $values['Measurement']; 
