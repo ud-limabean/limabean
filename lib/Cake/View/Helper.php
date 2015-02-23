@@ -320,8 +320,7 @@ class Helper extends Object {
 		if (!empty($options['pathPrefix']) && $path[0] !== '/') {
 			$path = $options['pathPrefix'] . $path;
 		}
-		if (
-			!empty($options['ext']) &&
+		if (!empty($options['ext']) &&
 			strpos($path, '?') === false &&
 			substr($path, -strlen($options['ext'])) !== $options['ext']
 		) {
@@ -406,7 +405,7 @@ class Helper extends Object {
  * content is the best way to prevent all possible attacks.
  *
  * @param string|array $output Either an array of strings to clean or a single string to clean.
- * @return string|array cleaned content for output
+ * @return string|array|null Cleaned content for output
  * @deprecated 3.0.0 This method will be removed in 3.0
  */
 	public function clean($output) {
@@ -543,8 +542,7 @@ class Helper extends Object {
 		$lastPart = isset($parts[$count - 1]) ? $parts[$count - 1] : null;
 
 		// Either 'body' or 'date.month' type inputs.
-		if (
-			($count === 1 && $this->_modelScope && !$setScope) ||
+		if (($count === 1 && $this->_modelScope && !$setScope) ||
 			(
 				$count === 2 &&
 				in_array($lastPart, $this->_fieldSuffixes) &&
@@ -556,8 +554,7 @@ class Helper extends Object {
 		}
 
 		// 0.name, 0.created.month style inputs. Excludes inputs with the modelScope in them.
-		if (
-			$count >= 2 &&
+		if ($count >= 2 &&
 			is_numeric($parts[0]) &&
 			!is_numeric($parts[1]) &&
 			$this->_modelScope &&

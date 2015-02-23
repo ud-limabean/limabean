@@ -171,6 +171,22 @@ class FolderTest extends CakeTestCase {
 	}
 
 /**
+ * Test that relative paths to create() are added to cwd.
+ *
+ * @return void
+ */
+	public function testCreateRelative() {
+		$folder = new Folder(TMP);
+		$path = TMP . 'tests' . DS . 'relative-test';
+		$result = $folder->create('tests' . DS . 'relative-test');
+		$this->assertTrue($result, 'should create');
+
+		$this->assertTrue(is_dir($path), 'Folder was not made');
+		$folder = new Folder($path);
+		$folder->delete();
+	}
+
+/**
  * test recursive directory create failure.
  *
  * @return void
@@ -548,6 +564,8 @@ class FolderTest extends CakeTestCase {
 		$this->assertFalse(Folder::isAbsolute('0:\\path\\to\\file'));
 		$this->assertFalse(Folder::isAbsolute('\\path/to/file'));
 		$this->assertFalse(Folder::isAbsolute('\\path\\to\\file'));
+		$this->assertFalse(Folder::isAbsolute('notRegisteredStreamWrapper://example'));
+		$this->assertFalse(Folder::isAbsolute('://example'));
 
 		$this->assertTrue(Folder::isAbsolute('/usr/local'));
 		$this->assertTrue(Folder::isAbsolute('//path/to/file'));
@@ -555,6 +573,7 @@ class FolderTest extends CakeTestCase {
 		$this->assertTrue(Folder::isAbsolute('C:\\path\\to\\file'));
 		$this->assertTrue(Folder::isAbsolute('d:\\path\\to\\file'));
 		$this->assertTrue(Folder::isAbsolute('\\\\vmware-host\\Shared Folders\\file'));
+		$this->assertTrue(Folder::isAbsolute('http://www.example.com'));
 	}
 
 /**

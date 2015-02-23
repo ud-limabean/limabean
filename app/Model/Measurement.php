@@ -1,49 +1,65 @@
 <?php
 App::uses('AppModel', 'Model');
+/**
+ * Measurement Model
+ *
+ * @property DivField $DivField
+ * @property MeasurementParameter $MeasurementParameter
+ * @property ObsUnit $ObsUnit
+ * @property StatisticType $StatisticType
+ */
 class Measurement extends AppModel {
-	/* $conditions = array(
-					"Measurement.field_id_1" => $this->request->params[0],
-					"date(Measurement.tom) BETWEEN" => date($this->request->params[1]) AND date($this->request->params[2]),
-					"Measurement.param" => $this->request->params[3]); */
 
-	public function search($params,$format) {
-		$db = $this->getDataSource(); 
-		$conditions = array(
-					"Measurement.field" => $params['field'],
-					"date(Measurement.tom) BETWEEN ? and ?" => array($db->expression("date('$params[min]')"), $db->expression("date('$params[max]')")),
-					"Measurement.param" => $params['param']);
-						
-		/* $conditions = array(
-					"Measurement.field" => '40',
-					"date(Measurement.tom) BETWEEN" => "date('2009-01-01') AND date('2014-05-01')",
-					"Measurement.param" => 'AirTemperature'); */
-					
-		// Example usage with a model:
-		
-		
-		#$results = $this->find('all', array('conditions' => $conditions, 'limit' => 5));
-		$results = $this->find('all', array('conditions' => $conditions));		
+/**
+ * Use table
+ *
+ * @var mixed False or table name
+ */
+	public $useTable = 'measurement';
 
-		if ($format == 'csv'){
-			foreach($results as $index => $values) { 
-				$results[$index] = $values['Measurement']; 
-			}
-			return $results;
-		} else {
-			return $results;
-		}
-		
-		//debug($results);
-		//exit();
-		
-		//return $conditions;
-		//$this->Measurement->find('first');
-		
-		//$this->set('measurements', $this->Measurement->find('all'));
-		//echo print_r($this->request->params);
-        //action logic goes here..
-		//$this->request->params
-    }
+/**
+ * Primary key field
+ *
+ * @var string
+ */
+	public $primaryKey = 'div_measurement_id';
+
+
+	//The Associations below have been created with all possible keys, those that are not needed can be removed
+
+/**
+ * belongsTo associations
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'field' => array(
+			'className' => 'field',
+			'foreignKey' => 'div_field_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'MeasurementParameter' => array(
+			'className' => 'MeasurementParameter',
+			'foreignKey' => 'div_measurement_parameter_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'ObsUnit' => array(
+			'className' => 'ObsUnit',
+			'foreignKey' => 'div_obs_unit_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'StatisticType' => array(
+			'className' => 'StatisticType',
+			'foreignKey' => 'div_statistic_type_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)
+	);
 }
-
-?>

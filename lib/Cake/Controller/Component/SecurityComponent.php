@@ -355,7 +355,7 @@ class SecurityComponent extends Component {
  * Check if HTTP methods are required
  *
  * @param Controller $controller Instantiating controller
- * @return bool true if $method is required
+ * @return bool True if $method is required
  */
 	protected function _methodsRequired(Controller $controller) {
 		foreach (array('Post', 'Get', 'Put', 'Delete') as $method) {
@@ -365,7 +365,7 @@ class SecurityComponent extends Component {
 				if (in_array($this->_action, $require) || $this->$property === array('*')) {
 					if (!$this->request->is($method)) {
 						if (!$this->blackHole($controller, $method)) {
-							return null;
+							return false;
 						}
 					}
 				}
@@ -378,7 +378,7 @@ class SecurityComponent extends Component {
  * Check if access requires secure connection
  *
  * @param Controller $controller Instantiating controller
- * @return bool true if secure connection required
+ * @return bool True if secure connection required
  */
 	protected function _secureRequired(Controller $controller) {
 		if (is_array($this->requireSecure) && !empty($this->requireSecure)) {
@@ -387,7 +387,7 @@ class SecurityComponent extends Component {
 			if (in_array($this->_action, $requireSecure) || $this->requireSecure === array('*')) {
 				if (!$this->request->is('ssl')) {
 					if (!$this->blackHole($controller, 'secure')) {
-						return null;
+						return false;
 					}
 				}
 			}
@@ -399,7 +399,7 @@ class SecurityComponent extends Component {
  * Check if authentication is required
  *
  * @param Controller $controller Instantiating controller
- * @return bool true if authentication required
+ * @return bool|null True if authentication required
  */
 	protected function _authRequired(Controller $controller) {
 		if (is_array($this->requireAuth) && !empty($this->requireAuth) && !empty($this->request->data)) {
@@ -415,8 +415,7 @@ class SecurityComponent extends Component {
 				if ($this->Session->check('_Token')) {
 					$tData = $this->Session->read('_Token');
 
-					if (
-						!empty($tData['allowedControllers']) &&
+					if (!empty($tData['allowedControllers']) &&
 						!in_array($this->request->params['controller'], $tData['allowedControllers']) ||
 						!empty($tData['allowedActions']) &&
 						!in_array($this->request->params['action'], $tData['allowedActions'])

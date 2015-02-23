@@ -1,104 +1,212 @@
 <?php
-
+App::Import('Model', 'Field');
+App::uses('AppController', 'Controller');
+/**
+ * Measurements Controller
+ *
+ * @property Measurement $Measurement
+ * @property PaginatorComponent $Paginator
+ */
 class MeasurementsController extends AppController {
-	public $components = array('RequestHandler');
-	
-	public function beforeFilter() {
-		$this->RequestHandler->addInputType('json', array('json_decode', true));
-		
-		/* $parser = function ($data) {
-			parse_str ( string $str [, array &$arr ] )
-			return json_decode($data, true);
-		};
-		
-		$this->RequestHandler->addInputType('json', array($parser)); */
-		
-		if ($this->request->is('ajax')) {
-			$this->disableCache();
-		}
-    }
-	
-	public function search() {
-	
-		$params = $this->request->data;
 
-		//for debugging
-		//$params = $this->params['named'];
-		
-		$search = $this->Measurement->search($params,'html');
-		
-		$this->set('params', $params);
-		$this->set('search', $search);
-		//$this->set('_serialize', 'search');
-    }
-	
-	public function csv_extract() {
-		//need param for format
-	
-		//$params = $this->request->data;
-		
-		if($this->request->params['named']){
-			$params = $this->request->params['named'];
+/**
+ * Components
+ *
+ * @var array
+ */
+	public $components = array('Paginator');
+
+/**
+ * index method
+ *
+ * @return void
+ */
+	public function index() {
+		$this->Measurement->recursive = 0;
+		$this->set('measurements', $this->Paginator->paginate());
+	}
+
+/**
+ * view method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function view($id = null) {
+		if (!$this->Measurement->exists($id)) {
+			throw new NotFoundException(__('Invalid measurement'));
+		}
+		$options = array('conditions' => array('Measurement.' . $this->Measurement->primaryKey => $id));
+		$this->set('measurement', $this->Measurement->find('first', $options));
+	}
+
+/**
+ * add method
+ *
+ * @return void
+ */
+	public function add() {
+		if ($this->request->is('post')) {
+			$this->Measurement->create();
+			if ($this->Measurement->save($this->request->data)) {
+				$this->Session->setFlash(__('The measurement has been saved.'));
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The measurement could not be saved. Please, try again.'));
+			}
+		}
+		$fields = $this->Measurement->field->find('list');
+		$measurementParameters = $this->Measurement->measurementParameter->find('list');
+		$divObsUnits = $this->Measurement->ObsUnit->find('list');
+		$divStatisticTypes = $this->Measurement->StatisticType->find('list');
+		$this->set(compact('fields', 'measurementParameters', 'cdvSources', 'divObsUnits', 'divStatisticTypes'));
+	}
+
+/**
+ * edit method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function edit($id = null) {
+		if (!$this->Measurement->exists($id)) {
+			throw new NotFoundException(__('Invalid measurement'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			if ($this->Measurement->save($this->request->data)) {
+				$this->Session->setFlash(__('The measurement has been saved.'));
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The measurement could not be saved. Please, try again.'));
+			}
 		} else {
-			$params = $this->request->data;
+			$options = array('conditions' => array('Measurement.' . $this->Measurement->primaryKey => $id));
+			$this->request->data = $this->Measurement->find('first', $options);
 		}
+		$fields = $this->Measurement->field->find('list');
+		$divMeasurementParameters = $this->Measurement->measurementParameter->find('list');
+		$divObsUnits = $this->Measurement->ObsUnit->find('list');
+		$divStatisticTypes = $this->Measurement->StatisticType->find('list');
+		$this->set(compact('fields', 'divMeasurementParameters', 'cdvSources', 'divObsUnits', 'divStatisticTypes'));
+	}
 
-		//for debugging
-		#$params = $this->request->params['named'];
-		#debug($params);
-		
-		$results = $this->Measurement->search($params,'csv');
-		#$this->CsvView->quickExport($results);
-		
-		#$results = $this->Measurement->find('first');
+/**
+ * delete method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function delete($id = null) {
+		$this->Measurement->id = $id;
+		if (!$this->Measurement->exists()) {
+			throw new NotFoundException(__('Invalid measurement'));
+		}
+		$this->request->allowMethod('post', 'delete');
+		if ($this->Measurement->delete()) {
+			$this->Session->setFlash(__('The measurement has been deleted.'));
+		} else {
+			$this->Session->setFlash(__('The measurement could not be deleted. Please, try again.'));
+		}
+		return $this->redirect(array('action' => 'index'));
+	}
 
-		//$excludePaths = array('City.id', 'State.id', 'State.Country.id'); // Exclude all id fields
-		//$_extract = $this->CsvView->prepareExtractFromFindResults($results, $excludePaths);
+/**
+ * admin_index method
+ *
+ * @return void
+ */
+	public function admin_index() {
+		$this->Measurement->recursive = 0;
+		$this->set('measurements', $this->Paginator->paginate());
+	}
 
-		//$customHeaders = array('City.population' => 'No. of People');
-		//$_header = $this->CsvView->prepareHeaderFromExtract($_extract, $customHeaders);
+/**
+ * admin_view method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function admin_view($id = null) {
+		if (!$this->Measurement->exists($id)) {
+			throw new NotFoundException(__('Invalid measurement'));
+		}
+		$options = array('conditions' => array('Measurement.' . $this->Measurement->primaryKey => $id));
+		$this->set('measurement', $this->Measurement->find('first', $options));
+	}
 
-		$_serialize = 'results';
-		$this->viewClass = 'CsvView.Csv';
-		//$this->set(compact('results' ,'_serialize', '_header', '_extract'));
-		$this->set(compact('results' ,'_serialize'));
-    }
-	
-	public function kml_extract() {
-		//need param for format
-		$this->RequestHandler->setContent('kml', 'application/vnd.google-earth.kml+xml');
-		$params = $this->request->data;
+/**
+ * admin_add method
+ *
+ * @return void
+ */
+	public function admin_add() {
+		if ($this->request->is('post')) {
+			$this->Measurement->create();
+			if ($this->Measurement->save($this->request->data)) {
+				$this->Session->setFlash(__('The measurement has been saved.'));
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The measurement could not be saved. Please, try again.'));
+			}
+		}
+		$fields = $this->Measurement->field->find('list');
+		$divMeasurementParameters = $this->Measurement->measurementParameter->find('list');
+		$divObsUnits = $this->Measurement->ObsUnit->find('list');
+		$divStatisticTypes = $this->Measurement->StatisticType->find('list');
+		$this->set(compact('fields', 'divMeasurementParameters', 'cdvSources', 'divObsUnits', 'divStatisticTypes'));
+	}
 
-		//for debugging
-		//$params = $this->params['named'];
-		
-		$search = $this->Measurement->search($params);
-		
-		
-		
-		//$this->set('params', $params);
-		//$this->set('search', $search);
-		//$this->set('_serialize', 'search');
-    }
-	
-	public function json_search() {
-		if ($this->RequestHandler->accepts('json')) {
-            $this->disableCache();
-			$this->RequestHandler->setContent('json', 'application/json');
-        }
-	
-		$params = $this->request->data;
+/**
+ * admin_edit method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function admin_edit($id = null) {
+		if (!$this->Measurement->exists($id)) {
+			throw new NotFoundException(__('Invalid measurement'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			if ($this->Measurement->save($this->request->data)) {
+				$this->Session->setFlash(__('The measurement has been saved.'));
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The measurement could not be saved. Please, try again.'));
+			}
+		} else {
+			$options = array('conditions' => array('Measurement.' . $this->Measurement->primaryKey => $id));
+			$this->request->data = $this->Measurement->find('first', $options);
+		}
+		$fields = $this->Measurement->field->find('list');
+		$measurementParameters = $this->Measurement->measurementParameter->find('list');
+		$ObsUnits = $this->Measurement->ObsUnit->find('list');
+		$divStatisticTypes = $this->Measurement->StatisticType->find('list');
+		$this->set(compact('fields', 'measurementParameters', 'cdvSources', 'divObsUnits', 'divStatisticTypes'));
+	}
 
-		//for debugging
-		//$params = $this->params['named'];
-		
-		$search = $this->Measurement->search($params);
-		
-		$this->set('search', $search);
-		$this->set('_serialize', 'search');
-		$this->render('json_search');
-    }
-	
+/**
+ * admin_delete method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function admin_delete($id = null) {
+		$this->Measurement->id = $id;
+		if (!$this->Measurement->exists()) {
+			throw new NotFoundException(__('Invalid measurement'));
+		}
+		$this->request->allowMethod('post', 'delete');
+		if ($this->Measurement->delete()) {
+			$this->Session->setFlash(__('The measurement has been deleted.'));
+		} else {
+			$this->Session->setFlash(__('The measurement could not be deleted. Please, try again.'));
+		}
+		return $this->redirect(array('action' => 'index'));
+	}
 }
-
-?>
