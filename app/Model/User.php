@@ -2,25 +2,25 @@
 
 App::uses('AppModel', 'Model');
 /**
- * Field Model
+ * User Model
  *
  */
-class Field extends AppModel {
+class User extends AppModel {
 
 /**
  * Use table
  *
  * @var mixed False or table name
  */
-	public $useTable = 'fields';
+	//public $useTable = 'div_users';
 
 /**
  * Primary key field
  *
  * @var string
  */
-	public $primaryKey = 'div_field_id';
-
+	public $primaryKey = 'div_users_id';
+	public $displayField = 'username';
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 public $hasMany = array(

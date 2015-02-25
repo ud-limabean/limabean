@@ -20,7 +20,7 @@ class Field extends AppModel {
  * @var string
  */
 	public $primaryKey = 'div_field_id';
-
+	public $displayField = 'div_locality_id';
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 public $hasMany = array(

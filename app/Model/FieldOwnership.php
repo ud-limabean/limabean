@@ -19,7 +19,7 @@ class FieldOwnership extends AppModel {
  *
  * @var string
  */
-//	public $primaryKey = 'id';
+	public $primaryKey = 'id';
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -31,19 +31,17 @@ class FieldOwnership extends AppModel {
  */
 	public $belongsTo = array(
 		'Field' => array(
-			'className' => 'field',
-			'foreignKey' => 'div_field_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
+			'className' => 'Field',
+			'foreignKey' => 'div_field_id'
+		//	'conditions' => '',
+		//	'fields' => '',
+		//	'order' => ''
 		),
 		'User' => array(
 			'className' => 'User',
-			'foreignKey' => 'lb_user_id',
+			'foreignKey' => 'div_users_id',
 			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
+		));
 /*		'CdvSource' => array(
 			'className' => 'CdvSource',
 			'foreignKey' => 'cdv_source_id',
@@ -64,6 +62,6 @@ class FieldOwnership extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-*/		)
-	);
+		)
+	); */
 }
