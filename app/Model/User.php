@@ -24,7 +24,9 @@ class User extends AppModel {
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 public $hasMany = array(
-        'FieldOwnership'
+        'FieldOwnership'  => array(
+                'foreignKey' => 'div_users_id'
+        )
     );
 /**
  * belongsTo associations

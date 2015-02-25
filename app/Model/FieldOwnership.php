@@ -34,7 +34,7 @@ class FieldOwnership extends AppModel {
 			'className' => 'Field',
 			'foreignKey' => 'div_field_id'
 		//	'conditions' => '',
-		//	'fields' => '',
+		//	'fields' => 'div_field_id',
 		//	'order' => ''
 		),
 		'User' => array(
