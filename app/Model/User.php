@@ -12,20 +12,21 @@ class User extends AppModel {
  *
  * @var mixed False or table name
  */
-	//public $useTable = 'div_users';
+	public $useTable = 'lb_users';
 
 /**
  * Primary key field
  *
  * @var string
  */
-	public $primaryKey = 'div_users_id';
+	public $primaryKey = 'id';
 	public $displayField = 'username';
+	public $tablePrefix = '';
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 public $hasMany = array(
         'FieldOwnership'  => array(
-                'foreignKey' => 'div_users_id'
+                'foreignKey' => 'user_id'
         )
     );
 /**

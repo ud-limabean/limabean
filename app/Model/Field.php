@@ -12,20 +12,21 @@ class Field extends AppModel {
  *
  * @var mixed False or table name
  */
-	public $useTable = 'fields';
+	public $useTable = 'lb_fields';
 
 /**
  * Primary key field
  *
  * @var string
  */
-	public $primaryKey = 'div_field_id';
+	public $primaryKey = 'id';
 	public $displayField = 'div_locality_id';
+	public $tablePrefix = '';
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 public $hasMany = array(
         'FieldOwnership' => array(
-		'foreignKey' => 'div_field_id'
+		'foreignKey' => 'field_id'
 	)
     );
 /**

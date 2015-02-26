@@ -12,7 +12,7 @@ class FieldOwnership extends AppModel {
  *
  * @var mixed False or table name
  */
-//	public $useTable = 'fields';
+	public $useTable = 'lb_field_ownerships';
 
 /**
  * Primary key field
@@ -20,6 +20,7 @@ class FieldOwnership extends AppModel {
  * @var string
  */
 	public $primaryKey = 'id';
+	public $tablePrefix = '';
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -32,14 +33,14 @@ class FieldOwnership extends AppModel {
 	public $belongsTo = array(
 		'Field' => array(
 			'className' => 'Field',
-			'foreignKey' => 'div_field_id'
+			'foreignKey' => 'field_id'
 		//	'conditions' => '',
 		//	'fields' => 'div_field_id',
 		//	'order' => ''
 		),
 		'User' => array(
 			'className' => 'User',
-			'foreignKey' => 'div_users_id',
+			'foreignKey' => 'user_id',
 			'conditions' => '',
 		));
 /*		'CdvSource' => array(
