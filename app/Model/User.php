@@ -21,7 +21,7 @@ class User extends AppModel {
  */
 	public $primaryKey = 'id';
 	public $displayField = 'username';
-	public $tablePrefix = '';
+	//public $tablePrefix = '';
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 public $hasMany = array(

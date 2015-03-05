@@ -3,7 +3,7 @@
 	<dl>
 		<dt><?php echo __('Div Field Id'); ?></dt>
 		<dd>
-			<?php echo h($field['Field']['id']); ?>
+			<?php echo h($field['Field']['div_field_id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Div Field Acc'); ?></dt>
@@ -51,8 +51,8 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('Edit Field'), array('action' => 'edit', $field['Field']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Field'), array('action' => 'delete', $field['Field']['id']), array(), __('Are you sure you want to delete # %s?', $field['Field']['id'])); ?> </li>
+		<li><?php echo $this->Html->link(__('Edit Field'), array('action' => 'edit', $field['Field']['div_field_id'])); ?> </li>
+		<li><?php echo $this->Form->postLink(__('Delete Field'), array('action' => 'delete', $field['Field']['div_field_id']), array(), __('Are you sure you want to delete # %s?', $field['Field']['div_field_id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('List Fields'), array('action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Field'), array('action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Field Ownerships'), array('controller' => 'field_ownerships', 'action' => 'index')); ?> </li>

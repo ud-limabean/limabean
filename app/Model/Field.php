@@ -12,14 +12,14 @@ class Field extends AppModel {
  *
  * @var mixed False or table name
  */
-	public $useTable = 'lb_fields';
+	public $useTable = 'div_field';
 
 /**
  * Primary key field
  *
  * @var string
  */
-	public $primaryKey = 'id';
+	public $primaryKey = 'div_field_id';
 	public $displayField = 'div_locality_id';
 	public $tablePrefix = '';
 

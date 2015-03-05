@@ -3,7 +3,7 @@
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
+			<th><?php echo $this->Paginator->sort('div_field_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('div_field_acc'); ?></th>
 			<th><?php echo $this->Paginator->sort('div_locality_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('field_name'); ?></th>
@@ -18,7 +18,7 @@
 	<tbody>
 	<?php foreach ($fields as $field): ?>
 	<tr>
-		<td><?php echo h($field['Field']['id']); ?>&nbsp;</td>
+		<td><?php echo h($field['Field']['div_field_id']); ?>&nbsp;</td>
 		<td><?php echo h($field['Field']['div_field_acc']); ?>&nbsp;</td>
 		<td><?php echo h($field['Field']['div_locality_id']); ?>&nbsp;</td>
 		<td><?php echo h($field['Field']['field_name']); ?>&nbsp;</td>
@@ -28,9 +28,9 @@
 		<td><?php echo h($field['Field']['longitude']); ?>&nbsp;</td>
 		<td><?php echo h($field['Field']['field_comments']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $field['Field']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $field['Field']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $field['Field']['id']), array(), __('Are you sure you want to delete # %s?', $field['Field']['id'])); ?>
+			<?php echo $this->Html->link(__('View'), array('action' => 'view', $field['Field']['div_field_id'])); ?>
+			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $field['Field']['div_field_id'])); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $field['Field']['div_field_id']), array(), __('Are you sure you want to delete # %s?', $field['Field']['div_field_id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
