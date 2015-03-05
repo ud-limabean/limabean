@@ -1,5 +1,4 @@
 <?php
-App::Import('Model', 'Field');
 App::uses('AppController', 'Controller');
 /**
  * Measurements Controller
@@ -56,11 +55,11 @@ class MeasurementsController extends AppController {
 				$this->Session->setFlash(__('The measurement could not be saved. Please, try again.'));
 			}
 		}
-		$fields = $this->Measurement->field->find('list');
-		$measurementParameters = $this->Measurement->measurementParameter->find('list');
-		$divObsUnits = $this->Measurement->ObsUnit->find('list');
-		$divStatisticTypes = $this->Measurement->StatisticType->find('list');
-		$this->set(compact('fields', 'measurementParameters', 'cdvSources', 'divObsUnits', 'divStatisticTypes'));
+		$fields = $this->Measurement->Field->find('list');
+		$measurementParameters = $this->Measurement->MeasurementParameter->find('list');
+		$obsUnits = $this->Measurement->ObsUnit->find('list');
+		$statisticTypes = $this->Measurement->StatisticType->find('list');
+		$this->set(compact('fields', 'measurementParameters', 'obsUnits', 'statisticTypes'));
 	}
 
 /**
@@ -85,11 +84,11 @@ class MeasurementsController extends AppController {
 			$options = array('conditions' => array('Measurement.' . $this->Measurement->primaryKey => $id));
 			$this->request->data = $this->Measurement->find('first', $options);
 		}
-		$fields = $this->Measurement->field->find('list');
-		$divMeasurementParameters = $this->Measurement->measurementParameter->find('list');
-		$divObsUnits = $this->Measurement->ObsUnit->find('list');
-		$divStatisticTypes = $this->Measurement->StatisticType->find('list');
-		$this->set(compact('fields', 'divMeasurementParameters', 'cdvSources', 'divObsUnits', 'divStatisticTypes'));
+		$fields = $this->Measurement->Field->find('list');
+		$measurementParameters = $this->Measurement->MeasurementParameter->find('list');
+		$obsUnits = $this->Measurement->ObsUnit->find('list');
+		$statisticTypes = $this->Measurement->StatisticType->find('list');
+		$this->set(compact('fields', 'measurementParameters', 'obsUnits', 'statisticTypes'));
 	}
 
 /**
@@ -153,11 +152,11 @@ class MeasurementsController extends AppController {
 				$this->Session->setFlash(__('The measurement could not be saved. Please, try again.'));
 			}
 		}
-		$fields = $this->Measurement->field->find('list');
-		$divMeasurementParameters = $this->Measurement->measurementParameter->find('list');
-		$divObsUnits = $this->Measurement->ObsUnit->find('list');
-		$divStatisticTypes = $this->Measurement->StatisticType->find('list');
-		$this->set(compact('fields', 'divMeasurementParameters', 'cdvSources', 'divObsUnits', 'divStatisticTypes'));
+		$fields = $this->Measurement->Field->find('list');
+		$measurementParameters = $this->Measurement->MeasurementParameter->find('list');
+		$obsUnits = $this->Measurement->ObsUnit->find('list');
+		$statisticTypes = $this->Measurement->StatisticType->find('list');
+		$this->set(compact('fields', 'measurementParameters', 'obsUnits', 'statisticTypes'));
 	}
 
 /**
@@ -182,11 +181,11 @@ class MeasurementsController extends AppController {
 			$options = array('conditions' => array('Measurement.' . $this->Measurement->primaryKey => $id));
 			$this->request->data = $this->Measurement->find('first', $options);
 		}
-		$fields = $this->Measurement->field->find('list');
-		$measurementParameters = $this->Measurement->measurementParameter->find('list');
-		$ObsUnits = $this->Measurement->ObsUnit->find('list');
-		$divStatisticTypes = $this->Measurement->StatisticType->find('list');
-		$this->set(compact('fields', 'measurementParameters', 'cdvSources', 'divObsUnits', 'divStatisticTypes'));
+		$fields = $this->Measurement->Field->find('list');
+		$measurementParameters = $this->Measurement->MeasurementParameter->find('list');
+		$obsUnits = $this->Measurement->ObsUnit->find('list');
+		$statisticTypes = $this->Measurement->StatisticType->find('list');
+		$this->set(compact('fields', 'measurementParameters', 'obsUnits', 'statisticTypes'));
 	}
 
 /**

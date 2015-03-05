@@ -3,7 +3,7 @@ App::uses('AppModel', 'Model');
 /**
  * Measurement Model
  *
- * @property DivField $DivField
+ * @property Field $Field
  * @property MeasurementParameter $MeasurementParameter
  * @property ObsUnit $ObsUnit
  * @property StatisticType $StatisticType
@@ -24,6 +24,13 @@ class Measurement extends AppModel {
  */
 	public $primaryKey = 'div_measurement_id';
 
+/**
+ * Display field
+ *
+ * @var string
+ */
+	public $displayField = 'div_measurement_id';
+
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -33,8 +40,8 @@ class Measurement extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'field' => array(
-			'className' => 'field',
+		'Field' => array(
+			'className' => 'Field',
 			'foreignKey' => 'div_field_id',
 			'conditions' => '',
 			'fields' => '',

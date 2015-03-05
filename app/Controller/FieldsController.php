@@ -5,7 +5,6 @@ App::uses('AppController', 'Controller');
  *
  * @property Field $Field
  * @property PaginatorComponent $Paginator
- * @property SessionComponent $Session
  */
 class FieldsController extends AppController {
 
@@ -14,7 +13,7 @@ class FieldsController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator', 'Session');
+	public $components = array('Paginator');
 
 /**
  * index method
@@ -37,8 +36,15 @@ class FieldsController extends AppController {
 		if (!$this->Field->exists($id)) {
 			throw new NotFoundException(__('Invalid field'));
 		}
-		$options = array('conditions' => array('Field.' . $this->Field->primaryKey => $id));
+		//$options = array('conditions' => array('Field.' . $this->Field->primaryKey => $id));
+		//$this->Field->recursive = 0;
+		//$this->set('field', $this->Field->find('first', $options));
+		$options = array(
+			'conditions' => array('Field.' . $this->Field->primaryKey => $id),
+			'contain' => array('Locality','Measurement.tom like "2013-01-03%"')
+		);
 		$this->set('field', $this->Field->find('first', $options));
+			
 	}
 
 /**

@@ -20,7 +20,9 @@
 	<tr>
 		<td><?php echo h($field['Field']['div_field_id']); ?>&nbsp;</td>
 		<td><?php echo h($field['Field']['div_field_acc']); ?>&nbsp;</td>
-		<td><?php echo h($field['Field']['div_locality_id']); ?>&nbsp;</td>
+		<td>
+			<?php echo $this->Html->link($field['Locality']['locality_name'], array('controller' => 'localities', 'action' => 'view', $field['Locality']['div_locality_id'])); ?>
+		</td>
 		<td><?php echo h($field['Field']['field_name']); ?>&nbsp;</td>
 		<td><?php echo h($field['Field']['field_number']); ?>&nbsp;</td>
 		<td><?php echo h($field['Field']['altitude']); ?>&nbsp;</td>
@@ -54,7 +56,9 @@
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Field'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Field Ownerships'), array('controller' => 'field_ownerships', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Field Ownership'), array('controller' => 'field_ownerships', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Localities'), array('controller' => 'localities', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Locality'), array('controller' => 'localities', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Measurements'), array('controller' => 'measurements', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Measurement'), array('controller' => 'measurements', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

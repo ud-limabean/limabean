@@ -3,6 +3,9 @@ App::uses('AppModel', 'Model');
 /**
  * ObsUnit Model
  *
+ * @property DivField $DivField
+ * @property DivStock $DivStock
+ * @property DivMateConnect $DivMateConnect
  */
 class ObsUnit extends AppModel {
 
@@ -20,6 +23,13 @@ class ObsUnit extends AppModel {
  */
 	public $primaryKey = 'div_obs_unit_id';
 
+/**
+ * Display field
+ *
+ * @var string
+ */
+	public $displayField = 'div_obs_unit_id';
+
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -28,41 +38,27 @@ class ObsUnit extends AppModel {
  *
  * @var array
  */
-/*	public $belongsTo = array(
-		'field' => array(
-			'className' => 'field',
+	public $belongsTo = array(
+		'Field' => array(
+			'className' => 'Field',
 			'foreignKey' => 'div_field_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'MeasurementParameter' => array(
-			'className' => 'MeasurementParameter',
-			'foreignKey' => 'div_measurement_parameter_id',
+		'Stock' => array(
+			'className' => 'Stock',
+			'foreignKey' => 'div_stock_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'CdvSource' => array(
-			'className' => 'CdvSource',
-			'foreignKey' => 'cdv_source_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'DivObsUnit' => array(
-			'className' => 'DivObsUnit',
-			'foreignKey' => 'div_obs_unit_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'DivStatisticType' => array(
-			'className' => 'DivStatisticType',
-			'foreignKey' => 'div_statistic_type_id',
+		'MateConnect' => array(
+			'className' => 'MateConnect',
+			'foreignKey' => 'div_mate_connect_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		)
-	);*/
+	);
 }

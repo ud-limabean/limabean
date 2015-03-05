@@ -22,17 +22,17 @@
 		<td><?php echo h($measurement['Measurement']['div_measurement_id']); ?>&nbsp;</td>
 		<td><?php echo h($measurement['Measurement']['div_measurement_acc']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($measurement['field']['div_field_id'], array('controller' => 'fields', 'action' => 'view', $measurement['field']['div_field_id'])); ?>
+			<?php echo $this->Html->link($measurement['Field']['div_locality_id'], array('controller' => 'fields', 'action' => 'view', $measurement['Field']['div_field_id'])); ?>
 		</td>
 		<td>
-			<?php echo $this->Html->link($measurement['MeasurementParameter']['div_measurement_parameter_id'], array('controller' => 'measurement_parameters', 'action' => 'view', $measurement['MeasurementParameter']['div_measurement_parameter_id'])); ?>
+			<?php echo $this->Html->link($measurement['MeasurementParameter']['parameter'], array('controller' => 'measurement_parameters', 'action' => 'view', $measurement['MeasurementParameter']['div_measurement_parameter_id'])); ?>
 		</td>
 		<td><?php echo h($measurement['Measurement']['cdv_source_id']); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($measurement['ObsUnit']['div_obs_unit_id'], array('controller' => 'obs_units', 'action' => 'view', $measurement['ObsUnit']['div_obs_unit_id'])); ?>
 		</td>
 		<td>
-			<?php echo $this->Html->link($measurement['StatisticType']['div_statistic_type_id'], array('controller' => 'statistic_types', 'action' => 'view', $measurement['StatisticType']['div_statistic_type_id'])); ?>
+			<?php echo $this->Html->link($measurement['StatisticType']['stat_type'], array('controller' => 'statistic_types', 'action' => 'view', $measurement['StatisticType']['div_statistic_type_id'])); ?>
 		</td>
 		<td><?php echo h($measurement['Measurement']['tom']); ?>&nbsp;</td>
 		<td><?php echo h($measurement['Measurement']['value']); ?>&nbsp;</td>

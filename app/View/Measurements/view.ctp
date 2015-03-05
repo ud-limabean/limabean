@@ -13,12 +13,12 @@
 		</dd>
 		<dt><?php echo __('Field'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($measurement['field']['div_field_id'], array('controller' => 'fields', 'action' => 'view', $measurement['field']['div_field_id'])); ?>
+			<?php echo $this->Html->link($measurement['Field']['div_locality_id'], array('controller' => 'fields', 'action' => 'view', $measurement['Field']['div_field_id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Measurement Parameter'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($measurement['MeasurementParameter']['div_measurement_parameter_id'], array('controller' => 'measurement_parameters', 'action' => 'view', $measurement['MeasurementParameter']['div_measurement_parameter_id'])); ?>
+			<?php echo $this->Html->link($measurement['MeasurementParameter']['parameter'], array('controller' => 'measurement_parameters', 'action' => 'view', $measurement['MeasurementParameter']['div_measurement_parameter_id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Cdv Source Id'); ?></dt>
@@ -33,7 +33,7 @@
 		</dd>
 		<dt><?php echo __('Statistic Type'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($measurement['StatisticType']['div_statistic_type_id'], array('controller' => 'statistic_types', 'action' => 'view', $measurement['StatisticType']['div_statistic_type_id'])); ?>
+			<?php echo $this->Html->link($measurement['StatisticType']['stat_type'], array('controller' => 'statistic_types', 'action' => 'view', $measurement['StatisticType']['div_statistic_type_id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Tom'); ?></dt>

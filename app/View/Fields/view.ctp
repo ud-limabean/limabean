@@ -11,9 +11,9 @@
 			<?php echo h($field['Field']['div_field_acc']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Div Locality Id'); ?></dt>
+		<dt><?php echo __('Locality'); ?></dt>
 		<dd>
-			<?php echo h($field['Field']['div_locality_id']); ?>
+			<?php echo $this->Html->link($field['Locality']['locality_name'], array('controller' => 'localities', 'action' => 'view', $field['Locality']['div_locality_id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Field Name'); ?></dt>
@@ -55,38 +55,54 @@
 		<li><?php echo $this->Form->postLink(__('Delete Field'), array('action' => 'delete', $field['Field']['div_field_id']), array(), __('Are you sure you want to delete # %s?', $field['Field']['div_field_id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('List Fields'), array('action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Field'), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Field Ownerships'), array('controller' => 'field_ownerships', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Field Ownership'), array('controller' => 'field_ownerships', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Localities'), array('controller' => 'localities', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Locality'), array('controller' => 'localities', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Measurements'), array('controller' => 'measurements', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Measurement'), array('controller' => 'measurements', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
 <div class="related">
-	<h3><?php echo __('Related Field Ownerships'); ?></h3>
-	<?php if (!empty($field['FieldOwnership'])): ?>
+	<h3><?php echo __('Related Measurements'); ?></h3>
+	<?php if (!empty($field['Measurement'])): ?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
-		<th><?php echo __('Id'); ?></th>
+		<th><?php echo __('Div Measurement Id'); ?></th>
+		<th><?php echo __('Div Measurement Acc'); ?></th>
 		<th><?php echo __('Div Field Id'); ?></th>
-		<th><?php echo __('Div Users Id'); ?></th>
+		<th><?php echo __('Div Measurement Parameter Id'); ?></th>
+		<th><?php echo __('Cdv Source Id'); ?></th>
+		<th><?php echo __('Div Obs Unit Id'); ?></th>
+		<th><?php echo __('Div Statistic Type Id'); ?></th>
+		<th><?php echo __('Tom'); ?></th>
+		<th><?php echo __('Value'); ?></th>
+		<th><?php echo __('Measurement Comments'); ?></th>
 		<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
-	<?php foreach ($field['FieldOwnership'] as $fieldOwnership): ?>
-		<tr>
-			<td><?php echo $fieldOwnership['id']; ?></td>
-			<td><?php echo $fieldOwnership['field_id']; ?></td>
-			<td><?php echo $fieldOwnership['user_id']; ?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('View'), array('controller' => 'field_ownerships', 'action' => 'view', $fieldOwnership['id'])); ?>
-				<?php echo $this->Html->link(__('Edit'), array('controller' => 'field_ownerships', 'action' => 'edit', $fieldOwnership['id'])); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'field_ownerships', 'action' => 'delete', $fieldOwnership['id']), array(), __('Are you sure you want to delete # %s?', $fieldOwnership['id'])); ?>
-			</td>
-		</tr>
-	<?php endforeach; ?>
+	<?php foreach ($field['Measurement'] as $measurement): ?>
+                <tr>
+                        <td><?php echo $measurement['div_measurement_id']; ?></td>
+                        <td><?php echo $measurement['div_measurement_acc']; ?></td>
+                        <td><?php echo $measurement['div_field_id']; ?></td>
+                        <td><?php echo $measurement['div_measurement_parameter_id']; ?></td>
+                        <td><?php echo $measurement['cdv_source_id']; ?></td>
+                        <td><?php echo $measurement['div_obs_unit_id']; ?></td>
+                        <td><?php echo $measurement['div_statistic_type_id']; ?></td>
+                        <td><?php echo $measurement['tom']; ?></td>
+                        <td><?php echo $measurement['value']; ?></td>
+                        <td><?php echo $measurement['measurement_comments']; ?></td>
+                        <td class="actions">
+                                <?php echo $this->Html->link(__('View'), array('controller' => 'measurements', 'action' => 'view', $measurement['div_measurement_id'])); ?>
+                                <?php echo $this->Html->link(__('Edit'), array('controller' => 'measurements', 'action' => 'edit', $measurement['div_measurement_id'])); ?>
+                                <?php echo $this->Form->postLink(__('Delete'), array('controller' => 'measurements', 'action' => 'delete', $measurement['div_measurement_id']), array(), __('Are you sure you want to delete # %s?', $measurement['div_measurement_id'])); ?>
+                        </td>
+                </tr>
+        <?php endforeach; ?>
 	</table>
 <?php endif; ?>
 
 	<div class="actions">
 		<ul>
-			<li><?php echo $this->Html->link(__('New Field Ownership'), array('controller' => 'field_ownerships', 'action' => 'add')); ?> </li>
+			<li><?php echo $this->Html->link(__('New Measurement'), array('controller' => 'measurements', 'action' => 'add')); ?> </li>
 		</ul>
 	</div>
 </div>

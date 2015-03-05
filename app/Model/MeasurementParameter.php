@@ -1,8 +1,9 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * MeasurementParameters Model
+ * MeasurementParameter Model
  *
+ * @property DivUnitOfMeasure $DivUnitOfMeasure
  */
 class MeasurementParameter extends AppModel {
 
@@ -20,6 +21,13 @@ class MeasurementParameter extends AppModel {
  */
 	public $primaryKey = 'div_measurement_parameter_id';
 
+/**
+ * Display field
+ *
+ * @var string
+ */
+	public $displayField = 'parameter';
+
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -28,41 +36,13 @@ class MeasurementParameter extends AppModel {
  *
  * @var array
  */
-/*	public $belongsTo = array(
-		'field' => array(
-			'className' => 'field',
-			'foreignKey' => 'div_field_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'MeasurementParameter' => array(
-			'className' => 'MeasurementParameter',
-			'foreignKey' => 'div_measurement_parameter_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'CdvSource' => array(
-			'className' => 'CdvSource',
-			'foreignKey' => 'cdv_source_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'DivObsUnit' => array(
-			'className' => 'DivObsUnit',
-			'foreignKey' => 'div_obs_unit_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'DivStatisticType' => array(
-			'className' => 'DivStatisticType',
-			'foreignKey' => 'div_statistic_type_id',
+	public $belongsTo = array(
+		'UnitOfMeasure' => array(
+			'className' => 'UnitOfMeasure',
+			'foreignKey' => 'div_unit_of_measure_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		)
-	);*/
+	);
 }

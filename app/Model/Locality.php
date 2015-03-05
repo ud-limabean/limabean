@@ -1,30 +1,30 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * StatisticType Model
+ * Locality Model
  *
  */
-class StatisticType extends AppModel {
+class Locality extends AppModel {
 
 /**
  * Use table
  *
  * @var mixed False or table name
  */
-	public $useTable = 'statistic_type';
+	public $useTable = 'locality';
 
 /**
  * Primary key field
  *
  * @var string
  */
-	public $primaryKey = 'div_statistic_type_id';
+	public $primaryKey = 'div_locality_id';
 
 /**
  * Display field
  *
  * @var string
  */
-	public $displayField = 'stat_type';
+	public $displayField = 'locality_name';
 
 }
