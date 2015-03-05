@@ -226,7 +226,7 @@ class AuthComponent extends Component {
  *
  * @var mixed
  */
-	public $unauthorizedRedirect = true;
+	public $unauthorizedRedirect = '/';
 
 /**
  * Controller actions for which user validation is not required.

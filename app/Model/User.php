@@ -29,6 +29,62 @@ public $hasMany = array(
                 'foreignKey' => 'user_id'
         )
     );
+
+public $validate = array(
+        'username' => array(
+            'required' => array(
+                'rule' => 'notEmpty',
+                'message' => 'A username is required'
+            ),
+	'The username must be between 5 and 15 characters.'=>array(
+	    'rule'=>array('lengthBetween',5,15),
+	    'message'=>'The username must be between 5 and 15 characters'      
+	    ),
+	'That username has alraedy been taken.'=>array(
+	    'rule'=>'isUnique',
+	    'message'=>'That username has already been taken.'
+	    )
+        ),
+        'password' => array(
+            'required' => array(
+                'rule' => 'notEmpty',
+                'message' => 'A password is required'
+            ),
+	    'Match passwords' => array(
+		'rule' => 'matchPassword',	    
+		'message' => 'Your passwords do not match'
+	    )
+        ),
+	'password_confirmation' => array(
+	    'required' => array(
+                'rule' => 'notEmpty',
+                'message' => 'Please confirm your password.'
+            )
+	)
+        /*'role' => array(
+            'valid' => array(
+                'rule' => array('inList', array('admin', 'user')),
+                'message' => 'Please enter a valid role',
+                'allowEmpty' => false
+            )
+         )*/
+    );
+
+
+public function matchPassword($data){
+	if ($data['password'] == $this->data['User']['password_confirmation']){
+		return true;
+	}
+	$this->invalidate('password_confirmation','Your passwords do not match.');
+	return false;
+}
+
+public function beforeSave(){
+	if (isset($this->data['User']['password'])){
+		$this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
+	}
+	return true;
+}
 /**
  * belongsTo associations
  *

@@ -3,11 +3,10 @@
 	<fieldset>
 		<legend><?php echo __('Edit User'); ?></legend>
 	<?php
-		echo $this->Form->input('div_users_id');
-		echo $this->Form->input('div_users_acc');
+		echo $this->Form->input('id');
 		echo $this->Form->input('username');
 		echo $this->Form->input('password');
-		echo $this->Form->input('date_account');
+		echo $this->Form->input('role');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

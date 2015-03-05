@@ -15,6 +15,35 @@ class UsersController extends AppController {
  */
 	public $components = array('Paginator');
 
+	public function beforeFilter(){
+		parent::beforeFilter();
+		$this->Auth->allow('add');
+	}
+
+	public function isAuthorized($user){
+		if(in_array($this->action,array('edit','delete'))){
+			if($user['id'] != $this->request->params['pass'][0]){
+				return false;
+				#return null;
+			}
+		}
+		return true; 
+	}
+
+        public function login(){
+        	if ($this->request->is('post')){
+			if ($this->Auth->login()){
+				$this->redirect($this->Auth->redirect());
+			} else {
+				$this->Session->setFlash('Your username/password combination was incorrect');
+			}
+		}
+	}
+
+	public function logout(){
+		$this->redirect($this->Auth->logout());
+	}
+
 /**
  * index method
  *
@@ -23,6 +52,7 @@ class UsersController extends AppController {
 	public function index() {
 		$this->User->recursive = 0;
 		$this->set('users', $this->Paginator->paginate());
+		//$this->set('users', $this->User->find('all'));
 	}
 
 /**
@@ -65,6 +95,7 @@ class UsersController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+		debug('in edit');
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
