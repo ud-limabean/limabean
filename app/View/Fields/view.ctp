@@ -83,8 +83,10 @@
                         <td><?php echo $measurement['div_measurement_id']; ?></td>
                         <td><?php echo $measurement['div_measurement_acc']; ?></td>
                         <td><?php echo $measurement['div_field_id']; ?></td>
-                        <td><?php echo $measurement['div_measurement_parameter_id']; ?></td>
-                        <td><?php echo $measurement['cdv_source_id']; ?></td>
+                    <!--    <td><?php #echo $measurement['div_measurement_parameter_id']; ?></td> -->
+                    <!--    <td><?php #echo debug($measurement); ?></td> -->
+			<td><?php echo $measurement['MeasurementParameter']['parameter']; ?></td>
+			<td><?php echo $measurement['cdv_source_id']; ?></td>
                         <td><?php echo $measurement['div_obs_unit_id']; ?></td>
                         <td><?php echo $measurement['div_statistic_type_id']; ?></td>
                         <td><?php echo $measurement['tom']; ?></td>

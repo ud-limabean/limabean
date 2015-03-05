@@ -37,12 +37,22 @@ class FieldsController extends AppController {
 			throw new NotFoundException(__('Invalid field'));
 		}
 		//$options = array('conditions' => array('Field.' . $this->Field->primaryKey => $id));
-		//$this->Field->recursive = 0;
+		$this->Field->recursive = 2;
 		//$this->set('field', $this->Field->find('first', $options));
 		$options = array(
 			'conditions' => array('Field.' . $this->Field->primaryKey => $id),
-			'contain' => array('Locality','Measurement.tom like "2013-01-03%"')
+			'contain' => array(
+				'Locality',
+				'Measurement' => array(
+                			'conditions' => array(
+						'Measurement.tom LIKE' => '2013-01-03%',
+						'Measurement.div_measurement_parameter_id' => 1
+					),
+					'MeasurementParameter'
+				)
+			)
 		);
+
 		$this->set('field', $this->Field->find('first', $options));
 			
 	}
