@@ -8,7 +8,7 @@
 		</dd>
 		<dt><?php echo __('Field'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($fieldOwnership['Field']['id'], array('controller' => 'fields', 'action' => 'view', $fieldOwnership['Field']['id'])); ?>
+			<?php echo $this->Html->link($fieldOwnership['Field']['div_field_id'], array('controller' => 'fields', 'action' => 'view', $fieldOwnership['Field']['div_field_id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Div Users Id'); ?></dt>

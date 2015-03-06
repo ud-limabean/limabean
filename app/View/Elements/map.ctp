@@ -1,16 +1,24 @@
 <?php
+$arrFindLatLon = array();
+
 function findLatLon($data){
-        foreach ($data as $datum) {
-                if (is_array($datum) && array_key_exists('latitude', $datum) && array_key_exists('longitude', $datum)){
-                        $lat = $datum['latitude'];
-                        $lon = $datum['longitude'];
-                         return 'L.marker([' . $lat . ',' . $lon . ']).addTo(lb.map);';
+	global $arrFindLatLon;
+	foreach ($data as $datum) {
+		if (is_array($data) && array_key_exists('latitude', $data) && array_key_exists('longitude', $data)){
+                        $lat = $data['latitude'];
+                        $lon = $data['longitude'];
+                        $arrFindLatLon[] = 'L.marker([' . $lat . ',' . $lon . ']).addTo(lb.map);';
                 } elseif(is_array($datum)) {
-                        findLatLon($datum);
-                } else {
-                        return false;
-                }
-        }
+			if (array_key_exists('latitude', $datum) && array_key_exists('longitude', $datum)){
+				$lat = $datum['latitude'];
+                        	$lon = $datum['longitude'];
+				$arrFindLatLon[] = 'L.marker([' . $lat . ',' . $lon . ']).addTo(lb.map);';
+			}
+			findLatLon($datum, $arrFindLatLon);
+		}
+	}
+	$strFindLatLon = implode(array_unique($arrFindLatLon));
+	return $strFindLatLon; 
 }
 ?>
 
@@ -74,7 +82,11 @@ lb.map = L.map('map', {
         minZoom: 8
 });
 
-<?php echo findLatLon($data); ?>
+<?php
+print_r(findLatLon($data));
+//$strFindLatLon = implode(array_unique($arrFindLatLon));
+//echo $strFindLatLon;
+ ?>
 
 // add reference tiles to map
 L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', {

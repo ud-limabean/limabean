@@ -23,6 +23,14 @@ class User extends AppModel {
 	public $displayField = 'username';
 	//public $tablePrefix = '';
 
+/**
+ * Containable; needed to limit results on related models
+ *
+ * @var array
+ */
+public $actsAs = array('Containable');
+
+
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 public $hasMany = array(
         'FieldOwnership'  => array(
