@@ -1,3 +1,12 @@
+<?php
+$this->Html->css('limabean', array('inline' => false));
+$this->Html->css('jQDateRangeSlider', array('inline' => false));
+
+$this->Html->script('jquery-1.10.2.js', array('inline' => false));
+$this->Html->script('jquery-ui-1.10.4.custom.min.js', array('inline' => false));
+$this->Html->script('jQDateRangeSlider-min.js', array('inline' => false));
+?>
+
 <div class="fields view">
 <h2><?php echo __('Field'); ?></h2>
 	<dl>
@@ -107,4 +116,17 @@
 			<li><?php echo $this->Html->link(__('New Measurement'), array('controller' => 'measurements', 'action' => 'add')); ?> </li>
 		</ul>
 	</div>
+
+	<div class='ui'>
+	<?php
+	/* echo $this->element('map'); */
+
+	echo $this->element('map', array(
+    		"lat" => $field['Field']['latitude'],
+		"lon" => $field['Field']['longitude']
+	));
+	
+	?>
+	</div>
+
 </div>

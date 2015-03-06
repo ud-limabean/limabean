@@ -32,7 +32,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
+		echo '<link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />';
 		echo $this->fetch('script');
+		echo '<script type="text/javascript"  src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>';
+		echo '<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>';
 	?>
 </head>
 <body>
