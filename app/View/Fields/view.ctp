@@ -110,13 +110,21 @@
 
 	<div class='ui'>
 	<?php
-	/* echo $this->element('map'); */
+	// echo $this->element('map', array("data" => $field));
+	// echo $this->element('map');
 
+	echo $this->element('map', array(
+                "data" => $field
+        ));
+
+	
+	/*
 	echo $this->element('map', array(
     		"lat" => $field['Field']['latitude'],
 		"lon" => $field['Field']['longitude']
 	));
-	
+	*/
+
 	?>
 	</div>
 

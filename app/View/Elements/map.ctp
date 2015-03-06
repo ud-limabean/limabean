@@ -1,4 +1,20 @@
 <?php
+function findLatLon($data){
+        foreach ($data as $datum) {
+                if (is_array($datum) && array_key_exists('latitude', $datum) && array_key_exists('longitude', $datum)){
+                        $lat = $datum['latitude'];
+                        $lon = $datum['longitude'];
+                         return 'L.marker([' . $lat . ',' . $lon . ']).addTo(lb.map);';
+                } elseif(is_array($datum)) {
+                        findLatLon($datum);
+                } else {
+                        return false;
+                }
+        }
+}
+?>
+
+<?php
 $this->Html->css('limabean', array('inline' => false));
 /* $this->Html->css('jQDateRangeSlider', array('inline' => false)); */
 
@@ -58,8 +74,7 @@ lb.map = L.map('map', {
         minZoom: 8
 });
 
-//L.marker([39.161944, -75.526667]).addTo(lb.map);
-L.marker([<?php echo $lat . ',' . $lon;?>]).addTo(lb.map);
+<?php echo findLatLon($data); ?>
 
 // add reference tiles to map
 L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', {
