@@ -83,7 +83,7 @@ lb.map = L.map('map', {
 });
 
 <?php
-print_r(findLatLon($data));
+echo(findLatLon($data));
 //$strFindLatLon = implode(array_unique($arrFindLatLon));
 //echo $strFindLatLon;
  ?>
