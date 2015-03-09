@@ -1,28 +1,6 @@
 <?php
 $arrFindLatLon = array();
 
-function findLatLon($data){
-	global $arrFindLatLon;
-	foreach ($data as $datum) {
-		if (is_array($data) && array_key_exists('latitude', $data) && array_key_exists('longitude', $data)){
-                        $lat = $data['latitude'];
-                        $lon = $data['longitude'];
-                        $arrFindLatLon[] = 'L.marker([' . $lat . ',' . $lon . ']).addTo(lb.map);';
-                } elseif(is_array($datum)) {
-			if (array_key_exists('latitude', $datum) && array_key_exists('longitude', $datum)){
-				$lat = $datum['latitude'];
-                        	$lon = $datum['longitude'];
-				$arrFindLatLon[] = 'L.marker([' . $lat . ',' . $lon . ']).addTo(lb.map);';
-			}
-			findLatLon($datum, $arrFindLatLon);
-		}
-	}
-	$strFindLatLon = implode(array_unique($arrFindLatLon));
-	return $strFindLatLon; 
-}
-?>
-
-<?php
 $this->Html->css('limabean', array('inline' => false));
 /* $this->Html->css('jQDateRangeSlider', array('inline' => false)); */
 
@@ -83,10 +61,8 @@ lb.map = L.map('map', {
 });
 
 <?php
-echo(findLatLon($data));
-//$strFindLatLon = implode(array_unique($arrFindLatLon));
-//echo $strFindLatLon;
- ?>
+echo $this->Lmarker->findLatLon($data);
+?>
 
 // add reference tiles to map
 L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', {

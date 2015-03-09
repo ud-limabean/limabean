@@ -9,6 +9,14 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController {
 
 /**
+ * Helpers
+ *
+ * @var array
+ */
+
+public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
+
+/**
  * Components
  *
  * @var array
