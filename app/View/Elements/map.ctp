@@ -54,10 +54,11 @@ northEast = L.latLng(39.994314, -74.166214),
 bounds = L.latLngBounds(southWest, northEast);
 
 lb.map = L.map('map', {
-    center: [39.161944, -75.526667],
-    zoom: 8,
+    	center: [39.161944, -75.526667],
+    	zoom: 8,
         maxBounds: bounds,
-        minZoom: 8
+        minZoom: 8,
+	scrollWheelZoom: false
 });
 
 <?php

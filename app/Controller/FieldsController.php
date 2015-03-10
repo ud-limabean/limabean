@@ -47,10 +47,11 @@ class FieldsController extends AppController {
 				'Locality',
 			)
 		);
-		
-		$this->set('Measurements', $this->paginate($this->Field->Measurement, array(
-			'Field.' . $this->Field->primaryKey => $id,
-			'Measurement.div_measurement_parameter_id' => 1
+	
+			
+		$this->set('measurements', $this->paginate($this->Field->Measurement, array(
+				'Field.' . $this->Field->primaryKey => $id,
+				'Measurement.div_measurement_parameter_id' => 1
 		)));
 		
 		$this->set('field', $this->Field->find('first', $options));
