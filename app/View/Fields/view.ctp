@@ -108,7 +108,12 @@
                 echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
                 echo $this->Paginator->numbers(array('separator' => ''));
                 echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-        ?>
+        	echo $this->Html->link(
+    			'Export as CSV',
+    			array('controller' => 'fields', 'action' => 'view', $measurement['div_field_id'], $measurement['div_measurement_parameter_id'], 'csv'),
+    			array('class' => 'button', 'target' => '_blank')
+		);
+	?>
 	</div>
 
 <?php endif; ?>

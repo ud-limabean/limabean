@@ -26,7 +26,7 @@ class FieldsController extends AppController {
 		$this->Field->recursive = 0;
 		$this->set('fields', $this->Paginator->paginate());
 	}
-
+	
 /**
  * view method
  *
@@ -34,29 +34,45 @@ class FieldsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
-		if (!$this->Field->exists($id)) {
-			throw new NotFoundException(__('Invalid field'));
-		}
-		//$options = array('conditions' => array('Field.' . $this->Field->primaryKey => $id));
-		$this->Field->recursive = 2;
-		//$this->set('field', $this->Field->find('first', $options));
-		$options = array(
-			'conditions' => array('Field.' . $this->Field->primaryKey => $id),
-			'contain' => array(
-				'Locality',
-			)
-		);
+
+        public function view($id = null, $div_measurement_parameter_id = 1, $format = null) {
+                if (!$this->Field->exists($id)) {
+                        throw new NotFoundException(__('Invalid field'));
+                }
+				
+                $this->Field->recursive = 2;
+
+                $options = array(
+                        'conditions' => array('Field.' . $this->Field->primaryKey => $id),
+                        'contain' => array(
+                                'Locality',
+                        )
+                );
+				
+				$measurements = $this->paginate($this->Field->Measurement, array(
+                                'Field.' . $this->Field->primaryKey => $id,
+                                'Measurement.div_measurement_parameter_id' => $div_measurement_parameter_id
+                ));
+				
+				$field = $this->Field->find('first', $options);
 	
-			
-		$this->set('measurements', $this->paginate($this->Field->Measurement, array(
-				'Field.' . $this->Field->primaryKey => $id,
-				'Measurement.div_measurement_parameter_id' => 1
-		)));
-		
-		$this->set('field', $this->Field->find('first', $options));
-			
-	}
+				if($format == 'csv'){
+					foreach($measurements as $index => $values) {
+						$measurements[$index] = $values['Measurement'];
+					}
+					
+					$_serialize = 'measurements';
+					$this->viewClass = 'CsvView.Csv';
+					$this->set(compact('measurements' ,'_serialize'));
+					
+				} else {		
+
+					$this->set('measurements', $measurements);
+
+					$this->set('field', $field);
+				
+				}
+        }	
 
 /**
  * add method
