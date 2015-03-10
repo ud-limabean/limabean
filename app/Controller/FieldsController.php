@@ -15,6 +15,8 @@ class FieldsController extends AppController {
  */
 	public $components = array('Paginator');
 
+	public $paginate = array('Field','Measurement'=>array('limit'=>5));
+
 /**
  * index method
  *
@@ -43,16 +45,14 @@ class FieldsController extends AppController {
 			'conditions' => array('Field.' . $this->Field->primaryKey => $id),
 			'contain' => array(
 				'Locality',
-				'Measurement' => array(
-                			'conditions' => array(
-						'Measurement.tom LIKE' => '2013-01-03%',
-						'Measurement.div_measurement_parameter_id' => 1
-					),
-					'MeasurementParameter'
-				)
 			)
 		);
-
+		
+		$this->set('Measurements', $this->paginate($this->Field->Measurement, array(
+			'Field.' . $this->Field->primaryKey => $id,
+			'Measurement.div_measurement_parameter_id' => 1
+		)));
+		
 		$this->set('field', $this->Field->find('first', $options));
 			
 	}

@@ -63,7 +63,7 @@
 </div>
 <div class="related">
 	<h3><?php echo __('Related Measurements'); ?></h3>
-	<?php if (!empty($field['Measurement'])): ?>
+	<?php if (!empty($Measurements)): ?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Div Measurement Id'); ?></th>
@@ -78,8 +78,10 @@
 		<th><?php echo __('Measurement Comments'); ?></th>
 		<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
-	<?php foreach ($field['Measurement'] as $measurement): ?>
-                <tr>
+
+	<?php foreach ($Measurements as $measurement): 
+                $measurement = $measurement['Measurement']; ?>
+		<tr>
                         <td><?php echo $measurement['div_measurement_id']; ?></td>
                         <td><?php echo $measurement['div_measurement_acc']; ?></td>
                         <td><?php echo $measurement['div_field_id']; ?></td>
@@ -100,6 +102,14 @@
                 </tr>
         <?php endforeach; ?>
 	</table>
+	<div class="paging">
+        <?php
+                echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
+                echo $this->Paginator->numbers(array('separator' => ''));
+                echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
+        ?>
+	</div>
+
 <?php endif; ?>
 
 	<div class="actions">
