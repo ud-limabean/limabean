@@ -35,8 +35,8 @@ public $components = array(
     'DebugKit.Toolbar',
     'Session',
     'Auth'=>array(
-      'loginRedirect'=>array('controller'=>'users','action'=>'index'),
-      'logoutRedirect'=>array('controller'=>'users','action'=>'index'),
+      'loginRedirect'=>array('controller'=>'users','action'=>'view'),
+      'logoutRedirect'=>array('controller'=>'users','action'=>'login'),
       'authError'=>"You can't access that page",
       'authorize'=>array('Controller')
     )
@@ -45,10 +45,38 @@ public $components = array(
       return true;
     }
 
-    public function beforeFilter(){
-      $this->Auth->allow('index','view');
+public function beforeFilter(){
       $this->set('logged_in',$this->Auth->loggedIn());
       $this->set('current_user',$this->Auth->user());
-      //debug('beforeFilter');
+		
+
+	  $allowed_controllers = array('fields','users');
+	  
+	  if($this->request['prefix'] != 'admin' && $this->request['action'] != 'login' &&  $this->request['action'] != 'logout'){
+	  
+		  if(!in_array($this->request['controller'], $allowed_controllers) || $this->request['action'] != 'view'){
+		  #debug($allowed_controllers); 
+		  #if(!$this->request['action'] == 'view'){  
+			#	$this->redirect('/admin/' .  $this->request['controller'] . '/' . $this->request['action'] . '/' . $this->request['pass']);
+				$this->redirect(array(
+					'admin' => true,
+  					'controller' => $this->request['controller'],
+					'action' => $this->request['action'],
+					$this->request['pass'][0]
+		  			)
+				);
+		   }
+	  
+	  } else {
+      		if($this->Auth->user('role')!='admin'){
+           		$this->Auth->deny();
+          		$this->Auth->allow('login');
+        	} else {
+           		$this->Auth->allow();
+           	//$this->redirect(array('controller' => 'employer' , 'action' => 'index'));
+        	}
+        //debug('beforeFilter');
+	}
     }
+
 }

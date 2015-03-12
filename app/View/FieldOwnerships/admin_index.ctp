@@ -14,7 +14,7 @@
 	<tr>
 		<td><?php echo h($fieldOwnership['FieldOwnership']['id']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($fieldOwnership['Field']['id'], array('controller' => 'fields', 'action' => 'view', $fieldOwnership['Field']['id'])); ?>
+			<?php echo $this->Html->link($fieldOwnership['Field']['div_field_id'], array('controller' => 'fields', 'action' => 'view', $fieldOwnership['Field']['div_field_id'])); ?>
 		</td>
 		<td><?php echo h($fieldOwnership['FieldOwnership']['user_id']); ?>&nbsp;</td>
 		<td class="actions">

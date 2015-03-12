@@ -6,6 +6,8 @@
 		echo $this->Form->input('id');
 		echo $this->Form->input('username');
 		echo $this->Form->input('password');
+		echo $this->Form->input('password_confirmation');
+		echo $this->Form->input('role');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

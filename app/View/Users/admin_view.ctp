@@ -74,4 +74,13 @@
 			<li><?php echo $this->Html->link(__('New Field Ownership'), array('controller' => 'field_ownerships', 'action' => 'add')); ?> </li>
 		</ul>
 	</div>
+
+
+	<div class='ui'>
+	<?php
+		echo $this->element('map', array(
+                	"data" => $user['FieldOwnership']
+        	));
+	?>
+	</div>
 </div>

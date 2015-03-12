@@ -30,7 +30,7 @@ public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
 
 	public function isAuthorized($user){
 		if(in_array($this->action,array('edit','delete'))){
-			if($user['id'] != $this->request->params['pass'][0]){
+			if($user['id'] != $this->request->params['pass'][0] && $user['role'] != 'admin' ){
 				return false;
 				#return null;
 			}
@@ -48,29 +48,52 @@ public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
 		}
 	}
 
+	public function admin_login(){
+                if ($this->request->is('post')){
+                        if ($this->Auth->login()){
+                                $this->redirect($this->Auth->redirect());
+                        } else {
+                                $this->Session->setFlash('Your username/password combination was incorrect');
+                        }
+                }
+        }
+	
+	public function admin_logout(){
+		$this->redirect($this->Auth->logout());
+	}	
+	
 	public function logout(){
 		$this->redirect($this->Auth->logout());
 	}
 
 /**
- * index method
+ * admin_index method
  *
  * @return void
  */
-	public function index() {
+	public function admin_index() {
 		$this->User->recursive = 0;
 		$this->set('users', $this->Paginator->paginate());
 		//$this->set('users', $this->User->find('all'));
 	}
 
 /**
- * view method
+ * admin_view method
  *
  * @throws NotFoundException
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
+	public function admin_view($id = null) {
+		if (!$id){
+			$current_user = $this->Auth->user();
+
+                	if($current_user){
+                        	$id = $current_user;
+                	}
+
+		}
+
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
@@ -88,92 +111,34 @@ public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
 	}
 
 /**
- * add method
- *
- * @return void
- */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->User->create();
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-			}
-		}
-	}
-
-/**
- * edit method
+ * view method
  *
  * @throws NotFoundException
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
-		debug('in edit');
+        public function view($id = null) {
+		$current_user = $this->Auth->user();
+		
+		if($current_user){
+			$id = $current_user;	
+		}
+
 		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		if ($this->request->is(array('post', 'put'))) {
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-			}
-		} else {
-			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-			$this->request->data = $this->User->find('first', $options);
-		}
-	}
+                        throw new NotFoundException(__('Invalid user'));
+                }
+                //$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+                $options = array(
+                        'conditions' => array('User.' . $this->User->primaryKey => $id),
+                        'contain' => array(
+                                'FieldOwnership' => array(
+                                        'Field'
+                                )
+                        )
+                );
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->User->delete()) {
-			$this->Session->setFlash(__('The user has been deleted.'));
-		} else {
-			$this->Session->setFlash(__('The user could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
-	}
-
-/**
- * admin_index method
- *
- * @return void
- */
-	public function admin_index() {
-		$this->User->recursive = 0;
-		$this->set('users', $this->Paginator->paginate());
-	}
-
-/**
- * admin_view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function admin_view($id = null) {
-		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-		$this->set('user', $this->User->find('first', $options));
-	}
+                $this->set('user', $this->User->find('first', $options));
+        }
 
 /**
  * admin_add method
@@ -199,6 +164,8 @@ public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
  * @param string $id
  * @return void
  */
+
+
 	public function admin_edit($id = null) {
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
