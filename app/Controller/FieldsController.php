@@ -72,7 +72,47 @@ class FieldsController extends AppController {
 					$this->set('field', $field);
 				
 				}
-        }	
+        }
+
+public function view($id = null, $div_measurement_parameter_id = 1, $format = null) {
+                if (!$this->Field->exists($id)) {
+                        throw new NotFoundException(__('Invalid field'));
+                }
+
+                $this->Field->recursive = 2;
+
+                $options = array(
+                        'conditions' => array('Field.' . $this->Field->primaryKey => $id),
+                        'contain' => array(
+                                'Locality',
+                        )
+                );
+
+                                $measurements = $this->paginate($this->Field->Measurement, array(
+                                'Field.' . $this->Field->primaryKey => $id,
+                                'Measurement.div_measurement_parameter_id' => $div_measurement_parameter_id
+                ));
+
+                                $field = $this->Field->find('first', $options);
+
+                                if($format == 'csv'){
+                                        foreach($measurements as $index => $values) {
+                                                $measurements[$index] = $values['Measurement'];
+                                        }
+
+                                        $_serialize = 'measurements';
+                                        $this->viewClass = 'CsvView.Csv';
+                                        $this->set(compact('measurements' ,'_serialize'));
+
+                                } else {
+
+                                        $this->set('measurements', $measurements);
+
+                                        $this->set('field', $field);
+
+                                }
+        }
+	
 
 /**
  * admin_add method

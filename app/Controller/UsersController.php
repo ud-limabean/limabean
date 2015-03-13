@@ -29,6 +29,10 @@ public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
 	}
 
 	public function isAuthorized($user){
+		if ($this->request['admin'] && $this->Auth->user('role') != 'admin'){
+                	return false;
+        	}
+
 		if(in_array($this->action,array('edit','delete'))){
 			if($user['id'] != $this->request->params['pass'][0] && $user['role'] != 'admin' ){
 				return false;

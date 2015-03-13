@@ -41,42 +41,39 @@ public $components = array(
       'authorize'=>array('Controller')
     )
 );
-    public function isAuthorized($user){
-      return true;
+	public function beforeRender(){
+		if(!$this->isAuthorized($this->Auth->user) && $this->request['action'] != 'login'){
+			$this->redirect($this->referer());
+		} 
+	}
+ 
+   public function isAuthorized($user){
+      	if ($this->request['admin'] && $this->Auth->user('role') != 'admin'){
+		return false;
+	}
+	return true;
     }
 
-public function beforeFilter(){
-      $this->set('logged_in',$this->Auth->loggedIn());
-      $this->set('current_user',$this->Auth->user());
-		
+    public function beforeFilter(){
+      	$this->set('logged_in',$this->Auth->loggedIn());
+      	$this->set('current_user',$this->Auth->user());
 
-	  $allowed_controllers = array('fields','users');
-	  
-	  if($this->request['prefix'] != 'admin' && $this->request['action'] != 'login' &&  $this->request['action'] != 'logout'){
-	  
-		  if(!in_array($this->request['controller'], $allowed_controllers) || $this->request['action'] != 'view'){
-		  #debug($allowed_controllers); 
-		  #if(!$this->request['action'] == 'view'){  
-			#	$this->redirect('/admin/' .  $this->request['controller'] . '/' . $this->request['action'] . '/' . $this->request['pass']);
-				$this->redirect(array(
-					'admin' => true,
-  					'controller' => $this->request['controller'],
-					'action' => $this->request['action'],
-					$this->request['pass'][0]
-		  			)
-				);
-		   }
-	  
-	  } else {
-      		if($this->Auth->user('role')!='admin'){
-           		$this->Auth->deny();
-          		$this->Auth->allow('login');
-        	} else {
-           		$this->Auth->allow();
-           	//$this->redirect(array('controller' => 'employer' , 'action' => 'index'));
+	$allowed_controllers = array('fields','users');
+	$allowed_actions = array('view','login','logout');
+
+	if($this->request['prefix'] != 'admin'){
+
+          	if(!in_array($this->request['controller'], $allowed_controllers) || !in_array($this->request['action'], $allowed_actions)){
+                  	$this->redirect(array(
+                              	'admin' => true,
+                               	'controller' => $this->request['controller'],
+                             	'action' => $this->request['action'],
+                              	$this->request['pass'][0]
+                                )
+                                );
         	}
-        //debug('beforeFilter');
 	}
+		
     }
 
 }
