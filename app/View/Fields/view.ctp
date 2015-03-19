@@ -61,6 +61,16 @@
 		<li><?php echo $this->Html->link(__('New Measurement'), array('controller' => 'measurements', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
+<div class="MeasurementParameters form">
+<?php echo $this->Form->create('Fields'); ?>
+	<fieldset>
+                <legend><?php echo __('Select measurement variable'); ?></legend>
+        <?php
+		echo $this->Form->input('parameters',  array('options' => $parameters, 'default' => $div_measurement_parameter_id));
+        ?>
+        </fieldset>
+<?php echo $this->Form->end(__('Submit')); ?>
+</div>
 <div class="related">
 	<h3><?php echo __('Related Measurements'); ?></h3>
 	<?php if (!empty($measurements)): ?>
@@ -85,7 +95,7 @@
 		<tr>
                         <td><?php echo $measurement['div_measurement_id']; ?></td>
                         <td><?php echo $measurement['div_measurement_acc']; ?></td>
-                    <!--    <td><?php echo $measurement['div_field_id']; ?></td> -->
+                    <!--    <td><?php #echo $measurement['div_field_id']; ?></td> -->
                     <!--    <td><?php #echo $measurement['div_measurement_parameter_id']; ?></td> -->
                     <!--    <td><?php #echo debug($measurement); ?></td> -->
 			<td><?php echo $parameter; ?></td>
@@ -105,6 +115,13 @@
 	</table>
 	<div class="paging">
         <?php
+		$this->Paginator->options(array(
+    			'url' => array(
+    				$field['Field']['div_field_id'],
+				$div_measurement_parameter_id
+			)
+		));
+
                 echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
                 echo $this->Paginator->numbers(array('separator' => ''));
                 echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
@@ -126,20 +143,10 @@
 
 	<div class='ui'>
 	<?php
-	// echo $this->element('map', array("data" => $field));
-	// echo $this->element('map');
 
 	echo $this->element('map', array(
                 "data" => $field
         ));
-
-	
-	/*
-	echo $this->element('map', array(
-    		"lat" => $field['Field']['latitude'],
-		"lon" => $field['Field']['longitude']
-	));
-	*/
 
 	?>
 	</div>

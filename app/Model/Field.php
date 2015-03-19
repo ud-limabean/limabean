@@ -66,7 +66,7 @@ class Field extends AppModel {
 			'foreignKey' => 'div_field_id',
 			'dependent' => false,
 			'conditions' => '',
-			'fields' => '',
+			'fields' => 'div_measurement_id',
 			'order' => '',
 			'limit' => '',
 			'offset' => '',

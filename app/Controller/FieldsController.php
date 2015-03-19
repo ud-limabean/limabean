@@ -75,7 +75,10 @@ class FieldsController extends AppController {
         }
 
 public function view($id = null, $div_measurement_parameter_id = 1, $format = null) {
-                if (!$this->Field->exists($id)) {
+                if ($this->request->is('post') || $this->request->is('put')){
+			$div_measurement_parameter_id = $this->request->data['Fields']['parameters'];
+		}	
+		if (!$this->Field->exists($id)) {
                         throw new NotFoundException(__('Invalid field'));
                 }
 
@@ -92,6 +95,9 @@ public function view($id = null, $div_measurement_parameter_id = 1, $format = nu
                                 'Field.' . $this->Field->primaryKey => $id,
                                 'Measurement.div_measurement_parameter_id' => $div_measurement_parameter_id
                 ));
+				
+				$parameters = array('1'=> 'AirTemperature','2'=> 'DewpointTemperature','3'=> 'RelativeHumidity','4'=> 'SolarRadiation','5'=> 'WindSpeed','6'=> 'SoilTemperature','7'=> 'Rainfall','8'=> 'VolumetricWaterContent'); 
+				//$parameters = Set::extract($measurements, '/Measurement/MeasurementParameter/parameter');
 
                                 $field = $this->Field->find('first', $options);
 
@@ -105,9 +111,10 @@ public function view($id = null, $div_measurement_parameter_id = 1, $format = nu
                                         $this->set(compact('measurements' ,'_serialize'));
 
                                 } else {
-
+					
+					$this->set('div_measurement_parameter_id',$div_measurement_parameter_id);
                                         $this->set('measurements', $measurements);
-
+					$this->set('parameters', $parameters);
                                         $this->set('field', $field);
 
                                 }
