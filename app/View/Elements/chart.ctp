@@ -10,7 +10,7 @@ $this->Html->script('http://d3js.org/d3.v3.js', array('inline' => false));
 
 <?php echo $this->Session->flash(); ?>
 
-<div id="chart" width="500" height="250"></svg>
+<div id="chart" width="500" height="250"></div>
 
 <script type="text/javascript">
 var lb = lb || {};
