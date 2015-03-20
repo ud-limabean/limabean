@@ -148,6 +148,10 @@
                 "data" => $field
         ));
 
+	echo $this->element('chart', array(
+                "data" => $measurementAvg
+        ));
+
 	?>
 	</div>
 

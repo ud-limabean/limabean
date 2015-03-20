@@ -96,6 +96,15 @@ public function view($id = null, $div_measurement_parameter_id = 1, $format = nu
                                 'Measurement.div_measurement_parameter_id' => $div_measurement_parameter_id
                 ));
 				
+				$measurementAvg = $this->Field->MeasurementAvg->find('all',array(
+					'recursive' => 0,
+					'conditions' => array(
+					'Field.' . $this->Field->primaryKey => $id,
+                                	'MeasurementAvg.div_measurement_parameter_id' => $div_measurement_parameter_id
+					)
+				));
+
+
 				$parameters = array('1'=> 'AirTemperature','2'=> 'DewpointTemperature','3'=> 'RelativeHumidity','4'=> 'SolarRadiation','5'=> 'WindSpeed','6'=> 'SoilTemperature','7'=> 'Rainfall','8'=> 'VolumetricWaterContent'); 
 				//$parameters = Set::extract($measurements, '/Measurement/MeasurementParameter/parameter');
 
@@ -114,6 +123,7 @@ public function view($id = null, $div_measurement_parameter_id = 1, $format = nu
 					
 					$this->set('div_measurement_parameter_id',$div_measurement_parameter_id);
                                         $this->set('measurements', $measurements);
+					$this->set('measurementAvg', $measurementAvg);
 					$this->set('parameters', $parameters);
                                         $this->set('field', $field);
 

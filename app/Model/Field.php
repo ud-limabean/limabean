@@ -73,7 +73,21 @@ class Field extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		)
-	);
+		),
+	
+                'MeasurementAvg' => array(
+                        'className' => 'MeasurementAvg',
+                        'foreignKey' => 'div_field_id',
+                        'dependent' => false,
+                        'conditions' => '',
+                        'fields' => '',
+                        'order' => '',
+                        'limit' => '',
+                        'offset' => '',
+                        'exclusive' => '',
+                        'finderQuery' => '',
+                        'counterQuery' => ''
+                )
+        );
 
 }
