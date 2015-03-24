@@ -45,7 +45,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		<div id="content">
 			<div style="text-align:right;">
 			<?php if($logged_in): ?>
-			Welcome <?php echo $current_user['username']; ?>. 
+			Welcome <?php echo $current_user['username']; ?>.
+			<?php echo $this->Html->link('Home',array('controller'=>'users','action'=>'view'));?> 
 			<?php echo $this->Html->link('Logout',array('controller'=>'users','action'=>'logout')); ?>
 			<?php else: ?>
 				 <?php echo $this->Html->link('Login',array('controller'=>'users','action'=>'login')); ?>
