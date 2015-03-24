@@ -75,60 +75,62 @@ class FieldsController extends AppController {
         }
 
 public function view($id = null, $div_measurement_parameter_id = 1, $format = null) {
-                if ($this->request->is('post') || $this->request->is('put')){
-			$div_measurement_parameter_id = $this->request->data['Fields']['parameters'];
-		}	
-		if (!$this->Field->exists($id)) {
-                        throw new NotFoundException(__('Invalid field'));
+	
+	$this->layout = 'default_small_ad';
+
+	if ($this->request->is('post') || $this->request->is('put')){
+		$div_measurement_parameter_id = $this->request->data['Fields']['parameters'];
+	}	
+	if (!$this->Field->exists($id)) {
+                throw new NotFoundException(__('Invalid field'));
+        }
+
+        $this->Field->recursive = 2;
+
+        $options = array(
+        	'conditions' => array('Field.' . $this->Field->primaryKey => $id),
+                'contain' => array(
+                	'Locality'
+                )
+        );
+
+        $measurements = $this->paginate($this->Field->Measurement, array(
+                'Field.' . $this->Field->primaryKey => $id,
+                'Measurement.div_measurement_parameter_id' => $div_measurement_parameter_id
+        ));
+				
+	$measurementAvg = $this->Field->MeasurementAvg->find('all',array(
+		'recursive' => 0,
+		'conditions' => array(
+			'Field.' . $this->Field->primaryKey => $id,
+                        'MeasurementAvg.div_measurement_parameter_id' => $div_measurement_parameter_id
+		)
+	));
+
+
+	$parameters = array('1'=> 'AirTemperature','2'=> 'DewpointTemperature','3'=> 'RelativeHumidity','4'=> 'SolarRadiation','5'=> 'WindSpeed','6'=> 'SoilTemperature','7'=> 'Rainfall','8'=> 'VolumetricWaterContent'); 
+	//$parameters = Set::extract($measurements, '/Measurement/MeasurementParameter/parameter');
+
+        $field = $this->Field->find('first', $options);
+
+        if($format == 'csv'){
+	        foreach($measurements as $index => $values) {
+                	$measurements[$index] = $values['Measurement'];
                 }
 
-                $this->Field->recursive = 2;
+                $_serialize = 'measurements';
+                $this->viewClass = 'CsvView.Csv';
+                $this->set(compact('measurements' ,'_serialize'));
 
-                $options = array(
-                        'conditions' => array('Field.' . $this->Field->primaryKey => $id),
-                        'contain' => array(
-                                'Locality',
-                        )
-                );
+        } else {
 
-                                $measurements = $this->paginate($this->Field->Measurement, array(
-                                'Field.' . $this->Field->primaryKey => $id,
-                                'Measurement.div_measurement_parameter_id' => $div_measurement_parameter_id
-                ));
-				
-				$measurementAvg = $this->Field->MeasurementAvg->find('all',array(
-					'recursive' => 0,
-					'conditions' => array(
-					'Field.' . $this->Field->primaryKey => $id,
-                                	'MeasurementAvg.div_measurement_parameter_id' => $div_measurement_parameter_id
-					)
-				));
-
-
-				$parameters = array('1'=> 'AirTemperature','2'=> 'DewpointTemperature','3'=> 'RelativeHumidity','4'=> 'SolarRadiation','5'=> 'WindSpeed','6'=> 'SoilTemperature','7'=> 'Rainfall','8'=> 'VolumetricWaterContent'); 
-				//$parameters = Set::extract($measurements, '/Measurement/MeasurementParameter/parameter');
-
-                                $field = $this->Field->find('first', $options);
-
-                                if($format == 'csv'){
-                                        foreach($measurements as $index => $values) {
-                                                $measurements[$index] = $values['Measurement'];
-                                        }
-
-                                        $_serialize = 'measurements';
-                                        $this->viewClass = 'CsvView.Csv';
-                                        $this->set(compact('measurements' ,'_serialize'));
-
-                                } else {
-					
-					$this->set('div_measurement_parameter_id',$div_measurement_parameter_id);
-                                        $this->set('measurements', $measurements);
-					$this->set('measurementAvg', $measurementAvg);
-					$this->set('parameters', $parameters);
-                                        $this->set('field', $field);
-
-                                }
+		$this->set('div_measurement_parameter_id',$div_measurement_parameter_id);
+                $this->set('measurements', $measurements);
+		$this->set('measurementAvg', $measurementAvg);
+		$this->set('parameters', $parameters);
+                $this->set('field', $field);
         }
+}
 	
 
 /**
