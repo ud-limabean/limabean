@@ -1,7 +1,23 @@
-<div id="users-view">
+<!-- Begin column 1, map -->
+<?php $this->start('col1'); ?>
+<div id="map-container">
+<h3><?php echo __('Your Farms'); ?></h3>
+<?php
+echo $this->element('map', array(
+                "data" => $user['FieldOwnership']
+        ));
+?>
+</div>
+<?php $this->end(); ?>
+
+<!-- Begin column 2, field info -->
+<?php
+$this->assign('title', $user['User']['username']);
+$this->assign('subtitle', $user['User']['username']);
+$this->start('col2'); ?>
 <span>
-<h2><?php echo __($user['User']['username']); ?></h2>
 	<dl>
+		<h3><?php echo __($user['User']['username']); ?></h3>
 		<dt><?php echo __('Div Users Id'); ?></dt>
 		<dd>
 			<?php echo h($user['User']['id']); ?>
@@ -24,14 +40,4 @@
                 </dd>
 	</dl>
 </span>
-</div>
-
-<div id="map-container">
-<h3><?php echo __('Your Farms'); ?></h3>
-<?php
-echo $this->element('map', array(
-                "data" => $user['FieldOwnership']
-        ));
-?>
-</div>
-
+<?php $this->end(); ?>
