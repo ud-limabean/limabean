@@ -1,0 +1,69 @@
+36d35
+< 		echo $this->Html->css('data.css');
+45,62d43
+< 	
+< 		<div id="header">
+< 			<?php //echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?>
+< 			<?php echo $this->fetch('title'); ?>
+< 			 <div style="text-align:right;">
+< 				<?php if($logged_in): ?>
+< 				Welcome <?php echo $current_user['username']; ?>.
+< 				<?php echo $this->Html->link('Home',array('controller'=>'users','action'=>'view'));?>
+< 				<?php echo $this->Html->link('Logout',array('controller'=>'users','action'=>'logout')); ?>
+< 				<?php else: ?>
+< 						 <?php echo $this->Html->link('Login',array('controller'=>'users','action'=>'login')); ?>
+< 				<?php endif; ?>
+< 				</div>
+< 
+< 				<?php #echo var_dump($this->Auth); ?>
+< 				<?php echo $this->Session->flash(); ?>
+< 				<?php echo $this->Session->flash('auth'); ?>
+< 		</header>
+65,75c46,53
+< 			<div class="col-group">
+< 				<div>
+< 					<p><?php echo $this->fetch('col1'); ?></p>
+< 				</div>
+< 				<div>
+< 					<h2><?php echo $this->fetch('subtitle'); ?></h2>
+< 					<p><?php echo $this->fetch('col2'); ?></p>
+< 				</div>
+< 			</div>
+< 			<div>
+< 				<p><?php echo $this->fetch('data'); ?></p>
+---
+> 			<div style="text-align:right;">
+> 			<?php if($logged_in): ?>
+> 			Welcome <?php echo $current_user['username']; ?>.
+> 			<?php echo $this->Html->link('Home',array('controller'=>'users','action'=>'view'));?> 
+> 			<?php echo $this->Html->link('Logout',array('controller'=>'users','action'=>'logout')); ?>
+> 			<?php else: ?>
+> 				 <?php echo $this->Html->link('Login',array('controller'=>'users','action'=>'login')); ?>
+> 			<?php endif; ?>
+76a55,60
+> 	
+> 			<?php #echo var_dump($this->Auth); ?>	
+> 			<?php echo $this->Session->flash(); ?>
+> 			<?php echo $this->Session->flash('auth'); ?>
+> 
+> 			<?php echo $this->fetch('content'); ?>
+78d61
+< 		
+80,84c63,67
+< 			 <?php echo $this->Html->link(
+< 							$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
+< 							'http://www.cakephp.org/',
+< 							array('target' => '_blank', 'escape' => false, 'id' => 'cake-powered')
+< 					);
+---
+> 			<?php echo $this->Html->link(
+> 					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
+> 					'http://www.cakephp.org/',
+> 					array('target' => '_blank', 'escape' => false, 'id' => 'cake-powered')
+> 				);
+87c70
+< 					<?php echo $cakeVersion; ?>
+---
+> 				<?php echo $cakeVersion; ?>
+90d72
+< 		

@@ -122,6 +122,7 @@ public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
  * @return void
  */
         public function view($id = null) {
+		$this->layout = 'user';
 		$current_user = $this->Auth->user();
 		
 		if($current_user){
