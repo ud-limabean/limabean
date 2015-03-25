@@ -76,7 +76,7 @@ class FieldsController extends AppController {
 
 public function view($id = null, $div_measurement_parameter_id = 1, $format = null) {
 	
-	$this->layout = 'default_small_ad';
+	//$this->layout = 'default_small_ad';
 
 	if ($this->request->is('post') || $this->request->is('put')){
 		$div_measurement_parameter_id = $this->request->data['Fields']['parameters'];
