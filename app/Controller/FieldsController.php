@@ -17,8 +17,28 @@ class FieldsController extends AppController {
 
 	public $paginate = array('Field','Measurement'=>array('limit'=>5));
 
+
+	public function checkFieldAuth($user, $field){
+		$owners = array();
+		$callback = function ($value,$key) use ($user, &$owners){
+			if($key == 'user_id' && $user['id'] == $value){
+                                $owners[] = $value;
+                        }
+		};
+		
+		array_walk_recursive($field['FieldOwnership'], $callback);
+	
+		if(!in_array($user['id'],$owners) && $user['role'] != 'admin' ){
+			$this->redirect(array('controller'=> 'users', 'action' => 'view', $user['id']));
+		}
+
+		return true; 
+	}
+
+
+
 /**
- * admin_index method
+ /* admin_index method
  *
  * @return void
  */
@@ -90,7 +110,8 @@ public function view($id = null, $div_measurement_parameter_id = 1, $format = nu
         $options = array(
         	'conditions' => array('Field.' . $this->Field->primaryKey => $id),
                 'contain' => array(
-                	'Locality'
+                	'Locality',
+			'FieldOwnership'
                 )
         );
 
@@ -112,6 +133,8 @@ public function view($id = null, $div_measurement_parameter_id = 1, $format = nu
 	//$parameters = Set::extract($measurements, '/Measurement/MeasurementParameter/parameter');
 
         $field = $this->Field->find('first', $options);
+
+	$this->checkFieldAuth($this->Auth->user(),$field);
 
         if($format == 'csv'){
 	        foreach($measurements as $index => $values) {
