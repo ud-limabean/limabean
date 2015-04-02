@@ -119,6 +119,7 @@ public function view($id = null, $div_measurement_parameter_id = 1, $format = nu
                 'Field.' . $this->Field->primaryKey => $id,
                 'Measurement.div_measurement_parameter_id' => $div_measurement_parameter_id
         ));
+
 				
 	$measurementAvg = $this->Field->MeasurementAvg->find('all',array(
 		'recursive' => 0,
@@ -134,19 +135,33 @@ public function view($id = null, $div_measurement_parameter_id = 1, $format = nu
 
         $field = $this->Field->find('first', $options);
 
+
 	$this->checkFieldAuth($this->Auth->user(),$field);
 
         if($format == 'csv'){
-	        foreach($measurements as $index => $values) {
+		$options = array(
+                'conditions' => array('Field.' . $this->Field->primaryKey => $id,
+					'Measurement.div_measurement_parameter_id' => $div_measurement_parameter_id	
+		)
+        	
+		);
+		$_header = array_keys($this->Field->Measurement->getColumnTypes());
+	
+		$results = $this->Field->Measurement->find('all', $options);
+	        foreach($results as $index => $values) {
                 	$measurements[$index] = $values['Measurement'];
                 }
-
-                $_serialize = 'measurements';
+	
+		//debug($measurements);
+		//debug($header);
+		//$measurements = array_unshift($measurements, $header);	
+		//$_extract = $this->CsvView->prepareExtractFromFindResults($results);
+		//$_header = $this->CsvView->prepareHeaderFromExtract($_extract);
+		$_serialize = 'measurements';
                 $this->viewClass = 'CsvView.Csv';
-                $this->set(compact('measurements' ,'_serialize'));
+                $this->set(compact('measurements' ,'_serialize','_header'));
 
         } else {
-
 		$this->set('div_measurement_parameter_id',$div_measurement_parameter_id);
                 $this->set('measurements', $measurements);
 		$this->set('measurementAvg', $measurementAvg);
