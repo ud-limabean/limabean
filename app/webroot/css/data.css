@@ -1,0 +1,52 @@
+body {
+	background-color: #fff;
+}
+
+.container{
+	max-width: none;
+	width: 100%;
+}
+
+#col1{
+}
+
+#col2{
+	min-width: 500px;
+	padding-left: 20px;
+	padding-right: 5%;
+}
+
+#col2 * {
+	padding: 2px;
+	margin: 0;
+}
+
+#map-container {
+  float: left;
+  padding: 0px 0px 10px 10%;
+  width: 30%;
+}
+
+#MeasurementParameters {
+	padding: 0;
+}
+
+#header{
+	background:#62af56;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#76BF6B), to(#3B8230));
+        background-image: -webkit-linear-gradient(top, #76BF6B, #3B8230);
+        background-image: -moz-linear-gradient(top, #76BF6B, #3B8230);
+        border-color: #2d6324;
+        color: #fff;
+        text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0px;
+        padding: 8px 10px;
+}
+
+div.related{
+	padding-left: 5%;
+	padding-right: 5%;
+}
+
+span.nav{
+/*	padding-left: 5px; */
+}

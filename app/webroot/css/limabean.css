@@ -1,0 +1,28 @@
+#map{
+	height: 500px;
+	width: 500px;
+}
+
+#fields-view{
+	border-left: 1px solid #666;
+    	float: right;
+    	padding: 10px 2%;
+	width: 58%;
+}
+
+#users-view{
+        border-left: 1px solid #666;
+        float: right;
+        padding: 10px 2%;
+        width: 58%;
+}
+
+#map-container{
+    float: left;
+    padding: 10px 1.5%;
+    width: 30%;
+}
+
+#MeasurementParameters{
+	padding: 10px;
+}
