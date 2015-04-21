@@ -135,14 +135,12 @@ $rh =  $this->Field->Measurement->find('all',array(
                         'COUNT(Measurement.value)',
                         //'MeasurementParameter.parameter'),
 			),
-                'group' => array(
-				'MeasurementParameter.parameter'
-		),
+                'group' => array('MeasurementParameter.parameter'),
                 'conditions' => array(
                         'Field.' . $this->Field->primaryKey => $id,
                         'Measurement.div_measurement_parameter_id' => 3,
                         "Measurement.tom BETWEEN date($date - 5) AND date($date)",
-			'Measurement.value >' => '96' 
+			'Measurement.value >' => '97' 
                 )
         ));
 
@@ -152,9 +150,7 @@ $rain = $this->Field->Measurement->find('all',array(
                         'SUM(Measurement.value)',
                         //'MeasurementParameter.parameter'),
 			),
-                'group' => array(
-			'MeasurementParameter.parameter'
-		),
+                'group' => array('MeasurementParameter.parameter'),
                 'conditions' => array(
                         'Field.' . $this->Field->primaryKey => $id,
                         'Measurement.div_measurement_parameter_id' => 7,
@@ -162,53 +158,14 @@ $rain = $this->Field->Measurement->find('all',array(
                 )
         ));
 
-	//array_values($tempurature[0][0])
-	$tempurature = array_shift($tempurature[0][0]) * 9 / 5 + 32;
-	$rh = array_shift($rh[0][0]);
-	$rain = array_shift($rain[0][0]) * 0.0393701;
 
-	//debug($tempurature);
-	//debug($rh);
-	//debug($rain);
-	
-	$a = $history;
-
-	if ($tempurature  > 78) {
-    		$b = 3;
-	} elseif ($tempurature > 69) {
-    		$b = 2;
-	} else {
-    		$b = 1;
-	}
-
-	if ($rain  > 3) {
-                $c = 4;
-        } elseif ($rain > 2) {
-                $c = 3;
-        } elseif ($rain > 1.2) {
-                $c = 2;
-        } else {	
-		$c = 1;
-	}
-
-	if ($rh  > 3) {
-                $d = 4;
-        } elseif ($rh > 2) {
-                $d = 3;
-        } elseif ($rh > 1.2) {
-                $d = 2;
-        } else {
-                $d = 1;
-        }
+	debug($tempurature);
+	debug($rh);
+	debug($rain);
 
 
-	$index = $cultivar*($a + $b + $c);
-	$index2 = $cultivar*($a + $b + $d); 
 
-	//debug($index);
-	//debug($index2);
-$this->set('index', $index);
-$this->set('index2', $index2);
+//$this->set('measurements', $measurements);
 $this->set('field', $field);
 
 

@@ -34,6 +34,14 @@ class Measurement extends AppModel {
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
+/*
+public $virtualFields = array(
+    'avgValue' => 'AVG(Measurement.value)',
+    'sumValue' => 'SUM(Measurement.value)',
+    'countValue' => 'COUNT(Measurement.value)'
+);
+*/
+
 /**
  * belongsTo associations
  *

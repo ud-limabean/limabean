@@ -59,7 +59,7 @@ public $components = array(
       	$this->set('current_user',$this->Auth->user());
 
 	$allowed_controllers = array('fields','users');
-	$allowed_actions = array('view','login','logout');
+	$allowed_actions = array('view','risk','login','logout');
 
 	if($this->request['prefix'] != 'admin'){
 
