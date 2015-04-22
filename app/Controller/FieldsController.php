@@ -94,14 +94,21 @@ class FieldsController extends AppController {
 				}
         }
 
-//public $date = date("Ymd");
 public function risk($id = null,$cultivar = 1, $history = 3, $date = NULL){
-//$this->virtualFields += $this->Measurement->virtualFields;
-if (is_null($date)){
-	//$date = date("Ymd");
-	$date = 20130415;
+
+$this->layout = 'data';
+
+if ($this->request->is('post') || $this->request->is('put')){
+	//debug($this->request->data);
+	$date = $this->request->data['Measurement']['tom'];
+	$date = $date['year'] . $date['month'] . $date['day'];
+	//debug($date);
+	//$div_measurement_parameter_id = $this->request->data['Fields'][''];
 }
-//$minDate = $date - 10;
+if (!$this->Field->exists($id)) {
+		 throw new NotFoundException(__('Invalid field'));
+}
+
 
 $options = array(
                 'conditions' => array('Field.' . $this->Field->primaryKey => $id),
@@ -112,6 +119,16 @@ $options = array(
         );
 
 $field = $this->Field->find('first', $options);
+$this->set('field', $field);
+
+if (is_null($date)){
+        $this->set('risk',NULL);
+        return false;
+        //$date = date("Ymd");
+        //$date = 20130415;
+} else {
+	$this->set('date', $field);
+}
 
 $div_measurement_parameter_ids = array(1,3,7);
 
@@ -119,8 +136,6 @@ $tempurature = $this->Field->Measurement->find('all',array(
                 'recursive' => 0,
                 'fields' => array(
 			'AVG(Measurement.value)',
-			//'Measurement.tom',
-			//'MeasurementParameter.parameter'),
 			),
 		'group' => array('MeasurementParameter.parameter'),
 		'conditions' => array(
@@ -162,9 +177,14 @@ $rain = $this->Field->Measurement->find('all',array(
                 )
         ));
 
+	//debug($rh);
 	//array_values($tempurature[0][0])
 	$tempurature = array_shift($tempurature[0][0]) * 9 / 5 + 32;
-	$rh = array_shift($rh[0][0]);
+	if (sizeof($rh)>1){
+		$rh = array_shift($rh[0][0]);
+	} else {
+		$rh = 0;
+	}
 	$rain = array_shift($rain[0][0]) * 0.0393701;
 
 	//debug($tempurature);
@@ -202,14 +222,14 @@ $rain = $this->Field->Measurement->find('all',array(
         }
 
 
-	$index = $cultivar*($a + $b + $c);
-	$index2 = $cultivar*($a + $b + $d); 
+	$hyre = $cultivar*($a + $b + $c);
+	$raniere = $cultivar*($a + $b + $d); 
 
 	//debug($index);
 	//debug($index2);
-$this->set('index', $index);
-$this->set('index2', $index2);
-$this->set('field', $field);
+//$this->set('index', $index);
+//$this->set('index2', $index2);
+$this->set('risk', compact('cultivar','history','tempurature','rain','rh','date','hyre','raniere'));
 
 
 }

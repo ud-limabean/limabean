@@ -15,6 +15,13 @@ $this->assign('title', $field['Locality']['locality_name']);
 $this->assign('subtitle', $field['Locality']['locality_name']);
 $this->start('col2'); ?>
 	<p><?php echo 'Field #' . $field['Field']['div_field_id'] . ' is located at (' . $field['Field']['latitude'] . 'N,' . $field['Field']['longitude'] . 'W) ' .  $field['Field']['altitude'] . 'FT above sea level';?></p>
+	<span>
+	<?php echo $this->Html->link(
+                'Downy Mildew Risk Assessment',
+                array('controller' => 'fields', 'action' => 'risk', $field['Field']['div_field_id'])
+		); ?>
+
+	</span>
 	<span id="MeasurementParameters" class="form">
 	<?php echo $this->Form->create('Fields'); ?>
 	<fieldset>
