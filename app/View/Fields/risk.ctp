@@ -76,8 +76,8 @@ $this->start('col2');
 
 	<?php
 	echo '<span><h5>Risk is rated from 1 (Low) to 10 (High)</h5>';
-	echo '<span><h3>Modified Hyre Risk Rating: </h3>' .  $risk['hyre'] . '</span>';
-	echo '<span><h3>Modified Raniere Risk Rating: </h3>' . $risk['raniere'] . '</span>';
+	echo '<span><h6>Modified Hyre Risk Rating: </h6><h4>' . $risk['hyre'] . '</h4></span>';
+	echo '<span><h6>Modified Raniere Risk Rating: </h6><h4>' . $risk['raniere'] . '</h4></span>';
 	?>
 
 <table cellpadding = "0" cellspacing = "0">
