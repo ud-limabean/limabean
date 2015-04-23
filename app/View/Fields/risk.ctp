@@ -60,7 +60,7 @@ $this->start('col2');
 			<td><?php echo $risk['history']; ?></td>
 	</tr>
 	<tr>
-			<td><?php echo __('Average tempurature, F, 5-day'); ?></td>
+			<td><?php echo __('Average max daily tempurature, F, 5-day'); ?></td>
 			<td><?php echo $risk['tempurature']; ?></td>
 	</tr>
 	<tr>

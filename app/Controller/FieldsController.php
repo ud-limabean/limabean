@@ -135,9 +135,9 @@ $div_measurement_parameter_ids = array(1,3,7);
 $tempurature = $this->Field->Measurement->find('all',array(
                 'recursive' => 0,
                 'fields' => array(
-			'AVG(Measurement.value)',
+			'MAX(Measurement.value)',
 			),
-		'group' => array('MeasurementParameter.parameter'),
+		'group' => array('Measurement.tom'),
 		'conditions' => array(
                         'Field.' . $this->Field->primaryKey => $id,
                         'Measurement.div_measurement_parameter_id' => 1,
@@ -177,9 +177,23 @@ $rain = $this->Field->Measurement->find('all',array(
                 )
         ));
 
-	//debug($rh);
+	//debug($tempurature);
+	//reddturn false;
 	//array_values($tempurature[0][0])
-	$tempurature = array_shift($tempurature[0][0]) * 9 / 5 + 32;
+	
+	$sum = 0;
+	$count = 0;
+
+	array_walk($tempurature, function ($item, $key) use ($tempurature, &$sum, &$count){
+    		$count++;
+		$sum = $sum + array_shift($item[0]);
+	});
+	
+	$tempurature = $sum/$count * 9 / 5 + 32;
+	
+	//$tempurature = array_shift($tempurature[0][0]) * 9 / 5 + 32;
+	
+
 	if (sizeof($rh)>1){
 		$rh = array_shift($rh[0][0]);
 	} else {
