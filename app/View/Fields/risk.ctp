@@ -19,10 +19,37 @@ $this->assign('title', $field['Locality']['locality_name']);
 $this->assign('subtitle', $field['Locality']['locality_name']);
 $this->start('col2'); 
 //if (is_null($risk)){
+
 	echo $this->Form->create('Measurement');
         echo  '<fieldset>
                 <legend>Choose a date for which to show risk</legend>';
+		/*echo $this->Form->input(
+                        'cultivar',
+                        array(
+                                'type'=>'checkbox',
+                                'label'=>'Field planted with race F susceptible cultivar – (continue) Cypress, Jackson Wonder, C-Elite',
+                              	'checked'=> true,
+				'format' => array('before', 'label', 'between', 'input', 'after', 'error')
+				//'div'=> true
+			//	'hidden'=> false
+				//'selected'=>$date
+                        )
+                        );
 
+		echo $this->Form->input(
+                        'history',
+                        array(
+                                'type'=>'select',
+                                'label'=>'Last year with downy mildew',
+				'options'=> array('M'=>'Male','F'=>'Female'),	
+                                'checked'=> true,
+                                'format' => array('before', 'label', 'between', 'input', 'after', 'error')
+                                //'div'=> true
+                        //      'hidden'=> false
+                                //'selected'=>$date
+                        )
+                        );
+*/
 		echo $this->Form->input(
 			'tom',
 			array(
