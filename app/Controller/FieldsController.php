@@ -94,7 +94,7 @@ class FieldsController extends AppController {
 				}
         }
 
-public function risk($id = null,$cultivar = 1, $history = 3, $date = NULL){
+public function risk($id = null,$cultivar = 1, $history = 1, $date = NULL){
 
 $this->layout = 'data';
 
@@ -193,13 +193,17 @@ $rain = $this->Field->Measurement->find('all',array(
 	
 	//$tempurature = array_shift($tempurature[0][0]) * 9 / 5 + 32;
 	
-
-	if (sizeof($rh)>1){
+	if (sizeof($rh)>=1){
 		$rh = array_shift($rh[0][0]);
 	} else {
 		$rh = 0;
 	}
-	$rain = array_shift($rain[0][0]) * 0.0393701;
+	
+	if (sizeof($rain)>=1){
+                $rain = array_shift($rain[0][0]) * 0.0393701;
+        } else {
+                $rain = 0;
+        }
 
 	//debug($tempurature);
 	//debug($rh);
@@ -243,7 +247,7 @@ $rain = $this->Field->Measurement->find('all',array(
 	//debug($index2);
 //$this->set('index', $index);
 //$this->set('index2', $index2);
-$this->set('risk', compact('cultivar','history','tempurature','rain','rh','date','hyre','raniere'));
+$this->set('risk', compact('cultivar','history','tempurature','rain','rh','date','hyre','raniere','a','b','c','d'));
 
 
 }
