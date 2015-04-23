@@ -15,8 +15,12 @@ echo $this->element('map', array(
 
 <!-- Begin column 2, field info -->
 <?php
-$this->assign('title', $field['Locality']['locality_name']);
-$this->assign('subtitle', $field['Locality']['locality_name']);
+$this->assign('title', $this->Html->link($field['Locality']['locality_name'], array('controller' => 'fields', 'action' => 'view', $field['Field']['div_field_id'])
+));
+
+$this->assign('subtitle', $this->Html->link($field['Locality']['locality_name'], array('controller' => 'fields', 'action' => 'view', $field['Field']['div_field_id'])
+));
+//$this->assign('subtitle', $field['Locality']['locality_name']);
 $this->start('col2'); 
 //if (is_null($risk)){
 
@@ -71,6 +75,7 @@ $this->start('col2');
 <?php if (!is_null($risk)): ?>
 
 	<?php
+	echo '<span><h5>Risk is rated from 1 (Low) to 10 (High)</h5>';
 	echo '<span><h3>Modified Hyre Risk Rating: </h3>' .  $risk['hyre'] . '</span>';
 	echo '<span><h3>Modified Raniere Risk Rating: </h3>' . $risk['raniere'] . '</span>';
 	?>
@@ -97,19 +102,19 @@ $this->start('col2');
                         <td><?php echo $risk['rh']; ?></td>
         </tr>
 	<tr>
-			<td><?php echo __('a'); ?></td>
+			<td><?php echo __('A: History of Downy'); ?></td>
 			<td><?php echo $risk['a']; ?></td>
 	</tr>
 	<tr>
-                        <td><?php echo __('b'); ?></td>
+                        <td><?php echo __('B: Tempurature'); ?></td>
                         <td><?php echo $risk['b']; ?></td>
         </tr>
 	<tr>
-                        <td><?php echo __('c'); ?></td>
+                        <td><?php echo __('C: Rain'); ?></td>
                         <td><?php echo $risk['c']; ?></td>
 	</tr>
 	<tr>
-                        <td><?php echo __('d'); ?></td>
+                        <td><?php echo __('D: Dew'); ?></td>
                         <td><?php echo $risk['d']; ?></td>
         </tr>
 
