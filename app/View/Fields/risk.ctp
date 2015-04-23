@@ -22,8 +22,8 @@ $this->start('col2');
 
 	echo $this->Form->create('Measurement');
         echo  '<fieldset>
-                <legend>Choose a date for which to show risk</legend>';
-		/*echo $this->Form->input(
+                <legend>Choose parameters for risk calculation</legend>';
+		echo $this->Form->input(
                         'cultivar',
                         array(
                                 'type'=>'checkbox',
@@ -41,15 +41,13 @@ $this->start('col2');
                         array(
                                 'type'=>'select',
                                 'label'=>'Last year with downy mildew',
-				'options'=> array('M'=>'Male','F'=>'Female'),	
-                                'checked'=> true,
-                                'format' => array('before', 'label', 'between', 'input', 'after', 'error')
-                                //'div'=> true
+				'options'=> array(3=>'Last season',2=>'2 seasons ago',1=>'3 seasons ago', 0=> 'More than 3 seasons ago or never'),	
+                                'default'=> 1
                         //      'hidden'=> false
                                 //'selected'=>$date
                         )
                         );
-*/
+
 		echo $this->Form->input(
 			'tom',
 			array(

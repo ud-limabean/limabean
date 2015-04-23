@@ -102,6 +102,8 @@ if ($this->request->is('post') || $this->request->is('put')){
 	//debug($this->request->data);
 	$date = $this->request->data['Measurement']['tom'];
 	$date = $date['year'] . $date['month'] . $date['day'];
+	$history = $this->request->data['Measurement']['history'];
+	$cultivar = $this->request->data['Measurement']['cultivar']; 
 	//debug($date);
 	//$div_measurement_parameter_id = $this->request->data['Fields'][''];
 }
@@ -204,10 +206,7 @@ $rain = $this->Field->Measurement->find('all',array(
         } else {
                 $rain = 0;
         }
-
-	//debug($tempurature);
 	//debug($rh);
-	//debug($rain);
 	
 	$a = $history;
 
@@ -215,8 +214,10 @@ $rain = $this->Field->Measurement->find('all',array(
     		$b = 3;
 	} elseif ($tempurature > 69) {
     		$b = 2;
-	} else {
+	} elseif ($tempurature > 60) {
     		$b = 1;
+	} else {
+		$b = 0;
 	}
 
 	if ($rain  > 3) {
@@ -225,11 +226,13 @@ $rain = $this->Field->Measurement->find('all',array(
                 $c = 3;
         } elseif ($rain > 1.2) {
                 $c = 2;
-        } else {	
+        } elseif($rain > 0.01) {	
 		$c = 1;
+	} else {
+		$c = 0;
 	}
 
-	if ($rh  > 3) {
+	/*if ($rh  > 3) {
                 $d = 4;
         } elseif ($rh > 2) {
                 $d = 3;
@@ -237,7 +240,19 @@ $rain = $this->Field->Measurement->find('all',array(
                 $d = 2;
         } else {
                 $d = 1;
-        }
+        }*/
+
+	if ($rh  > 40) {
+                $d = 4;
+        } elseif ($rh > 20) {
+                $d = 3;
+        } elseif ($rh > 10) {
+                $d = 2;
+        } elseif ($rh > 1) {
+                $d = 1;
+        } else {
+		$d = 0;
+	}
 
 
 	$hyre = $cultivar*($a + $b + $c);
