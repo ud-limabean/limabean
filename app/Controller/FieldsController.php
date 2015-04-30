@@ -296,11 +296,11 @@ public function view($id = null, $div_measurement_parameter_id = 1, $format = nu
         ));
 
 				
-	$measurementAvg = $this->Field->MeasurementAvg->find('all',array(
+	$measurementAvg = $this->Field->Measurement->find('all',array(
 		'recursive' => 0,
 		'conditions' => array(
 			'Field.' . $this->Field->primaryKey => $id,
-                        'MeasurementAvg.div_measurement_parameter_id' => $div_measurement_parameter_id
+                        'Measurement.div_measurement_parameter_id' => $div_measurement_parameter_id+1000,
 		)
 	));
 

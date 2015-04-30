@@ -8,10 +8,10 @@ class ChartHelper extends AppHelper {
 	public function loadChart($data){
 		global $arrFindChart;
         foreach ($data as $datum) {
-                if (is_array($data) && array_key_exists('average', $data) && array_key_exists('month', $data) && array_key_exists('year', $data)){
-                        $average = $data['average'];
-                        $month = $data['month'];
-			$year = $data['year'];
+                if (is_array($data) && array_key_exists('value', $data) && array_key_exists('tom', $data)){
+                        $average = $data['value'];
+                        $month = date('m',strtotime($data['tom']));
+			$year = date('Y',strtotime($data['tom']));
 			$id = $data['div_field_id'];
                         //$text =  $this->Html->link(__('Goto Field'), array('controller' => 'fields', 'action' => 'view', $id));
                         $arrFindChart[] = '{yearmonth:"' . $year  . '-' . str_pad($month, 2, "0", STR_PAD_LEFT) . '",value:' . $average . '}';
