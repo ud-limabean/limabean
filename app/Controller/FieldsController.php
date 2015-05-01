@@ -191,8 +191,11 @@ $rain = $this->Field->Measurement->find('all',array(
 		$sum = $sum + array_shift($item[0]);
 	});
 	
-	$tempurature = $sum/$count * 9 / 5 + 32;
-	
+	if($count > 0){
+		$tempurature = $sum/$count * 9 / 5 + 32;
+	} else {
+		$tempurature = 0;
+	}
 	//$tempurature = array_shift($tempurature[0][0]) * 9 / 5 + 32;
 	
 	if (sizeof($rh)>=1){
