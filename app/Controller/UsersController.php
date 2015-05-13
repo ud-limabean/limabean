@@ -137,12 +137,12 @@ public function admin_view($id = null) {
  */
         public function view($id = null, $admin = false) {
 		$this->layout = 'user';
-		$current_user = $this->Auth->user();
-		
-		if($current_user){
-			$id = $current_user;	
+		if (!$admin || !$id){
+			$current_user = $this->Auth->user();
+			if($current_user){
+				$id = $current_user;	
+			}
 		}
-
 		if (!$this->User->exists($id)) {
                         throw new NotFoundException(__('Invalid user'));
                 }

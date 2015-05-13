@@ -61,15 +61,18 @@ public $components = array(
 	$allowed_controllers = array('fields','users');
 	$allowed_actions = array('view','risk','login','logout');
 
+	
 	if($this->request['prefix'] != 'admin'){
 
           	if(!in_array($this->request['controller'], $allowed_controllers) || !in_array($this->request['action'], $allowed_actions)){
                   	$this->redirect(array(
-                              	'admin' => true,
-                               	'controller' => $this->request['controller'],
-                             	'action' => $this->request['action'],
-                              	$this->request['pass'][0]
-                                )
+                              	//'admin' => true,
+                               	//'controller' => $this->request['controller'],
+                             	//'action' => $this->request['action'],
+                              	//$this->request['pass'][0]
+                                'controller' => 'users',
+				'action' => 'view'
+				)
                                 );
         	}
 	}
