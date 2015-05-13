@@ -70,6 +70,14 @@ public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
 		$this->redirect($this->Auth->logout());
 	}
 
+	public function test(){
+		$something = 'something';
+	}
+
+	public function admin_test(){
+		$this->test();
+	}
+
 /**
  * admin_index method
  *
@@ -88,7 +96,13 @@ public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
  * @param string $id
  * @return void
  */
-	public function admin_view($id = null) {
+public function admin_view($id = null) {
+	//$this->layout = 'user';
+	$this->view($id,true);
+	$this->render('view');
+}
+
+/*	public function admin_view($id = null) {
 		if (!$id){
 			$current_user = $this->Auth->user();
 
@@ -113,7 +127,7 @@ public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
 		
 		$this->set('user', $this->User->find('first', $options));
 	}
-
+*/
 /**
  * view method
  *
@@ -121,7 +135,7 @@ public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
  * @param string $id
  * @return void
  */
-        public function view($id = null) {
+        public function view($id = null, $admin = false) {
 		$this->layout = 'user';
 		$current_user = $this->Auth->user();
 		
@@ -143,7 +157,7 @@ public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
                 );
 
                 $this->set('user', $this->User->find('first', $options));
-        }
+	}
 
 /**
  * admin_add method
