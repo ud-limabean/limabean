@@ -303,7 +303,8 @@ public function view($id = null, $div_measurement_parameter_id = 1, $format = nu
 		'recursive' => 0,
 		'conditions' => array(
 			'Field.' . $this->Field->primaryKey => $id,
-                        'Measurement.div_measurement_parameter_id' => $div_measurement_parameter_id+1000,
+                        'Measurement.div_statistic_type_id' => 2,
+			'Measurement.div_measurement_parameter_id' => $div_measurement_parameter_id
 		)
 	));
 
