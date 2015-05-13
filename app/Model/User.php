@@ -1,6 +1,7 @@
 <?php
 
 App::uses('AppModel', 'Model');
+App::uses('CakeSession','Model/Datasource');
 /**
  * User Model
  *
@@ -80,11 +81,16 @@ public $validate = array(
 
 
 public function matchPassword($data){
+	$role = CakeSession::read('Auth.User.role');
+	if($role <> 'admin'){
 	if ($data['password'] == $this->data['User']['password_confirmation']){
 		return true;
 	}
 	$this->invalidate('password_confirmation','Your passwords do not match.');
 	return false;
+	} else {
+		return true;
+	}
 }
 
 public function beforeSave(){
