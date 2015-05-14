@@ -136,7 +136,7 @@ public function admin_view($id = null) {
  * @return void
  */
         public function view($id = null, $admin = false) {
-		$this->layout = 'user';
+		$this->layout = 'data';
 		if (!$admin || !$id){
 			$current_user = $this->Auth->user();
 			if($current_user){

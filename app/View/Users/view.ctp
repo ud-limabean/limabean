@@ -17,7 +17,6 @@ $this->assign('subtitle', $user['User']['username']);
 $this->start('col2'); ?>
 <span>
 	<dl>
-		<h3><?php echo __($user['User']['username']); ?></h3>
 		<dt><?php echo __('Div Users Id'); ?></dt>
 		<dd>
 			<?php echo h($user['User']['id']); ?>

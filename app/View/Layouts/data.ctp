@@ -74,7 +74,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 				         <p><?php echo $this->fetch('col1'); ?></p>
                                 </div>
                                 <div id="col2" class="one-half column">
-                                        <h2><?php echo $this->fetch('subtitle'); ?></h2>
+                                        <h3><?php echo $this->fetch('subtitle'); ?></h3>
                                         <p><?php echo $this->fetch('col2'); ?></p>
                                 </div>
                         </div>
