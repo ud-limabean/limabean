@@ -21,6 +21,7 @@ public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
  *
  * @var array
  */
+
 	public $components = array('Paginator');
 
 	public function beforeFilter(){
@@ -97,9 +98,13 @@ public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
  * @return void
  */
 public function admin_view($id = null) {
-	//$this->layout = 'user';
+	if($id){
 	$this->view($id,true);
 	$this->render('view');
+	} else {
+	$this->admin_index();
+	$this->render('admin_index');
+	}
 }
 
 /*	public function admin_view($id = null) {
@@ -136,13 +141,16 @@ public function admin_view($id = null) {
  * @return void
  */
         public function view($id = null, $admin = false) {
-		$this->layout = 'user';
-		$current_user = $this->Auth->user();
-		
-		if($current_user){
-			$id = $current_user;	
+		$this->layout = 'data';
+		if (!$admin || !$id){
+			$current_user = $this->Auth->user();
+			if($current_user['role'] == 'admin'){
+				$this->redirect(array('controller'=>'users','action'=>'view','admin'=>'true'));
+			}
+			if($current_user){
+				$id = $current_user;	
+			}
 		}
-
 		if (!$this->User->exists($id)) {
                         throw new NotFoundException(__('Invalid user'));
                 }

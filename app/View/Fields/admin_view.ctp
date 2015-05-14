@@ -1,5 +1,12 @@
 <div class="fields view">
-<h2><?php echo __('Field'); ?></h2>
+
+<div class="viewToggle"><h2><?php echo __('Field View'); ?></h2>
+<span>Admin/<?php
+$controller = $this->request->params['controller'];
+$action = str_replace('admin_','',$this->request->params['action']);
+$id = $field['Field']['div_field_id'];
+echo $this->Html->link('User',array('controller'=>$controller,'action'=>$action, 'admin'=>false, $id)); ?></span></div>
+<div style="clear: both">
 	<dl>
 		<dt><?php echo __('Div Field Id'); ?></dt>
 		<dd>
@@ -47,6 +54,7 @@
 			&nbsp;
 		</dd>
 	</dl>
+</div>
 </div>
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>

@@ -36,6 +36,7 @@ public $components = array(
     'Session',
     'Auth'=>array(
       'loginRedirect'=>array('controller'=>'users','action'=>'view'),
+      //'loginRedirect'=>array(redirect($this->referer())),
       'logoutRedirect'=>array('controller'=>'users','action'=>'login'),
       'authError'=>"You can't access that page",
       'authorize'=>array('Controller')
@@ -54,26 +55,31 @@ public $components = array(
 	return true;
     }
 
-    public function beforeFilter(){
+     public function beforeFilter(){
       	$this->set('logged_in',$this->Auth->loggedIn());
       	$this->set('current_user',$this->Auth->user());
 
-	$allowed_controllers = array('fields','users');
-	$allowed_actions = array('view','risk','login','logout');
+	$allowed_controllers = array('fields','users','pages');
+	$allowed_actions = array('view','risk','login','logout','display');
 
+	
 	if($this->request['prefix'] != 'admin'){
 
           	if(!in_array($this->request['controller'], $allowed_controllers) || !in_array($this->request['action'], $allowed_actions)){
                   	$this->redirect(array(
-                              	'admin' => true,
-                               	'controller' => $this->request['controller'],
-                             	'action' => $this->request['action'],
-                              	$this->request['pass'][0]
-                                )
+                              	//'admin' => true,
+                               	//'controller' => $this->request['controller'],
+                             	//'action' => $this->request['action'],
+                              	//$this->request['pass'][0]
+                                //'controller' => 'users',
+				//'action' => 'view'
+				'controller' => 'pages',
+				'action' => 'display',
+				'home'
+				)
                                 );
         	}
 	}
 		
     }
-
 }
