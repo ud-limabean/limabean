@@ -24,7 +24,8 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/View/Pages/home.ctp)...
  */
-	Router::connect('/', array('controller' => 'users', 'action' => 'view'));
+	//Router::connect('/', array('controller' => 'pages', 'action' => 'home'));
+	//Router::connect('/', array('controller' => 'users', 'action' => 'view'));
 	//Router::connect('/admin/:controller/:action/*', array('controller' => ':controller', 'action' => ':action', *));
 	
 	//Router::connect('/limabean-cake-scratch-update/users', array('controller' => 'users', 'action' => 'index'));

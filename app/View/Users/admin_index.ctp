@@ -1,5 +1,5 @@
 <div class="users index">
-	<h2><?php echo __('Users'); ?></h2>
+	<h2><?php echo __('User Administration'); ?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>

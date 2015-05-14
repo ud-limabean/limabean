@@ -13,6 +13,7 @@ class FieldsController extends AppController {
  *
  * @var array
  */
+	
 	public $components = array('Paginator');
 
 	public $paginate = array('Field','Measurement'=>array('limit'=>5));

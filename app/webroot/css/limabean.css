@@ -26,3 +26,11 @@
 #MeasurementParameters{
 	padding: 10px;
 }
+
+.viewToggle > * {float: left;}
+
+.viewToggle > span {
+	margin-top: 10px; 
+	margin-left: 10px;
+	font-weight: bolder;
+}
