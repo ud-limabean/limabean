@@ -12,14 +12,14 @@ class FieldOwnership extends AppModel {
  *
  * @var mixed False or table name
  */
-	public $useTable = 'lb_field_ownerships';
+	public $useTable = 'field_ownerships';
 
 /**
  * Primary key field
  *
  * @var string
  */
-	public $primaryKey = 'id';
+	public $primaryKey = 'div_field_ownerships_id';
 	//public $tablePrefix = '';
 
 
@@ -33,14 +33,14 @@ class FieldOwnership extends AppModel {
 	public $belongsTo = array(
 		'Field' => array(
 			'className' => 'Field',
-			'foreignKey' => 'field_id'
+			'foreignKey' => 'div_field_id'
 		//	'conditions' => '',
 		//	'fields' => 'div_field_id',
 		//	'order' => ''
 		),
 		'User' => array(
 			'className' => 'User',
-			'foreignKey' => 'user_id',
+			'foreignKey' => 'div_users_id',
 			'conditions' => '',
 		));
 /*		'CdvSource' => array(

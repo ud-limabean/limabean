@@ -20,7 +20,7 @@ $this->start('col2'); ?>
 		<h3><?php echo __($user['User']['username']); ?></h3>
 		<dt><?php echo __('Div Users Id'); ?></dt>
 		<dd>
-			<?php echo h($user['User']['id']); ?>
+			<?php echo h($user['User']['div_users_id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Created'); ?></dt>

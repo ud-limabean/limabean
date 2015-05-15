@@ -3,7 +3,7 @@
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
+			<th><?php echo $this->Paginator->sort('div_users_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('username'); ?></th>
 			<th><?php echo $this->Paginator->sort('password'); ?></th>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
@@ -15,17 +15,17 @@
 	<tbody>
 	<?php foreach ($users as $user): ?>
 	<tr>
-		<td><?php echo h($user['User']['id']); ?>&nbsp;</td>
+		<td><?php echo h($user['User']['div_users_id']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['username']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['password']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['created']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['modified']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['role']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $user['User']['id'])); ?>
-			<?php if($current_user['id'] == $user['User']['id']): ?>	
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $user['User']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $user['User']['id']), array(), __('Are you sure you want to delete # %s?', $user['User']['id'])); ?>
+			<?php echo $this->Html->link(__('View'), array('action' => 'view', $user['User']['div_users_id'])); ?>
+			<?php if($current_user['id'] == $user['User']['div_users_id']): ?>	
+			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $user['User']['div_users_id'])); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $user['User']['div_users_id']), array(), __('Are you sure you want to delete # %s?', $user['User']['div_users_id'])); ?>
 			<?php endif; ?>
 		</td>
 	</tr>
