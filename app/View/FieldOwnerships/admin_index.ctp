@@ -12,15 +12,15 @@
 	<tbody>
 	<?php foreach ($fieldOwnerships as $fieldOwnership): ?>
 	<tr>
-		<td><?php echo h($fieldOwnership['FieldOwnership']['id']); ?>&nbsp;</td>
+		<td><?php echo h($fieldOwnership['FieldOwnership']['div_field_ownerships_id']); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($fieldOwnership['Field']['div_field_id'], array('controller' => 'fields', 'action' => 'view', $fieldOwnership['Field']['div_field_id'])); ?>
 		</td>
 		<td><?php echo h($fieldOwnership['FieldOwnership']['user_id']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $fieldOwnership['FieldOwnership']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $fieldOwnership['FieldOwnership']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $fieldOwnership['FieldOwnership']['id']), array(), __('Are you sure you want to delete # %s?', $fieldOwnership['FieldOwnership']['id'])); ?>
+			<?php echo $this->Html->link(__('View'), array('action' => 'view', $fieldOwnership['FieldOwnership']['div_field_ownerships_id'])); ?>
+			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $fieldOwnership['FieldOwnership']['div_field_ownerships_id'])); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $fieldOwnership['FieldOwnership']['div_field_ownerships_id']), array(), __('Are you sure you want to delete # %s?', $fieldOwnership['FieldOwnership']['div_field_ownerships_id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

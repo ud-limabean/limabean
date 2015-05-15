@@ -35,7 +35,7 @@ public $helpers = array('Form', 'Html', 'Js', 'Lmarker');
         	}
 
 		if(in_array($this->action,array('edit','delete'))){
-			if($user['id'] != $this->request->params['pass'][0] && $user['role'] != 'admin' ){
+			if($user['div_users_id'] != $this->request->params['pass'][0] && $user['role'] != 'admin' ){
 				return false;
 				#return null;
 			}

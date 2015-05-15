@@ -29,8 +29,8 @@ class FieldsController extends AppController {
 		
 		array_walk_recursive($field['FieldOwnership'], $callback);
 	
-		if(!in_array($user['id'],$owners) && $user['role'] != 'admin' ){
-			$this->redirect(array('controller'=> 'users', 'action' => 'view', $user['id']));
+		if(!in_array($user['div_users_id'],$owners) && $user['role'] != 'admin' ){
+			$this->redirect(array('controller'=> 'users', 'action' => 'view', $user['div_users_id']));
 		}
 
 		return true; 
