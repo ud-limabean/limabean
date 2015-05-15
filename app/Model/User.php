@@ -13,14 +13,14 @@ class User extends AppModel {
  *
  * @var mixed False or table name
  */
-	public $useTable = 'lb_users';
+	public $useTable = 'users';
 
 /**
  * Primary key field
  *
  * @var string
  */
-	public $primaryKey = 'id';
+	public $primaryKey = 'div_users_id';
 	public $displayField = 'username';
 	//public $tablePrefix = '';
 
@@ -35,7 +35,7 @@ public $actsAs = array('Containable');
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 public $hasMany = array(
         'FieldOwnership'  => array(
-                'foreignKey' => 'user_id'
+                'foreignKey' => 'div_users_id'
         )
     );
 

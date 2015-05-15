@@ -90,7 +90,7 @@ class Field extends AppModel {
                 ),
 		'FieldOwnership' => array(
                         'className' => 'FieldOwnership',
-                        'foreignKey' => 'field_id',
+                        'foreignKey' => 'div_field_id',
                         'dependent' => false,
                         'conditions' => '',
                         'fields' => '',
