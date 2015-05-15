@@ -23,7 +23,7 @@
 		<td><?php echo h($user['User']['role']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $user['User']['div_users_id'])); ?>
-			<?php if($current_user['id'] == $user['User']['div_users_id'] || ($current_user['role'] == 'admin')): ?>	
+			<?php if($current_user['div_users_id'] == $user['User']['div_users_id']): ?>	
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $user['User']['div_users_id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $user['User']['div_users_id']), array(), __('Are you sure you want to delete # %s?', $user['User']['div_users_id'])); ?>
 			<?php endif; ?>
