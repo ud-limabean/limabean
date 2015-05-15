@@ -22,7 +22,7 @@ class FieldsController extends AppController {
 	public function checkFieldAuth($user, $field){
 		$owners = array();
 		$callback = function ($value,$key) use ($user, &$owners){
-			if($key == 'user_id' && $user['id'] == $value){
+			if($key == 'div_users_id' && $user['div_users_id'] == $value){
                                 $owners[] = $value;
                         }
 		};
