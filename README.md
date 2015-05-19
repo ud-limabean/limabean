@@ -1,9 +1,5 @@
 #USDA Limabean Data Interface
 
-## Some Handy Links
-
-Based on [CakePHP](http://www.cakephp.org) - The rapid development PHP framework
-
 ## The project
 
 ### Toward a Better Bean: Improving genetic, genomic, breeding, and crop management resources for lima bean to benefit the Mid-Atlantic Region
@@ -78,3 +74,6 @@ INSERT INTO `div_field_ownerships` VALUES (20,30,8),(21,31,8),(22,6,9),(23,48,8)
 -- mysqldump -t -u limabean  -pUZ-mUN5lbt bbagbv2pilot div_users
 COMMIT;
 ```
+## Some Handy Links
+
+Based on [CakePHP](http://www.cakephp.org) - The rapid development PHP framework
