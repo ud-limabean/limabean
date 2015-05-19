@@ -43,9 +43,6 @@ CREATE TABLE `div_users` (
   PRIMARY KEY (`div_users_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
--- populate from old
-INSERT INTO `div_users` VALUES (8,'bmearns','4afe4118294e4c9a56d8c1c0dc10164359718246','2015-02-27 12:52:31','2015-02-27 12:52:31',NULL,'admin'),(9,'joeDoe','247e2f24a6294b309dd7a9b8bd8aa81f3deec467','2015-02-27 13:16:12','2015-03-12 16:29:43',NULL,'user'),(10,'randy','915da9dd49834219c0f266f29df845a515e7e156','2015-03-25 13:28:38','2015-03-25 13:28:38',NULL,'user'),(11,'tevans','f97f5d212a740588974d7dffed5dbe128d807458','2015-03-25 13:58:42','2015-03-25 13:58:42',NULL,'user'),(12,'joeKempista','f698c85144a961035aae5b827578ff91ec8f0f33','2015-03-27 10:43:50','2015-03-27 10:43:50',NULL,'user');/*!40000 ALTER TABLE `div_users` ENABLE KEYS */;
-
 -- join table for a many to many relationship between user and field
 CREATE TABLE `div_field_ownerships` (
   `div_field_ownerships_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -67,11 +64,6 @@ ADD CONSTRAINT `field_ownerships_ibfk_2`
 FOREIGN KEY (`div_users_id`) 
 REFERENCES `div_users` (`div_users_id`);
 
-INSERT INTO `div_field_ownerships` VALUES (20,30,8),(21,31,8),(22,6,9),(23,48,8),(24,49,9),(25,2,10),(26,6,11),(27,6,11),(28,42,11),(29,5,12),(30,19,12),(31,31,9);
-
-
-/* probably don't need this, since can keep div_lb_users and deleted div_users */
--- mysqldump -t -u limabean  -pUZ-mUN5lbt bbagbv2pilot div_users
 COMMIT;
 ```
 ## Code references
