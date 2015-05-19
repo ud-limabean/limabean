@@ -4,12 +4,12 @@
 
 ### Toward a Better Bean: Improving genetic, genomic, breeding, and crop management resources for lima bean to benefit the Mid-Atlantic Region
 
-[![Project Website ](http://sites.udel.edu/limabean)
+- [Project Website ](http://sites.udel.edu/limabean)
 
 ## Code repository
-[!The production version of this code runs from an instance of the PANZEA-modified database schema
-[!The production database is part of the [Maize ATLAS project](http://maizeatlas.org/database.php), specifically referred to as AccreteGB
-[!The following query modifications were run to enable the Limabean Data Interface on AccreteGB
+- The production version of this code runs from an instance of the PANZEA-modified database schema
+- The production database is part of the [Maize ATLAS project](http://maizeatlas.org/database.php), specifically referred to as AccreteGB
+- The following query modifications were run to enable the Limabean Data Interface on AccreteGB
 ```SQL
 START TRANSACTION;
 -- add new id to div_statistic_type.  We are assuming this is 2, autoincrementing from preivous (1)
@@ -74,6 +74,6 @@ INSERT INTO `div_field_ownerships` VALUES (20,30,8),(21,31,8),(22,6,9),(23,48,8)
 -- mysqldump -t -u limabean  -pUZ-mUN5lbt bbagbv2pilot div_users
 COMMIT;
 ```
-## Some Handy Links
+## Code references
 
 Based on [CakePHP](http://www.cakephp.org) - The rapid development PHP framework
