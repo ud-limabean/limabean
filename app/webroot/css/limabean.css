@@ -27,6 +27,16 @@
 	padding: 10px;
 }
 
+div.preview {
+        text-align: center;
+	padding: 5%;
+	font-style: italic;
+}
+
+img.preview {
+	border: solid 1px gray;
+}
+
 .viewToggle > * {float: left;}
 
 .viewToggle > span {
