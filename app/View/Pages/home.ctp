@@ -10,7 +10,9 @@ if (!Configure::read('debug')):
 endif;
 
 App::uses('Debugger', 'Utility');
+$this->Html->css('limabean');
 ?>
+<div id="content">
 <div>
 <h2><?php echo 'USDA Lima Bean Data Interface' ?></h2>
 <p>Welcome to the Limabean Data Interface.  This web application provides access to data from the USDA-funded 
@@ -19,4 +21,9 @@ App::uses('Debugger', 'Utility');
 </div>
 <div>
 <p>If you have already have an account,  <?php echo $this->Html->link('login here',array('controller'=>'users','action'=>'login')); ?></p>
+</div>
+<div class="preview">
+<?php echo $this->Html->image('previewImage.PNG',array('alt'=>'Preview','class'=>'preview','url'=>array('controller'=>'users','action'=>'login'))); ?>
+<div>The  Limabean Data Interface</div>
+</div>
 </div>
