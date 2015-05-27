@@ -2,11 +2,23 @@
 
 ## The project
 
-### Toward a Better Bean: Improving genetic, genomic, breeding, and crop management resources for lima bean to benefit the Mid-Atlantic Region
+#### Toward a Better Bean: Improving genetic, genomic, breeding, and crop management resources for lima bean to benefit the Mid-Atlantic Region
 
 - [Project Website ](http://sites.udel.edu/limabean)
 
-## Code repository
+## Common locations for modificiation
+- you will generally be configuring files under the app directory of limabean (production) or limabean-dev (development): /var/www/html/limabean/app, and /var/www/html/limabean-dev/app.  Paths below are relative to this location.
+- Model, View, and Controller files are stored in their respective ./Model, ./View, and ./Controller directories
+- Front-end files (images, javascript, css, etc.) are under: ./webroot
+- Database configuration: ./Config/database.php
+- The main URL path configuration file is at: ./Config/routes.php
+- Other URL path-foo is in the respective controller file (under ./Controller), or the main controller file: ./Controller/AppController.php (for authenticated), and for non-authenticated (splash page) ./Controller/AppNoAuthController.php
+- Main files related to Tom Evan's model: 
+-- ./Controller/FieldsController.php::risk() (~line 98)
+-- ./View/Fields/risk.ctp
+-- ./Model/risk.php (this is where you should start to modify if you are bringing in additional fields from a new data source, like json)
+
+## Database
 - The production version of this code runs from an instance of the PANZEA-modified database schema
 - The production database is part of the [Maize ATLAS project](http://maizeatlas.org/database.php), specifically referred to as AccreteGB
 - The following query modifications were run to enable the Limabean Data Interface on AccreteGB
