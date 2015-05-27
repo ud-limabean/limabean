@@ -37,7 +37,7 @@ public $components = array(
     'Auth'=>array(
       'loginRedirect'=>array('controller'=>'users','action'=>'view'),
       //'loginRedirect'=>array(redirect($this->referer())),
-      'logoutRedirect'=>array('controller'=>'users','action'=>'login'),
+      'logoutRedirect'=>array('controller'=>'users','action'=>'login','admin'=>false),
       'authError'=>"You can't access that page",
       'authorize'=>array('Controller')
     )
