@@ -32,7 +32,7 @@ App::uses('Controller', 'Controller');
  */
 class AppNoAuthController extends Controller {
 public $components = array(
-    'DebugKit.Toolbar',
+    //'DebugKit.Toolbar',
     'Session'
 );
 public function beforeRender(){

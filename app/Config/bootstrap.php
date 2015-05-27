@@ -65,7 +65,9 @@ Cache::config('default', array('engine' => 'File'));
  * Uncomment one of the lines below, as you need. Make sure you read the documentation on CakePlugin to use more
  * advanced ways of loading plugins
  */
+
   CakePlugin::loadAll(); // Loads all plugins at once
+//CakePlugin::load('CsvView');
  /* CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
