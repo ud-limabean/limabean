@@ -40,23 +40,28 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	?>
 </head>
 <body>
-	<div id="container">
-		
-		<div id="content">
-			<div style="text-align:right;">
-			<?php if($logged_in): ?>
-			Welcome <?php echo $current_user['username']; ?>.
-			<?php echo $this->Html->link('Home',array('controller'=>'users','action'=>'view'));?> 
-			<?php echo $this->Html->link('Logout',array('controller'=>'users','action'=>'logout')); ?>
-			<?php else: ?>
-				 <?php echo $this->Html->link('Login',array('controller'=>'users','action'=>'login')); ?>
-			<?php endif; ?>
-			</div>
-	
-			<?php #echo var_dump($this->Auth); ?>	
-			<?php echo $this->Session->flash(); ?>
-			<?php echo $this->Session->flash('auth'); ?>
+	 <div id="header">
+                        <span class="nav">
+                        <?php echo $this->Html->link('Home',array('controller'=>'users','action'=>'view'));?>
+                        </span>
+                        <span class="nav">
+                        <?php echo $this->fetch('title'); ?>
+                        </span>
+                        <span style="float:right;">
+                                <?php if($logged_in): ?>
+                                Welcome <?php echo $current_user['username']; ?>.
+                                <?php echo $this->Html->link('Logout',array('controller'=>'users','action'=>'logout')); ?>
+                                <?php else: ?>
+                                                 <?php echo $this->Html->link('Login',array('controller'=>'users','action'=>'login')); ?>
+                                <?php endif; ?>
+                        </span>
 
+                                <?php echo $this->Session->flash(); ?>
+                                <?php echo $this->Session->flash('auth'); ?>
+                </div>
+
+	<div id="container">
+		<div id="content">
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer">

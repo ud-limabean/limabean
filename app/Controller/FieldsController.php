@@ -44,6 +44,7 @@ class FieldsController extends AppController {
  * @return void
  */
 	public function admin_index() {
+		$this->layout = 'admin';
 		$this->Field->recursive = 0;
 		$this->set('fields', $this->Paginator->paginate());
 	}
@@ -57,7 +58,7 @@ class FieldsController extends AppController {
  */
 
         public function admin_view($id = null, $div_measurement_parameter_id = 1, $format = null) {
-                if (!$this->Field->exists($id)) {
+		if (!$this->Field->exists($id)) {
                         throw new NotFoundException(__('Invalid field'));
                 }
 				
@@ -387,7 +388,7 @@ public function view($id = null, $div_measurement_parameter_id = 1, $format = nu
 				$this->Session->setFlash(__('The field could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('Field.' . $this->Field->primaryKey => $id));
+			$options = array('recursive' => 0, 'conditions' => array('Field.' . $this->Field->primaryKey => $id));
 			$this->request->data = $this->Field->find('first', $options);
 		}
 	}
