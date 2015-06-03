@@ -1,5 +1,7 @@
 #USDA Limabean Data Interface
 
+## FOR ISSUES CONTACT consult@udel.edu (831-6000)
+
 ## The project
 
 #### Toward a Better Bean: Improving genetic, genomic, breeding, and crop management resources for lima bean to benefit the Mid-Atlantic Region
